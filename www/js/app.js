@@ -34,7 +34,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/found_items",
       views: {
         'menuContent' :{
-          templateUrl: "templates/found_items.html"
+          templateUrl: "templates/found_items.html",
+          controller: 'FoundItemsCtrl'
         }
       }
     })
@@ -53,30 +54,30 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/alerts",
       views: {
         'menuContent' :{
-          templateUrl: "templates/alerts.html"
+          templateUrl: "templates/alerts.html",
+          controller: "AlertsCtrl"
         }
       }
     })
-    .state('app.playlists', {
-      url: "/playlists",
+    .state('app.launchAlert', {
+      url: "/launch_alert",
       views: {
         'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
+          templateUrl: "templates/launch_alert.html",
+          controller: 'LaunchAlertCtrl'
         }
       }
     })
-
-    .state('app.single', {
-      url: "/playlists/:playlistId",
+    .state('app.howTo', {
+      url: "/how_to",
       views: {
         'menuContent' :{
-          templateUrl: "templates/playlist.html",
-          controller: 'PlaylistCtrl'
+          templateUrl: "templates/how_to.html",
+          controller: 'HowToCtrl'
         }
       }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/found_items');
 });
 

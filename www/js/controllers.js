@@ -33,11 +33,19 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ItemCtrl', function($scope){
+.controller('FoundItemsCtrl', function($scope){
+
+})
+
+.controller('ItemCtrl', function($scope,$stateParams){
     
 })
 
-.controller('PlaylistsCtrl', function($scope) {
+.controller('AlertsCtrl', function($scope){
+  
+})
+
+.controller('LaunchAlertCtrl', function($scope) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
     { title: 'Chill', id: 2 },
@@ -48,5 +56,7 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+
+.controller('HowToCtrl', function($scope){
+
 });
