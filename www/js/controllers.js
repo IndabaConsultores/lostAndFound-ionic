@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('lf.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -57,6 +57,6 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('HowToCtrl', function($scope){
+.controller('InfoCtrl', function($scope){
 
 });
