@@ -46,12 +46,12 @@ angular.module('lf.controllers', [])
   ];
 
   for(var item = null, i=0, len=items.length; i<len; i++){
-    console.log($stateParams);
+
     if(items[i].id == $stateParams.item){
       item = items[i];
     }
   }
-  console.log(item);
+
   $scope.item = item;
     
 })
