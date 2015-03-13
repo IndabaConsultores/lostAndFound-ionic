@@ -18,6 +18,50 @@ angular.module('lf.services.office', [])
                         alert("Error: " + error.code + " " + error.message);
                     }
                 });
+            },
+
+            getAlertItems: function(cb) {
+                var Item = Parse.Object.extend("Item");
+                var query = new Parse.Query(Item);
+                query.equalTo("type", "alert");
+                query.find({
+                    success: function(results) {
+                      cb(null,results);
+                    },
+                    error: function(error) {
+                      cb(error,null);
+                    }
+                });
+            },
+
+            getFoundItems: function(cb) {
+                var Item = Parse.Object.extend("Item");
+                var query = new Parse.Query(Item);
+                query.equalTo("type", "found");
+                query.find({
+                    success: function(results){
+                        cb(null,results);
+                    },
+                    error: function(error){
+                        cb(error,null);
+                    }
+                })
+            },
+
+            getItem: function(item_id,cb){
+                var Item = Parse.Object.extend("Item");
+                var query = new Parse.Query(Item);
+                query.get(item_id, {
+                  success: function(item) {
+                    // The object was retrieved successfully.
+                    cb(null,item);
+                  },
+                  error: function(object, error) {
+                    // The object was not retrieved successfully.
+                    // error is a Parse.Error with an error code and message.
+                    cb(error,null);
+                  }
+                });
             }
             
         }
