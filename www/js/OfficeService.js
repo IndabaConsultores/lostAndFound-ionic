@@ -19,6 +19,7 @@ angular.module('lf.services.office', [])
                     }
                 });
             }
+            
         }
         return  service;
     });

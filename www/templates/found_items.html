@@ -6,6 +6,14 @@
 
 <ion-content class="has-header">
     <div class="list">
+
+         <a class="item item-thumbnail-left" href="#/app/found_items/1" ng-repeat="item in items">
+            <img src="{{item.picture._url}}">
+            <h2>{{item.name}}</h2>
+            <p>{{item.createdAt}}</p>
+        </a>
+
+
         <div class="item item-divider">
             Keys
         </div>

@@ -6,9 +6,9 @@
 
     <div class="list">
         <a class="item item-thumbnail-left" ng-repeat="item in items" href="#/app/found_items/{{item.id}}" >
-            <img src="{{item.picture}}">
-            <h2>{{item.name}}</h2>
-            <p>{{item.date}}</p>
+            <img src="{{item.attributes.picture._url}}">
+            <h2>{{item.attributes.name}}</h2>
+            <p>{{item.createdAt}}</p>
         </a>
     </div>
         
