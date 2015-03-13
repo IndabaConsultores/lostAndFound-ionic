@@ -1,4 +1,4 @@
-angular.module('lf.controllers', [])
+angular.module('lf.controllers', ['ionic.contrib.ui.tinderCards'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -56,13 +56,26 @@ angular.module('lf.controllers', [])
     
 })
 
-.controller('AlertsCtrl', function($scope){
-  $scope.items = [
+.controller('AlertsCtrl', function($scope, TDCardDelegate){
+
+  $scope.itemDestroyed = function(index) {
+     $scope.items.splice(index, 1);
+  };
+
+  $scope.addItem = function(i) {
+    var newItem = itemsTmp[i];
+    newItem.id = Math.random();
+    $scope.items.unshift(angular.extend({}, newItem));
+  }
+
+  $scope.items = [];
+  itemsTmp = [
     { id: 1, name: 'Two Keys', date: '2014/09/09', picture: 'http://www.doorcloser.com/acatalog/DCSC_KEYS_LARGE.jpg', category: 'keys'},
     { id: 2, name: 'Big Bunch of Keys', date: '2014/09/09', picture: 'http://static.guim.co.uk/sys-images/Guardian/About/General/2012/6/4/1338812468461/A-bunch-of-keys-008.jpg', category: 'keys'},
     { id: 3, name: 'Green Wallet', date: '2014/09/09', picture: 'http://images.cdn.bigcartel.com/bigcartel/product_images/99987691/max_h-1000+max_w-1000/NAH_5624.JPG', category: 'wallets'},
     { id: 4, name: 'Samsung Galaxy S5', date: '2014/09/09', picture: 'http://taliandroid.com/wp-content/uploads/2014/03/Foto-del-Galaxy-S5--1024x682.jpg', category: 'phones'}
-  ];  
+  ]; 
+  for(var i = 0; i < 4; i++) $scope.addItem(i);
 })
 
 .controller('LaunchAlertCtrl', function($scope) {

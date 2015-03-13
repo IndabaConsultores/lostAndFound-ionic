@@ -3,14 +3,16 @@
     <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 <ion-content class="has-header">
-
-    <div class="list">
-        <a class="item item-thumbnail-left" ng-repeat="item in items" href="#/app/found_items/{{item.id}}" >
-            <img src="{{item.picture}}">
-            <h2>{{item.name}}</h2>
-            <p>{{item.date}}</p>
-        </a>
-    </div>
         
+    <td-cards>
+        <td-card ng-repeat="item in items" on-destroy="itemDestroyed($index)" on-swipe-left="" on-swipe-right="" on-partial-swipe="" class="card-{{$index}}">
+          <div class="image" ng-controller="AlertsCtrl">
+            <div class="no-text">NOPE</div>
+            <img ng-src="{{item.picture}}">
+            <div class="yes-text">LIKE</div>
+          </div>
+        </td-card>
+      </td-cards>
+
 </ion-content>
 </ion-view>
