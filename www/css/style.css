@@ -11,8 +11,8 @@ td-cards {
 
 td-card {
   position: absolute;
-  left: 50%;
-  margin-top: 20%;
+  left: 35%;
+  margin-top: 80px;
   margin-bottom: 40px;
   margin-left: -150px;
   /*width: 300px;
