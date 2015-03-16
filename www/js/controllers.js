@@ -44,7 +44,17 @@ angular.module('lf.controllers', [])
 
 })
 
-.controller('ItemCtrl', function($scope,$stateParams){
+.controller('ItemCtrl', function($scope,$stateParams,OfficeService){
+
+
+  OfficeService.getItem($stateParams.item,function(error,data){
+    if(error)
+      alert("error" + error.code);
+    console.log(data);
+    $scope.item = data;
+  });
+
+/*
   var items = [
     { id: 1, name: 'Two Keys', date: '2014/09/09', picture: 'http://www.doorcloser.com/acatalog/DCSC_KEYS_LARGE.jpg', category: 'keys'},
     { id: 2, name: 'Big Bunch of Keys', date: '2014/09/09', picture: 'http://static.guim.co.uk/sys-images/Guardian/About/General/2012/6/4/1338812468461/A-bunch-of-keys-008.jpg', category: 'keys'},
@@ -60,7 +70,8 @@ angular.module('lf.controllers', [])
   }
 
   $scope.item = item;
-    
+*/
+
 })
 
 .controller('AlertsCtrl', function($scope,OfficeService){

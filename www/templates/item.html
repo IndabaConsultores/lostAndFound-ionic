@@ -5,17 +5,16 @@
       <div class="list card">
 
       <div class="item item-avatar">
-        <img src="https://pbs.twimg.com/profile_images/1234618042/MartyMcfly.jpg">
-        <h2>Marty McFly</h2>
-        <p>November 05, 1955</p>
+        <img src="{{item.attributes.createdBy.attributes.avatar._url}}">
+        <h2>{{item.attributes.createdBy.attributes.username}}</h2>
+        <p>{{item.createdAt}}</p>
       </div>
 
       <div class="item item-body">
-        <img class="full-image" src="{{item.picture}}">
+        <h2>{{item.attributes.name}}</h2>
+        <img class="full-image" src="{{item.attributes.picture._url}}">
         <p>
-          This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
-          the content is from a card-body consisting of an image and paragraph text. The footer
-          consists of tabs, icons aligned left, within the card-footer.
+          {{item.attributes.description}}
         </p>
         <p>
           <a href="#" class="subdued">1 Like</a>

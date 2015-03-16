@@ -51,9 +51,12 @@ angular.module('lf.services.office', [])
             getItem: function(item_id,cb){
                 var Item = Parse.Object.extend("Item");
                 var query = new Parse.Query(Item);
+                query.include('createdBy');
                 query.get(item_id, {
                   success: function(item) {
                     // The object was retrieved successfully.
+                    var user = item.get('createdBy');
+                    console.log(user);
                     cb(null,item);
                   },
                   error: function(object, error) {
