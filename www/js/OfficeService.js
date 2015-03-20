@@ -80,6 +80,31 @@ angular.module('lf.services.office', [])
                         cb(error,null);
                     }
                 });
+            },
+
+            postMessage: function(msg,item_id,cb){
+
+                var Message = Parse.Object.extend("Message"),
+                    Item = Parse.Object.extend('Item'),
+                    User = Parse.Object.extend('User'),
+                    item = new Item(),
+                    user = new User(),
+                    message = new Message();
+
+                item.id = item_id;
+                user.id = "VaitamGvbr"; //andoni
+                message.set("item",item);
+                message.set("text",msg);
+                message.set("sender",user);
+
+                message.save(null, {
+                  success: function(message) {
+                    cb(null,message);
+                  },
+                  error: function(message, error) {
+                    cb(error,null);
+                  }
+                });
             }
             
         }

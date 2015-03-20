@@ -58,17 +58,31 @@ angular.module('lf.controllers', [])
 
 .controller('MessageCtrl', function($scope,$stateParams,OfficeService){
 
-  console.log($stateParams.item);
+  
 
-  OfficeService.getMessages($stateParams.item,function(error,data){
-      if(error)
-        alert("error" + error.code);
-      
-      console.log(data);
-      $scope.messages = data;
-  });
+  $scope.getMessages = function(){
+      OfficeService.getMessages($stateParams.item,function(error,data){
+          if(error)
+            alert("error" + error.code);
+          
+          $scope.messages = data;
+      });
+  }
+
+  $scope.sendMessage = function(){
+      OfficeService.postMessage($scope.msg.text,$stateParams.item,function(error,data){
+        if(error)
+            alert("error" + error.code);
+        
+        $scope.getMessages();
+      });
+  }
+
+  $scope.getMessages();
 
 })
+
+
 
 .controller('AlertsCtrl', function($scope,OfficeService){
 

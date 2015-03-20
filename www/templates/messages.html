@@ -22,7 +22,7 @@
 
   </ion-content>
   <div class="bar bar-footer">
-	    <input type="search" placeholder="Texto" style="width:100%; height:30px; padding-top:0; border: 1px solid grey;">
-	  	<button class="button button-outline button-positive pull-right">Send</button>
+	    <input type="search" ng-model="msg.text" placeholder="Texto" style="width:100%; height:30px; padding-top:0; border: 1px solid grey;">
+	  	<button class="button button-outline button-positive pull-right" ng-click="sendMessage()">Send</button>
   </div>
 </ion-view>
