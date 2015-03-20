@@ -53,24 +53,20 @@ angular.module('lf.controllers', [])
     console.log(data);
     $scope.item = data;
   });
+})
 
-/*
-  var items = [
-    { id: 1, name: 'Two Keys', date: '2014/09/09', picture: 'http://www.doorcloser.com/acatalog/DCSC_KEYS_LARGE.jpg', category: 'keys'},
-    { id: 2, name: 'Big Bunch of Keys', date: '2014/09/09', picture: 'http://static.guim.co.uk/sys-images/Guardian/About/General/2012/6/4/1338812468461/A-bunch-of-keys-008.jpg', category: 'keys'},
-    { id: 3, name: 'Green Wallet', date: '2014/09/09', picture: 'http://images.cdn.bigcartel.com/bigcartel/product_images/99987691/max_h-1000+max_w-1000/NAH_5624.JPG', category: 'wallets'},
-    { id: 4, name: 'Samsung Galaxy S5', date: '2014/09/09', picture: 'http://taliandroid.com/wp-content/uploads/2014/03/Foto-del-Galaxy-S5--1024x682.jpg', category: 'phones'}
-  ];
 
-  for(var item = null, i=0, len=items.length; i<len; i++){
+.controller('MessageCtrl', function($scope,$stateParams,OfficeService){
 
-    if(items[i].id == $stateParams.item){
-      item = items[i];
-    }
-  }
+  console.log($stateParams.item);
 
-  $scope.item = item;
-*/
+  OfficeService.getMessages($stateParams.item,function(error,data){
+      if(error)
+        alert("error" + error.code);
+      
+      console.log(data);
+      $scope.messages = data;
+  });
 
 })
 

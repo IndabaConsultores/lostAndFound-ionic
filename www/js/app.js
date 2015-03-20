@@ -64,6 +64,16 @@
         }
       })
 
+      .state('app.messages',{
+        url: "/found_items/messages/:item",
+        views: {
+          'menuContent': {
+            templateUrl: "templates/messages.html",
+            controller: 'MessageCtrl'
+          }
+        }
+      })
+
       .state('app.alerts', {
         url: "/alerts",
         views: {

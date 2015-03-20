@@ -54,16 +54,31 @@ angular.module('lf.services.office', [])
                 query.include('createdBy');
                 query.get(item_id, {
                   success: function(item) {
-                    // The object was retrieved successfully.
-                    var user = item.get('createdBy');
-                    console.log(user);
                     cb(null,item);
                   },
                   error: function(object, error) {
-                    // The object was not retrieved successfully.
-                    // error is a Parse.Error with an error code and message.
                     cb(error,null);
                   }
+                });
+            },
+
+            getMessages: function(item_id,cb){
+                var Message = Parse.Object.extend("Message"),
+                    Item = Parse.Object.extend('Item'),
+                    item = new Item(),
+                    query = new Parse.Query(Message);
+
+
+                item.id = item_id;
+                query.include('sender');
+                query.equalTo('item', item);
+                query.find({
+                    success: function(results){
+                        cb(null,results);
+                    },
+                    error: function(error){
+                        cb(error,null);
+                    }
                 });
             }
             
