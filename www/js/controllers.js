@@ -131,7 +131,9 @@ angular.module('lf.controllers', [])
 })
 
 .controller('LaunchAlertCtrl', function($scope) {
-
+   $scope.mapCreated = function(map) {
+    $scope.map = map;
+  };
 })
 
 
