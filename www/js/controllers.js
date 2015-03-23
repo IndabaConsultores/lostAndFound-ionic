@@ -44,17 +44,33 @@ angular.module('lf.controllers', [])
 
 })
 
-.controller('ItemCtrl', function($scope,$stateParams,OfficeService,$rootScope){
+.controller('ItemCtrl', function($scope,$stateParams,OfficeService,$rootScope,$ionicPopup){
 
   $rootScope.showLoading();
 
-  OfficeService.getItem($stateParams.item,function(error,data){
-    $rootScope.hideLoading();
-    if(error)
-      alert("error" + error.code);
-    console.log(data);
-    $scope.item = data;
-  });
+  async.parallel([
+      function(cb){
+        OfficeService.getMessageCount($stateParams.item, function(error,data){
+            $scope.messages = data;
+            cb(error,data);
+        });
+      },
+      function(cb){
+        OfficeService.getItem($stateParams.item,function(error,data){
+          $scope.item = data;
+           cb(error,data);
+        });
+      }
+  ], function(err,results){
+          //callback de las tres funciones
+          $rootScope.hideLoading();
+          if(err)
+            $ionicPopup.alert({ title: err.message })
+    });
+
+  
+
+  
 })
 
 
@@ -82,6 +98,7 @@ angular.module('lf.controllers', [])
       $rootScope.showLoading();
 
       OfficeService.postMessage($scope.msg.text,$stateParams.item,function(error,data){
+        $scope.msg.text = "";
         $rootScope.hideLoading();
         if(error)
             alert("error" + error.code);

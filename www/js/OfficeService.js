@@ -62,6 +62,18 @@ angular.module('lf.services.office', [])
                 });
             },
 
+            getMessageCount: function(item_id,cb){
+
+                Parse.Cloud.run('messageCount', { item: item_id }, {
+                  success: function(data) {
+                        cb(null,data);
+                  },
+                  error: function(error) {
+                        cb(error,null);
+                  }
+                });
+            },
+
             getMessages: function(item_id,cb){
                 var Message = Parse.Object.extend("Message"),
                     Item = Parse.Object.extend('Item'),

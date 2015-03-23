@@ -14,7 +14,7 @@
 	<a class="item item-avatar white-space-normal" href="#" ng-repeat="message in messages">
 		<img src="{{message.attributes.sender.attributes.avatar._url}}" />
 		<h2>{{message.attributes.sender.attributes.username}}</h2>
-		<p>{{ message.createdAt | date:'MM/dd/yyyy  h:mma' }}</p>
+		<p>{{ message.createdAt | date:'MM/dd/yyyy  h:mm:ssa' }}</p>
 		<p>{{message.attributes.text}}</p>
 	</a>
 
