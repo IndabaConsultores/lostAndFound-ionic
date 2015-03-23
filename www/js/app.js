@@ -6,7 +6,7 @@
 
   angular.module('starter', ['ionic', 'lf.controllers', 'lf.services.office'])
 
-  .run(function($ionicPlatform, OfficeService) {
+  .run(function($ionicPlatform, OfficeService, $ionicLoading, $rootScope) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -25,6 +25,15 @@
       Parse.initialize(APP_ID, JS_KEY);
 
       initAppInfo();
+      
+
+      $rootScope.showLoading = function()  {
+       $ionicLoading.show({template: 'Loading...',noBackdrop:true});
+      };
+
+      $rootScope.hideLoading = function()  {
+        $ionicLoading.hide();
+      };
 
     });
 

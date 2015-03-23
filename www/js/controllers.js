@@ -44,10 +44,12 @@ angular.module('lf.controllers', [])
 
 })
 
-.controller('ItemCtrl', function($scope,$stateParams,OfficeService){
+.controller('ItemCtrl', function($scope,$stateParams,OfficeService,$rootScope){
 
+  $rootScope.showLoading();
 
   OfficeService.getItem($stateParams.item,function(error,data){
+    $rootScope.hideLoading();
     if(error)
       alert("error" + error.code);
     console.log(data);
@@ -56,12 +58,18 @@ angular.module('lf.controllers', [])
 })
 
 
-.controller('MessageCtrl', function($scope,$stateParams,OfficeService){
+.controller('MessageCtrl', function($scope,$rootScope,$stateParams,OfficeService){
 
   
 
   $scope.getMessages = function(){
+      
+      $rootScope.showLoading();
+      
       OfficeService.getMessages($stateParams.item,function(error,data){
+          
+          $rootScope.hideLoading();
+
           if(error)
             alert("error" + error.code);
           
@@ -70,7 +78,11 @@ angular.module('lf.controllers', [])
   }
 
   $scope.sendMessage = function(){
+
+      $rootScope.showLoading();
+
       OfficeService.postMessage($scope.msg.text,$stateParams.item,function(error,data){
+        $rootScope.hideLoading();
         if(error)
             alert("error" + error.code);
         
@@ -84,10 +96,14 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('AlertsCtrl', function($scope,OfficeService){
+.controller('AlertsCtrl', function($scope,$rootScope,OfficeService){
 
+  $rootScope.showLoading();
 
   OfficeService.getAlertItems(function(error,data){
+
+    $rootScope.hideLoading();
+
     if(error)
       alert("error" + error.code);
     
