@@ -4,9 +4,9 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('starter', ['ionic', 'lf.controllers', 'lf.services.office', 'lf.directives.map'])
+  angular.module('starter', ['ionic', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map'])
 
-  .run(function($ionicPlatform, OfficeService, $ionicLoading, $rootScope) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, OfficeService, CategoryService, ItemService) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -38,9 +38,43 @@
     });
 
     function initAppInfo() {
-      OfficeService.loadOffice();
-    }
+        $ionicLoading.show({template: 'Iniciando aplicacion...',noBackdrop:true});
+        OfficeService.loadOffice(function(error,office){
+            $rootScope.office = office;
 
+            // bulk loading of data
+
+            async.parallel([
+              function(cb){
+                CategoryService.fetch(function(error,collection){
+                  $rootScope.category_collection = collection;
+                  cb(error,collection);
+                });
+              },
+              function(cb){
+                ItemService.fetchFoundItems(function(error,collection){
+                  $rootScope.founditems_collection = collection;
+                  console.log(collection);
+                  cb(error,collection);
+                });
+              },
+              function(cb){
+                ItemService.fetchAlerts(function(error,collection){
+                  $rootScope.alert_collection = collection;
+                  cb(error,collection);
+                });
+              }
+          ], function(err,results){
+                  $ionicLoading.hide();
+                  if(err)
+                    $ionicPopup.alert({ title: err.message })
+            });
+
+            
+        });
+
+      }
+    
   })
 
   .config(function($stateProvider, $urlRouterProvider) {

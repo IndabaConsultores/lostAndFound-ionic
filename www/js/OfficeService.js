@@ -2,24 +2,26 @@ angular.module('lf.services.office', [])
 
 
     .factory('OfficeService', function ($rootScope) {
-        $rootScope.office;
+        
 
         var service = {
 
-            loadOffice: function () {
+            loadOffice: function (cb) {
             	var Office = Parse.Object.extend("Office");
             	var query = new Parse.Query(Office);
             	query.equalTo("codeName", "00-indaba");
             	query.find({
                     success: function (results) {
-                        $rootScope.office = results[0];
+                        cb(null,results[0]);
                     },
                     error: function (object, error) {
-                        alert("Error: " + error.code + " " + error.message);
+                        //alert("Error: " + error.code + " " + error.message);
+                        cb(error,null);
                     }
                 });
             },
 
+/*
             getAlertItems: function(cb) {
                 var Item = Parse.Object.extend("Item");
                 var query = new Parse.Query(Item);
@@ -33,6 +35,7 @@ angular.module('lf.services.office', [])
                     }
                 });
             },
+*/
 
             getFoundItems: function(cb) {
                 var Item = Parse.Object.extend("Item");
@@ -47,7 +50,7 @@ angular.module('lf.services.office', [])
                     }
                 })
             },
-
+/*
             getItem: function(item_id,cb){
                 var Item = Parse.Object.extend("Item");
                 var query = new Parse.Query(Item);
@@ -61,16 +64,25 @@ angular.module('lf.services.office', [])
                   }
                 });
             },
-
+*/
             getMessageCount: function(item_id,cb){
 
-                Parse.Cloud.run('messageCount', { item: item_id }, {
-                  success: function(data) {
+                var Message = Parse.Object.extend("Message"),
+                    Item = Parse.Object.extend('Item'),
+                    item = new Item(),
+                    query = new Parse.Query(Message);
+
+
+                item.id = item_id;
+                query.include('sender');
+                query.equalTo('item', item);
+                query.count({
+                    success: function(data){
                         cb(null,data);
-                  },
-                  error: function(error) {
+                    },
+                    error: function(error){
                         cb(error,null);
-                  }
+                    }
                 });
             },
 
