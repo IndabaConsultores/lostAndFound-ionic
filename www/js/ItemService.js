@@ -44,6 +44,15 @@ angular.module('lf.services.item', [])
                   }
                 });
 
+            },
+
+            foundItemsByCategory: function(category_id,cb) {
+                var results = [];
+                $rootScope.founditems_collection.each(function(object){
+                    if(object.attributes.category.id == category_id)
+                      results.push(object);
+                });
+                cb(null,results);
             }
 
         }

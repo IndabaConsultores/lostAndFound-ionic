@@ -7,47 +7,17 @@
 <ion-content class="has-header">
     <div class="list">
 
-         <a class="item item-thumbnail-left" href="#/app/found_items/1" ng-repeat="item in items">
-            <img src="{{item.attributes.picture._url}}">
-            <h2>{{item.attributes.name}}</h2>
-            <p>{{item.attributes.createdAt}}</p>
-        </a>
-
-
-        <div class="item item-divider">
-            Keys
-        </div>
-        <a class="item item-thumbnail-left" href="#/app/found_items/1">
-            <img src="http://www.doorcloser.com/acatalog/DCSC_KEYS_LARGE.jpg">
-            <h2>Two Keys</h2>
-            <p>2014/09/09</p>
-        </a>
-        <a class="item item-thumbnail-left" href="#/app/found_items/1">
-            <img src="http://static.guim.co.uk/sys-images/Guardian/About/General/2012/6/4/1338812468461/A-bunch-of-keys-008.jpg">
-            <h2>Big Bunch of Keys</h2>
-            <p>2014/09/09</p>
-        </a>
-        
-        
-        <div class="item item-divider">
-            Wallets
-        </div>
-        <a class="item item-thumbnail-left" href="#/app/found_items/1">
-            <img src="http://images.cdn.bigcartel.com/bigcartel/product_images/99987691/max_h-1000+max_w-1000/NAH_5624.JPG">
-            <h2>Green Wallet</h2>
-            <p>2014/09/09</p>
-        </a>
-        
-        <div class="item item-divider">
-            Phones
-        </div>
-        <a class="item item-thumbnail-left" href="#/app/found_items/1">
-            <img src="http://taliandroid.com/wp-content/uploads/2014/03/Foto-del-Galaxy-S5--1024x682.jpg">
-            <h2>Samsung Galaxy S5</h2>
-            <p>2014/09/09</p>
-        </a>
-    </div>
-</ion-content>
+        <container ng-repeat="category in bycategory">
+            <div class="item item-divider">
+                {{ category.category }}
+            </div>
+            <a class="item item-thumbnail-left" ng-repeat="item in category.items" href="#/app/found_items/{{item.id}}">
+                <img src="{{item.attributes.picture._url}}">
+                <h2>{{ item.attributes.name }}</h2>
+                <p>{{ item.createdAt | date:'MM/dd/yyyy  h:mm:ssa' }}</p>
+            </a>
+        </container>
+ </ion-content>
 
 
     

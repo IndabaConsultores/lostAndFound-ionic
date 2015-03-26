@@ -24,6 +24,12 @@
 
       Parse.initialize(APP_ID, JS_KEY);
 
+
+      $rootScope.alert_collection = {
+          'models': []
+      };
+
+
       initAppInfo();
       
 
@@ -47,21 +53,26 @@
             async.parallel([
               function(cb){
                 CategoryService.fetch(function(error,collection){
-                  $rootScope.category_collection = collection;
-                  cb(error,collection);
+                  $rootScope.$apply(function () {
+                      $rootScope.category_collection = collection;
+                      cb(error,collection);
+                  });
                 });
               },
               function(cb){
                 ItemService.fetchFoundItems(function(error,collection){
-                  $rootScope.founditems_collection = collection;
-                  console.log(collection);
-                  cb(error,collection);
+                  $rootScope.$apply(function () {
+                    $rootScope.founditems_collection = collection;
+                    cb(error,collection);
+                  });
                 });
               },
               function(cb){
                 ItemService.fetchAlerts(function(error,collection){
-                  $rootScope.alert_collection = collection;
-                  cb(error,collection);
+                 $rootScope.$apply(function () {
+                    $rootScope.alert_collection = collection;
+                    cb(error,collection);
+                  });
                 });
               }
           ], function(err,results){
@@ -70,7 +81,6 @@
                     $ionicPopup.alert({ title: err.message })
             });
 
-            
         });
 
       }
@@ -102,7 +112,7 @@
         views: {
           'menuContent' :{
             templateUrl: "templates/item.html",
-            controller: 'ItemCtrl'
+            controller: 'FoundItemCtrl'
           }
         }
       })
@@ -126,6 +136,17 @@
           }
         }
       })
+
+      .state('app.alertitem', {
+        url: "/alerts/:item",
+        views: {
+          'menuContent' :{
+            templateUrl: "templates/item.html",
+            controller: 'ItemCtrl'
+          }
+        }
+      })
+
       .state('app.launchAlert', {
         url: "/launch_alert",
         views: {

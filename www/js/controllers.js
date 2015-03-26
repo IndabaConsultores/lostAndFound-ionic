@@ -33,27 +33,74 @@ angular.module('lf.controllers', [])
   };
 })
 
-.controller('FoundItemsCtrl', function($scope,OfficeService){
+.controller('FoundItemsCtrl', function($scope,$rootScope,ItemService,OfficeService){
 
-  OfficeService.getFoundItems(function(error,data){
-    if(error)
-      alert("error" + error.code);
-    
-    $scope.items = data;
+
+  $scope.listSetUp = function(){
+    if($rootScope.founditems_collection && $rootScope.category_collection){
+
+      var category_length = $rootScope.category_collection.length;
+      $scope.bycategory = [];
+      
+      async.times(category_length, function(n, next){
+          ItemService.foundItemsByCategory($rootScope.category_collection.at(n).id,function(error,data){
+              var block = {
+                 'category': $rootScope.category_collection.at(n).attributes.name,
+                 'items': data
+              }
+              if(data.length > 0)
+                $scope.bycategory.push(block);
+
+              next(error,data);
+          });
+      }, function(err, items) {
+          if(err)
+            alert("error");
+      });        
+    }    
+  }
+
+  
+  $scope.listSetUp();
+  
+
+  $rootScope.$watch('founditems_collection', function(newValue, oldValue) {
+      $scope.listSetUp();
   });
 
+  
+
+  
 })
 
-.controller('ItemCtrl', function($scope,$stateParams,ItemService,OfficeService,$rootScope,$ionicPopup){
+.controller('ItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService){
 
   $rootScope.showLoading();
-  $scope.item = $rootScope.alert_collection.get($stateParams.item);
+  if($rootScope.alert_collection){
+      $scope.item = $rootScope.alert_collection.get($stateParams.item);
+  }
+  
 
   OfficeService.getMessageCount($stateParams.item, function(error,data){
     $rootScope.hideLoading();
     $scope.messages = data;
   });
-    
+
+})
+
+.controller('FoundItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService){
+
+  $rootScope.showLoading();
+  if($rootScope.founditems_collection){
+      $scope.item = $rootScope.founditems_collection.get($stateParams.item);
+  }
+  
+
+  OfficeService.getMessageCount($stateParams.item, function(error,data){
+    $rootScope.hideLoading();
+    $scope.messages = data;
+  });
+
 })
 
 
@@ -96,23 +143,16 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('AlertsCtrl', function($scope,$rootScope,OfficeService){
+.controller('AlertsCtrl', function($scope,$rootScope){
 
   $scope.items = $rootScope.alert_collection.models;
 
-/*
-  $rootScope.showLoading();
-
-  OfficeService.getAlertItems(function(error,data){
-
-    $rootScope.hideLoading();
-
-    if(error)
-      alert("error" + error.code);
-    
-    $scope.items = data;
+  $rootScope.$watch('alert_collection', function(newValue, oldValue) {
+    $scope.items = newValue.models;
   });
-*/
+
+  
+
 
 })
 
