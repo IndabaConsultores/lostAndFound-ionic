@@ -142,7 +142,7 @@
         views: {
           'menuContent' :{
             templateUrl: "templates/item.html",
-            controller: 'ItemCtrl'
+            controller: 'AlertItemCtrl'
           }
         }
       })

@@ -73,7 +73,7 @@ angular.module('lf.controllers', [])
   
 })
 
-.controller('ItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService){
+.controller('AlertItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService){
 
   $rootScope.showLoading();
   if($rootScope.alert_collection){
@@ -145,7 +145,8 @@ angular.module('lf.controllers', [])
 
 .controller('AlertsCtrl', function($scope,$rootScope){
 
-  $scope.items = $rootScope.alert_collection.models;
+  if($rootScope.alert_collection)
+    $scope.items = $rootScope.alert_collection.models;
 
   $rootScope.$watch('alert_collection', function(newValue, oldValue) {
     $scope.items = newValue.models;

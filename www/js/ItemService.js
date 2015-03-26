@@ -28,7 +28,6 @@ angular.module('lf.services.item', [])
             fetchFoundItems: function(cb) {
 
             	var Item = Parse.Object.extend("Item"),
-
                     ItemCollection = Parse.Collection.extend({
                         model: Item,
                         query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','found').include('createdBy').include('category')
