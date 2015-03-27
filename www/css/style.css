@@ -6,6 +6,8 @@ ion-list i{ font-size:1.4em; color: lightgrey; }
 .button-facebook{background-color: #3b5998; color:white;}
 .button-twitter{background-color: #00aced; color:white;}
 
+.avatar{ width:60px;}
+
 .white-space-normal, .white-space-normal p{ white-space: normal; }
 
 map {

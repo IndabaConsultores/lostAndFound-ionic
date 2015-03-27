@@ -25,6 +25,7 @@
       Parse.initialize(APP_ID, JS_KEY);
 
       $rootScope.currentUser = Parse.User.current();
+      console.log($rootScope.currentUser);
 
 
       $rootScope.alert_collection = {
