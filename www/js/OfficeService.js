@@ -116,7 +116,7 @@ angular.module('lf.services.office', [])
                     message = new Message();
 
                 item.id = item_id;
-                user.id = "VaitamGvbr"; //andoni
+                user.id = $rootScope.currentUser.id;
                 message.set("item",item);
                 message.set("text",msg);
                 message.set("sender",user);
