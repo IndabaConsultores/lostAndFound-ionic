@@ -30,7 +30,34 @@ angular.module('lf.controllers', [])
   $scope.signup = function(){
     $scope.modal.hide();
     $state.go('app.signup');
-  }
+  };
+
+  $scope.fblogin = function(){
+      Parse.FacebookUtils.logIn(null, {
+        success: function(user) {
+          if (!user.existed()) {
+            var alertPopup = $ionicPopup.alert({
+               title: 'Success!',
+               template: 'User signed up and logged in through Facebook!'
+             });
+             alertPopup.then(function(res) {});
+          } else {
+            var alertPopup = $ionicPopup.alert({
+               title: 'Success!',
+               template: 'User logged in through Facebook!'
+             });
+             alertPopup.then(function(res) {});
+          }
+        },
+        error: function(user, error) {
+          var alertPopup = $ionicPopup.alert({
+             title: 'User cancelled the Facebook login or did not fully authorize.' + error.code,
+             template: error.message
+           });
+           alertPopup.then(function(res) {});
+        }
+      });
+  };
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {

@@ -21,11 +21,32 @@
 
       var APP_ID = 'rLLNluRNBUF8oE80COn93iypqnJowLhHeij4w1jT';
       var JS_KEY = 'Ibs97GtVmHrVaM9vp68pGCYdOSNDjig5jrARo3L8';
+      var FB_APP_ID = '1613742718862649';
 
       Parse.initialize(APP_ID, JS_KEY);
 
       $rootScope.currentUser = Parse.User.current();
-      console.log($rootScope.currentUser);
+      
+
+      window.fbAsyncInit = function() {
+        Parse.FacebookUtils.init({ // this line replaces FB.init({
+          appId      : FB_APP_ID, // Facebook App ID
+          status     : true,  // check Facebook Login status
+          cookie     : true,  // enable cookies to allow Parse to access the session
+          xfbml      : true,  // initialize Facebook social plugins on the page
+          version    : 'v2.2' // point to the latest Facebook Graph API version
+        });
+        // Run code after the Facebook SDK is loaded.
+      };
+     
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
 
 
       $rootScope.alert_collection = {
