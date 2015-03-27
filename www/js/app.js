@@ -24,6 +24,8 @@
 
       Parse.initialize(APP_ID, JS_KEY);
 
+      $rootScope.currentUser = Parse.User.current();
+
 
       $rootScope.alert_collection = {
           'models': []

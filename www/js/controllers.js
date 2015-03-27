@@ -1,6 +1,6 @@
 angular.module('lf.controllers', [])
 
-.controller('AppCtrl', function($scope,$state,$ionicModal, $timeout) {
+.controller('AppCtrl', function($scope,$state,$rootScope,$ionicPopup,$ionicModal,$timeout) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -10,6 +10,12 @@ angular.module('lf.controllers', [])
   }).then(function(modal) {
     $scope.modal = modal;
   });
+
+  $scope.logout = function() {
+    Parse.User.logOut();
+    $rootScope.currentUser = null;
+    $state.go('app.foundItems');
+  };
 
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
@@ -28,6 +34,26 @@ angular.module('lf.controllers', [])
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+    $rootScope.showLoading();
+    Parse.User.logIn($scope.loginData.username, $scope.loginData.password, {
+      success: function(user) {
+        $rootScope.hideLoading();
+        $scope.loginData = {};
+        $rootScope.currentUser = user;
+        $state.go('app.foundItems');
+      },
+      error: function(user, error) {
+        $rootScope.hideLoading();
+          var alertPopup = $ionicPopup.alert({
+           title: 'Sign Up ERROR' + error.code,
+           template: error.message
+         });
+         alertPopup.then(function(res) {});
+      }
+    }); 
+
+
+
     console.log('Doing login', $scope.loginData);
 
     // Simulate a login delay. Remove this and replace with your login
@@ -38,12 +64,13 @@ angular.module('lf.controllers', [])
   };
 })
 
-.controller('SignUpCtrl', function($scope,$state,$ionicPopup){
+.controller('SignUpCtrl', function($scope,$rootScope,$state,$ionicPopup){
 
   $scope.newuser = {};
 
     $scope.signup = function(){
 
+        $rootScope.showLoading();
 
         var user = new Parse.User();
         user.set("username", $scope.newuser.username);
@@ -51,12 +78,14 @@ angular.module('lf.controllers', [])
         user.set("email", $scope.newuser.email);
          
         // other fields can be set just like with Parse.Object
-        //user.set("phone", "415-392-0202");
+        // user.set("phone", "415-392-0202");
          
         user.signUp(null, {
           success: function(user) {
+            $rootScope.hideLoading();
             console.log(user);
             $scope.newuser = {};
+            $rootScope.currentUser = user;
             var alertPopup = $ionicPopup.alert({
                title: 'New User success '+ user.attributes.username,
                template: 'ready for login'
@@ -66,8 +95,8 @@ angular.module('lf.controllers', [])
              });
           },
           error: function(user, error) {
-            // Show the error message somewhere and let the user try again.
-            var alertPopup = $ionicPopup.alert({
+              $rootScope.hideLoading();
+              var alertPopup = $ionicPopup.alert({
                title: 'Sign Up ERROR' + error.code,
                template: error.message
              });

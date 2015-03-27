@@ -25,11 +25,16 @@
         <ion-item nav-clear menu-close href="#/app/info">
           <i class="ion-help"></i> Info
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/playlists">
-            <i class="ion-close-circled"></i> Exit
+
+        <ion-item nav-clear menu-close href="#" ng-if="currentUser">
+          <i class="ion-gear-b"></i> Settings
         </ion-item>
-        <ion-item nav-clear menu-close ng-click="login()">
-          Login
+
+        <ion-item nav-clear menu-close ng-click="logout()" ng-if="currentUser">
+            <i class="ion-log-out"></i> Logout
+        </ion-item>
+        <ion-item nav-clear menu-close ng-click="login()" ng-if="!currentUser">
+          <i class="ion-log-in"></i> Login
         </ion-item>
       </ion-list>
         
