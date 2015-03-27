@@ -164,6 +164,16 @@
             controller: 'InfoCtrl'
           }
         }
+      })
+
+      .state('app.signup', {
+        url: "/signup",
+        views: {
+          'menuContent' :{
+            templateUrl: "templates/signup.html",
+            controller: 'SignUpCtrl'
+          }
+        }
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/found_items');

@@ -3,6 +3,9 @@ ion-list i{ font-size:1.4em; color: lightgrey; }
 
 .logo { text-align: center; margin-top: 50px; }
 
+.button-facebook{background-color: #3b5998; color:white;}
+.button-twitter{background-color: #00aced; color:white;}
+
 .white-space-normal, .white-space-normal p{ white-space: normal; }
 
 map {

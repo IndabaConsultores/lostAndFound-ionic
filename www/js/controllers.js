@@ -1,6 +1,6 @@
 angular.module('lf.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope,$state,$ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -21,6 +21,11 @@ angular.module('lf.controllers', [])
     $scope.modal.show();
   };
 
+  $scope.signup = function(){
+    $scope.modal.hide();
+    $state.go('app.signup');
+  }
+
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
@@ -32,6 +37,48 @@ angular.module('lf.controllers', [])
     }, 1000);
   };
 })
+
+.controller('SignUpCtrl', function($scope,$state,$ionicPopup){
+
+  $scope.newuser = {};
+
+    $scope.signup = function(){
+
+
+        var user = new Parse.User();
+        user.set("username", $scope.newuser.username);
+        user.set("password", $scope.newuser.password);
+        user.set("email", $scope.newuser.email);
+         
+        // other fields can be set just like with Parse.Object
+        //user.set("phone", "415-392-0202");
+         
+        user.signUp(null, {
+          success: function(user) {
+            console.log(user);
+            $scope.newuser = {};
+            var alertPopup = $ionicPopup.alert({
+               title: 'New User success '+ user.attributes.username,
+               template: 'ready for login'
+             });
+             alertPopup.then(function(res) {
+                $state.go('app.foundItems');
+             });
+          },
+          error: function(user, error) {
+            // Show the error message somewhere and let the user try again.
+            var alertPopup = $ionicPopup.alert({
+               title: 'Sign Up ERROR' + error.code,
+               template: error.message
+             });
+             alertPopup.then(function(res) {});
+          }
+        });
+
+    }
+
+})
+
 
 .controller('FoundItemsCtrl', function($scope,$rootScope,ItemService,OfficeService){
 
