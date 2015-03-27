@@ -13,10 +13,10 @@
     </header>
     <ion-content class="has-header">
       <ion-list>
-        <ion-item nav-clear menu-close href="#/app/found_items" ng-if="currentUser">
+        <ion-item nav-clear ng-if="currentUser">
           <img class="avatar" src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url" />
           <img class="avatar" src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url" />
-           {{currentUser.attributes.username}}
+           <p>{{currentUser.attributes.username}}</p>
         </ion-item>
 
         <ion-item nav-clear menu-close href="#/app/found_items">
@@ -32,7 +32,7 @@
           <i class="ion-help"></i> Info
         </ion-item>
 
-        <ion-item nav-clear menu-close href="#" ng-if="currentUser">
+        <ion-item nav-clear menu-close href="#/app/settings" ng-if="currentUser">
           <i class="ion-gear-b"></i> Settings
         </ion-item>
 

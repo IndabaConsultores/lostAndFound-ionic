@@ -160,11 +160,21 @@
         }
       })
       .state('app.info', {
-        url: "/info",
+        url: '/info',
         views: {
           'menuContent' :{
-            templateUrl: "templates/info.html",
+            templateUrl: 'templates/info.html',
             controller: 'InfoCtrl'
+          }
+        }
+      })
+
+      .state('app.settings', {
+        url: '/settings',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/settings.html',
+            controller: 'SettingsCtrl' 
           }
         }
       })

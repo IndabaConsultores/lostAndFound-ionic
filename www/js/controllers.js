@@ -239,6 +239,10 @@ angular.module('lf.controllers', [])
   };
 })
 
+.controller('SettingsCtrl', function($scope){
+  
+})
+
 
 .controller('InfoCtrl', function($scope){
 
