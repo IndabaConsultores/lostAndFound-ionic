@@ -4,7 +4,7 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('starter', ['ionic', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map'])
+  angular.module('starter', ['ionic', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
 
   .run(function($ionicPlatform, $ionicLoading, $rootScope, OfficeService, CategoryService, ItemService) {
     $ionicPlatform.ready(function() {

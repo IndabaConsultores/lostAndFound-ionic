@@ -260,10 +260,102 @@ angular.module('lf.controllers', [])
 
 })
 
-.controller('LaunchAlertCtrl', function($scope) {
+.controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,CameraService,ItemService) {
+
+/*
+  navigator.geolocation.getCurrentPosition(function(success){ 
+                                              console.log(success); 
+                                          },function(error){ 
+                                              console.log(error); 
+                                          },{timeout:10000});
+*/
+  $scope.map = L.map('map',{ tap:true }).setView([$rootScope.office.get('location')._latitude, $rootScope.office.get('location')._longitude], 14);
+
+  $scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude }
+
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: 'Lost & Found',
+    maxZoom: 18
+  }).addTo($scope.map);
+
+$scope.marker = L.marker([$rootScope.office.get('location')._latitude, $rootScope.office.get('location')._longitude]).addTo($scope.map);
+
+  $scope.onMapClick = function(e) {
+      //alert("You clicked the map at " + e.latlng);
+      $scope.map.removeLayer($scope.marker);
+      $scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
+      $scope.coords = e.latlng;
+  }
+
+  $scope.map.on('click', $scope.onMapClick);
+
+  var Item = Parse.Object.extend("Item");
+
+  $scope.newalert = {};
+
    $scope.mapCreated = function(map) {
     $scope.map = map;
   };
+
+
+
+  $scope.useCamera = function(){
+
+      CameraService.getPicture({
+                            quality: 50,
+                            destinationType: navigator.camera.DestinationType.DATA_URL})
+        .then(function(imageURI) {
+              $scope.imageBase64 = imageURI;
+        }, function(err) {
+            alert(err);
+        });
+  };
+
+  $scope.createAlert = function(){
+    $rootScope.showLoading();
+    var file_name = Date.now(),
+        parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
+        alertlocation = new Parse.GeoPoint({latitude: $scope.coords.lat, longitude: $scope.coords.lng });
+        parseFile.save().then(function() {
+
+          var item = new Item();
+          
+          item.set("type","alert");
+          item.set("createdBy",$rootScope.currentUser);
+          item.set("picture",parseFile);
+          item.set("office",$rootScope.office);
+          item.set("name",$scope.newalert.name);
+          item.set("description", $scope.newalert.description);
+          item.set("alertLocation", alertlocation);
+          item.save(null, {
+
+            success:function(ob) {
+              ItemService.fetchAlerts(function(error,collection){
+               $rootScope.$apply(function () {
+                  $rootScope.hideLoading();
+                  $scope.newalert = {};
+                  $scope.imageBase64 = null;
+                  $rootScope.alert_collection = collection;
+                  var alertPopup = $ionicPopup.alert({
+                     title: 'New alert',
+                     template: 'New alert created successfully'
+                   });
+                   alertPopup.then(function(res) {});
+                });
+              });
+          }, error:function(e) {
+              $rootScope.hideLoading();
+              alert("error");
+              console.log("Oh crap", e);
+          }
+        });
+      }, function(error) {
+        alert("Error");
+        console.log(error);
+      });
+  };
+
+
 })
 
 .controller('SettingsCtrl', function($scope){

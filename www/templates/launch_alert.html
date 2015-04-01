@@ -6,31 +6,41 @@
     <div class="list">
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Item Name</span>
-	    <input type="text" placeholder="Name">
+	    <input type="text" placeholder="Name" ng-model="newalert.name">
 	  </label>
 	  
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Item Description</span>
-	    <textarea placeholder="Description"></textarea>
+	    <textarea placeholder="Description" ng-model="newalert.description"></textarea>
 	  </label>
 
 	  <label class="item item-input item-stacked-label">
 	    <span class="input-label">Picture</span>
-	   <button class="button button-stable">
+	   <button class="button button-stable" ng-click="useCamera()">
 		  <i class="ion-image"></i> Add Picture
 		</button>
 	  </label>
 
 	  <label class="item item-input item-stacked-label">
 
-      <map on-create="mapCreated(map)"></map>
+      <!-- <map on-create="mapCreated(map)"></map> -->
+      	<div data-tap-disabled="true"><div id="map" style="height:180px;"></div> </div>
+
+	  </label>
+
+	  <label class="item item-input item-stacked-label">
+
+      		<img src="data:image/jpg;base64, {{imageBase64}}"
+				width="150" height="150" ng-if="imageBase64" />
 
 	  </label>
 
 	  
+
+	  
 	</div>
 	<div class="content padding">
-		<button class="button button-block button-positive">
+		<button class="button button-block button-positive" ng-click="createAlert()">
 		  Send
 		</button>
 	</div>
