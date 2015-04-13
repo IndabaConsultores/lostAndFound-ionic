@@ -269,6 +269,8 @@ angular.module('lf.controllers', [])
                                               console.log(error); 
                                           },{timeout:10000});
 */
+
+
   $scope.map = L.map('map',{ tap:true }).setView([$rootScope.office.get('location')._latitude, $rootScope.office.get('location')._longitude], 14);
 
   $scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude }
@@ -312,47 +314,56 @@ $scope.marker = L.marker([$rootScope.office.get('location')._latitude, $rootScop
   };
 
   $scope.createAlert = function(){
-    $rootScope.showLoading();
-    var file_name = Date.now(),
-        parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
-        alertlocation = new Parse.GeoPoint({latitude: $scope.coords.lat, longitude: $scope.coords.lng });
-        parseFile.save().then(function() {
+    if($rootScope.currentUser){
+        $rootScope.showLoading();
+        var file_name = Date.now(),
+            parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
+            alertlocation = new Parse.GeoPoint({latitude: $scope.coords.lat, longitude: $scope.coords.lng });
+            parseFile.save().then(function() {
 
-          var item = new Item();
-          
-          item.set("type","alert");
-          item.set("createdBy",$rootScope.currentUser);
-          item.set("picture",parseFile);
-          item.set("office",$rootScope.office);
-          item.set("name",$scope.newalert.name);
-          item.set("description", $scope.newalert.description);
-          item.set("alertLocation", alertlocation);
-          item.save(null, {
+              var item = new Item();
+              
+              item.set("type","alert");
+              item.set("createdBy",$rootScope.currentUser);
+              item.set("picture",parseFile);
+              item.set("office",$rootScope.office);
+              item.set("name",$scope.newalert.name);
+              item.set("description", $scope.newalert.description);
+              item.set("alertLocation", alertlocation);
+              item.save(null, {
 
-            success:function(ob) {
-              ItemService.fetchAlerts(function(error,collection){
-               $rootScope.$apply(function () {
+                success:function(ob) {
+                  ItemService.fetchAlerts(function(error,collection){
+                   $rootScope.$apply(function () {
+                      $rootScope.hideLoading();
+                      $scope.newalert = {};
+                      $scope.imageBase64 = null;
+                      $rootScope.alert_collection = collection;
+                      var alertPopup = $ionicPopup.alert({
+                         title: 'New alert',
+                         template: 'New alert created successfully'
+                       });
+                       alertPopup.then(function(res) {});
+                    });
+                  });
+              }, error:function(e) {
                   $rootScope.hideLoading();
-                  $scope.newalert = {};
-                  $scope.imageBase64 = null;
-                  $rootScope.alert_collection = collection;
-                  var alertPopup = $ionicPopup.alert({
-                     title: 'New alert',
-                     template: 'New alert created successfully'
-                   });
-                   alertPopup.then(function(res) {});
-                });
-              });
-          }, error:function(e) {
-              $rootScope.hideLoading();
-              alert("error");
-              console.log("Oh crap", e);
-          }
-        });
-      }, function(error) {
-        alert("Error");
-        console.log(error);
-      });
+                  alert("error");
+                  console.log("Oh crap", e);
+              }
+            });
+          }, function(error) {
+            alert("Error");
+            console.log(error);
+          });
+    }else{
+        var alertPopup = $ionicPopup.alert({
+           title: 'Access denied',
+           template: 'Para crear una alerta necesitas iniciar sesion primero'
+         });
+         alertPopup.then(function(res) {});
+    }
+    
   };
 
 
