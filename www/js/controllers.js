@@ -262,42 +262,57 @@ angular.module('lf.controllers', [])
 
 .controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,CameraService,ItemService) {
 
-/*
-  navigator.geolocation.getCurrentPosition(function(success){ 
-                                              console.log(success); 
-                                          },function(error){ 
-                                              console.log(error); 
-                                          },{timeout:10000});
-*/
 
 
-  $scope.map = L.map('map',{ tap:true }).setView([$rootScope.office.get('location')._latitude, $rootScope.office.get('location')._longitude], 14);
+  $scope.initMap = function(){
+      $scope.map = L.map('map',{ tap:true }).setView([$scope.coords.lat, $scope.coords.lng], 14);
 
-  $scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude }
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Lost & Found',
+        maxZoom: 18
+      }).addTo($scope.map);
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: 'Lost & Found',
-    maxZoom: 18
-  }).addTo($scope.map);
+      $scope.marker = L.marker([$scope.coords.lat, $scope.coords.lng]).addTo($scope.map);
+      $scope.map.on('click', $scope.onMapClick);
 
-$scope.marker = L.marker([$rootScope.office.get('location')._latitude, $rootScope.office.get('location')._longitude]).addTo($scope.map);
+  };
 
   $scope.onMapClick = function(e) {
       //alert("You clicked the map at " + e.latlng);
       $scope.map.removeLayer($scope.marker);
       $scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
       $scope.coords = e.latlng;
-  }
+  };
 
-  $scope.map.on('click', $scope.onMapClick);
+  $scope.mapCreated = function(map) {
+    $scope.map = map;
+  };
+
+  //$scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude };
+  //$scope.initMap();
+
+
+  navigator.geolocation.getCurrentPosition(function(success){
+      /*
+          En caso de que podamos acceder la ubicacion del dispositivo
+          colocamos el marker en su lugar
+      */
+      $scope.coords = {'lat':success.coords.latitude, 'lng': success.coords.longitude };
+      $scope.initMap();
+  },function(error){ 
+      $scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude };
+      $scope.initMap();
+  },{timeout:10000});
+
+
+
+
 
   var Item = Parse.Object.extend("Item");
 
   $scope.newalert = {};
 
-   $scope.mapCreated = function(map) {
-    $scope.map = map;
-  };
+
 
 
 
