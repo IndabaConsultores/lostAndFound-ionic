@@ -302,10 +302,38 @@ $scope.marker = L.marker([$rootScope.office.get('location')._latitude, $rootScop
 
 
   $scope.useCamera = function(){
+      /*
+          Usar camara para sacar foto
+      */
+      var options = {
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.DATA_URL 
+      };
 
-      CameraService.getPicture({
-                            quality: 50,
-                            destinationType: navigator.camera.DestinationType.DATA_URL})
+      console.log(options);
+
+      CameraService.getPicture(options)
+        .then(function(imageURI) {
+              $scope.imageBase64 = imageURI;
+        }, function(err) {
+            alert(err);
+        });
+  };
+
+
+  $scope.usePicture = function(){
+      /*
+          Usar foto de la camara
+      */
+      var options = {
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.DATA_URL,
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+      };
+
+      console.log(options);
+
+      CameraService.getPicture(options)
         .then(function(imageURI) {
               $scope.imageBase64 = imageURI;
         }, function(err) {

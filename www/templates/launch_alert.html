@@ -14,12 +14,16 @@
 	    <textarea placeholder="Description" ng-model="newalert.description"></textarea>
 	  </label>
 
-	  <label class="item item-input item-stacked-label">
+	  <div class="item item-input item-stacked-label">
 	    <span class="input-label">Picture</span>
 	   <button class="button button-stable" ng-click="useCamera()">
-		  <i class="ion-image"></i> Add Picture
-		</button>
-	  </label>
+		  <i class="ion-ios-camera"></i> Camera
+	   </button>
+
+	   <button class="button button-stable" ng-click="usePicture()">
+		  <i class="ion-images"></i> Use Picture
+	   </button>
+	  </div>
 
 	  <label class="item item-input item-stacked-label">
 
