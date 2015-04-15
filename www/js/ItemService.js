@@ -11,7 +11,7 @@ angular.module('lf.services.item', [])
 
                     ItemCollection = Parse.Collection.extend({
                         model: Item,
-                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','alert').include('createdBy')
+                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','alert').include('createdBy').descending("createdAt")
                     });
                 var item_collection = new ItemCollection();
 
@@ -30,7 +30,7 @@ angular.module('lf.services.item', [])
             	var Item = Parse.Object.extend("Item"),
                     ItemCollection = Parse.Collection.extend({
                         model: Item,
-                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','found').include('createdBy').include('category')
+                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','found').include('createdBy').include('category').descending("createdAt")
                     });
                 var item_collection = new ItemCollection();
 
