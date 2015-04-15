@@ -13,6 +13,14 @@
       <div class="item item-body">
         <h2>{{item.attributes.name}}</h2>
         <img class="full-image" src="{{item.attributes.picture._url}}">
+
+        <label class="item item-input item-stacked-label">
+          <!-- <map on-create="mapCreated(map)"></map> -->
+            <div data-tap-disabled="true"><div id="map" style="height:180px;"></div> </div>
+
+        </label>
+
+
         <p>
           {{item.attributes.description}}
         </p>

@@ -181,6 +181,19 @@ angular.module('lf.controllers', [])
   $rootScope.showLoading();
   if($rootScope.alert_collection){
       $scope.item = $rootScope.alert_collection.get($stateParams.item);
+
+      if($scope.item.get("alertLocation")){
+
+          $scope.map = L.map('map',{ tap:true }).setView([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude], 14);
+          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: 'Lost & Found',
+            maxZoom: 18
+          }).addTo($scope.map);
+
+          $scope.marker = L.marker([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude]).addTo($scope.map);
+      }
+      
+
   }
   
 
@@ -196,6 +209,17 @@ angular.module('lf.controllers', [])
   $rootScope.showLoading();
   if($rootScope.founditems_collection){
       $scope.item = $rootScope.founditems_collection.get($stateParams.item);
+
+      if($scope.item.get("alertLocation")){
+
+          $scope.map = L.map('map',{ tap:true }).setView([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude], 14);
+          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: 'Lost & Found',
+            maxZoom: 18
+          }).addTo($scope.map);
+
+          $scope.marker = L.marker([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude]).addTo($scope.map);
+      }
   }
   
 
@@ -389,7 +413,8 @@ angular.module('lf.controllers', [])
                        alertPopup.then(function(res) {});
                     });
                   });
-              }, error:function(e) {
+              }, 
+                error:function(e) {
                   $rootScope.hideLoading();
                   alert("error");
                   console.log("Oh crap", e);
@@ -405,12 +430,16 @@ angular.module('lf.controllers', [])
            template: 'Para crear una alerta necesitas iniciar sesion primero'
          });
          alertPopup.then(function(res) {});
-    }
-    
+    }  
   };
-
-
 })
+
+
+
+
+
+
+
 
 .controller('SettingsCtrl', function($scope){
   
