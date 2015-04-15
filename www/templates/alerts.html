@@ -9,7 +9,7 @@
             <h2>Empty list</h2>
         </div>
         <a class="item item-thumbnail-left" ng-repeat="item in items" href="#/app/alerts/{{item.id}}" >
-            <img src="{{item.attributes.picture._url}}">
+            <img src="{{item.attributes.thumbnail._url}}">
             <h2>{{item.attributes.name}}</h2>
             <p>{{item.createdAt | date:'MM/dd/yyyy  h:mm:ssa' }}</p>
         </a>

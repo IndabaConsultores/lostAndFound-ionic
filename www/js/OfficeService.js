@@ -9,8 +9,8 @@ angular.module('lf.services.office', [])
             loadOffice: function (cb) {
             	var Office = Parse.Object.extend("Office");
             	var query = new Parse.Query(Office);
-            	//query.equalTo("codeName", "00-indaba");
-                query.equalTo("codeName", "02-oinati");
+            	query.equalTo("codeName", "00-indaba");
+                //query.equalTo("codeName", "02-oinati");
             	query.find({
                     success: function (results) {
                         cb(null,results[0]);
