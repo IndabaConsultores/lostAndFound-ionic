@@ -451,7 +451,9 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('SettingsCtrl', function($scope){
+.controller('SettingsCtrl', function($scope,$translate){
+
+    $translate.use("eu");
   
 })
 

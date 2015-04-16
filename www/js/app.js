@@ -4,9 +4,9 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('starter', ['ionic', 'angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
+  angular.module('starter', ['ionic','pascalprecht.translate','angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, OfficeService, CategoryService, ItemService) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -26,6 +26,20 @@
       Parse.initialize(APP_ID, JS_KEY);
 
       $rootScope.currentUser = Parse.User.current();
+
+      if(!$rootScope.currentUser){
+        if(typeof navigator.globalization !== "undefined") {
+                navigator.globalization.getPreferredLanguage(function(language) {
+                    $translate.use((language.value).split("-")[0]).then(function(data) {
+                        console.log("SUCCESS -> " + data);
+                    }, function(error) {
+                        console.log("ERROR -> " + error);
+                    });
+                }, null);
+            }
+      }else{
+        $translate.use($rootScope.currentUser.get("language"));
+      }
       
 
       window.fbAsyncInit = function() {
@@ -104,20 +118,17 @@
                   if(err)
                     $ionicPopup.alert({ title: err.message })
             });
-
         });
-
       }
-    
   })
 
 
   .constant('angularMomentConfig', {
 //    preprocess: 'unix', // optional
-    timezone: 'Europe/Madrid' // optional
+      timezone: 'Europe/Madrid' // optional
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
     $stateProvider
 
       .state('app', {
@@ -217,5 +228,46 @@
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/found_items');
+
+
+    $translateProvider.translations('en', {
+        found_items: "Found Items",
+        alerts: "Alerts",
+        launch_alert: "Launch Alert",
+        info: "Info",
+        settings: "Settings",
+        logout: "Logout",
+        login: "Login",
+        get_alerts: "Get Alerts"
+    });
+
+
+    $translateProvider.translations('es', {
+        found_items: "Encontrados",
+        alerts: "Alertas",
+        launch_alert: "Crear Alerta",
+        info: "Informacion",
+        settings: "Ajustes",
+        logout: "Salir",
+        login: "Login",
+        get_alerts: "Recibir Alertas"
+    });
+
+    $translateProvider.translations('eu', {
+        found_items: "Aurkitutakoak",
+        alerts: "Alertak",
+        launch_alert: "Alerta Berria",
+        info: "Informazioa",
+        settings: "Ezarpenak",
+        logout: "Irten",
+        login: "Login",
+        get_alerts: "Alertak Jaso"
+    });
+
+
+    $translateProvider.preferredLanguage("en");
+    $translateProvider.fallbackLanguage("en");
+
+
   });
 

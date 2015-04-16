@@ -20,27 +20,27 @@
         </ion-item>
 
         <ion-item nav-clear menu-close href="#/app/found_items">
-          <i class="ion-pricetags"></i> Found Items
+          <i class="ion-pricetags"></i> {{"found_items" | translate}}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/alerts">
-          <i class="ion-alert"></i> Alerts
+          <i class="ion-alert"></i> {{"alerts" | translate}}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/launch_alert">
-          <i class="ion-speakerphone"></i> Launch Alert!
+          <i class="ion-speakerphone"></i> {{"launch_alert" | translate}}!
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/info">
-          <i class="ion-help"></i> Info
+          <i class="ion-help"></i> {{"info" | translate}}
         </ion-item>
 
         <ion-item nav-clear menu-close href="#/app/settings" ng-if="currentUser">
-          <i class="ion-gear-b"></i> Settings
+          <i class="ion-gear-b"></i> {{"settings" | translate}}
         </ion-item>
 
         <ion-item nav-clear menu-close ng-click="logout()" ng-if="currentUser">
-            <i class="ion-log-out"></i> Logout
+            <i class="ion-log-out"></i> {{"logout" | translate}}
         </ion-item>
         <ion-item nav-clear menu-close ng-click="login()" ng-if="!currentUser">
-          <i class="ion-log-in"></i> Login
+          <i class="ion-log-in"></i> {{"login" | translate}}
         </ion-item>
       </ion-list>
         
