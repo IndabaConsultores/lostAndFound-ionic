@@ -3,7 +3,9 @@
     <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 <ion-content class="has-header">
-
+    <ion-refresher on-refresh="doRefresh()">
+                     
+      </ion-refresher>
     <div class="list">
         <div class="item" ng-if="items.length < 1">
             <h2>Empty list</h2>

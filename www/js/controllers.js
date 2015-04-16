@@ -245,7 +245,7 @@ angular.module('lf.controllers', [])
             alert("error" + error.code);
           
           $scope.messages = data;
-          $ionicScrollDelegate.scrollBottom();
+          $ionicScrollDelegate.scrollBottom(true);
       });
   }
 
@@ -260,7 +260,7 @@ angular.module('lf.controllers', [])
             alert("error" + error.code);
         
         $scope.getMessages();
-        $ionicScrollDelegate.scrollBottom();
+        $ionicScrollDelegate.scrollBottom(true);
       });
   }
 
@@ -270,7 +270,7 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('AlertsCtrl', function($scope,$rootScope){
+.controller('AlertsCtrl', function($scope,$rootScope,ItemService){
 
   if($rootScope.alert_collection)
     $scope.items = $rootScope.alert_collection.models;
@@ -278,6 +278,16 @@ angular.module('lf.controllers', [])
   $rootScope.$watch('alert_collection', function(newValue, oldValue) {
     $scope.items = newValue.models;
   });
+
+  $scope.doRefresh = function(){
+    ItemService.fetchAlerts(function(error,collection){
+     $rootScope.$apply(function () {
+        $rootScope.alert_collection = collection;
+        //Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    });
+  }
 
   
 
