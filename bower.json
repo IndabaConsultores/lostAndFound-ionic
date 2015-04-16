@@ -10,6 +10,7 @@
     "underscore": "~1.8.2",
     "async": "~0.9.2",
     "angular-leaflet-directive": "~0.7.11",
-    "angular-moment": "~0.10.0"
+    "angular-moment": "~0.10.0",
+    "angular-nl2br": "~1.0.3"
   }
 }

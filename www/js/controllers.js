@@ -236,7 +236,7 @@ angular.module('lf.controllers', [])
   $scope.getMessages = function(){
       
       $rootScope.showLoading();
-      OfficeService.getMessages($stateParams.item,function(error,data){       
+      OfficeService.getMessages($stateParams.item,function(error,data){
           $rootScope.hideLoading();
 
           if(error)
