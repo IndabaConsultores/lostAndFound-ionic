@@ -231,7 +231,7 @@ angular.module('lf.controllers', [])
 })
 
 
-.controller('MessageCtrl', function($scope,$rootScope,$stateParams,OfficeService){
+.controller('MessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,OfficeService){
 
   
 
@@ -245,6 +245,7 @@ angular.module('lf.controllers', [])
             alert("error" + error.code);
           
           $scope.messages = data;
+          $ionicScrollDelegate.scrollBottom();
       });
   }
 
@@ -259,6 +260,7 @@ angular.module('lf.controllers', [])
             alert("error" + error.code);
         
         $scope.getMessages();
+        $ionicScrollDelegate.scrollBottom();
       });
   }
 
