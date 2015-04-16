@@ -7,7 +7,7 @@
       <div class="item item-avatar">
         <img src="{{item.attributes.createdBy.attributes.avatar._url}}">
         <h2>{{item.attributes.createdBy.attributes.username}}</h2>
-        <p>{{item.createdAt | date:'MM/dd/yyyy  h:mm:ssa' }}</p>
+        <p>{{item.createdAt|amCalendar }}</p>
       </div>
 
       <div class="item item-body">

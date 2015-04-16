@@ -182,6 +182,8 @@ angular.module('lf.controllers', [])
   if($rootScope.alert_collection){
       $scope.item = $rootScope.alert_collection.get($stateParams.item);
 
+      console.log($scope.item);
+
       if($scope.item.get("alertLocation")){
           
           $scope.map = L.map('alertmap',{ tap:true }).setView([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude], 14);

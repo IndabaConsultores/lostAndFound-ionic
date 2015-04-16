@@ -1,15 +1,15 @@
 <ion-side-menus>
 
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+    <ion-nav-bar class="bar-dark nav-title-slide-ios7">
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">Noname City</h1>
+    <header class="bar bar-header bar-dark">
+      <h1 class="title">{{office.attributes.name}}</h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
@@ -46,5 +46,13 @@
         
         <div class="logo"><img src="img/logo.png"></div>
     </ion-content>
+
+    <ion-footer-bar align-title="left" class="bar-dark">
+      
+      <h1 class="title">Lost & Found</h1>
+      
+    </ion-footer-bar>
+
+
   </ion-side-menu>
 </ion-side-menus>
