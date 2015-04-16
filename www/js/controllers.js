@@ -192,8 +192,6 @@ angular.module('lf.controllers', [])
 
           $scope.marker = L.marker([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude]).addTo($scope.map);
       }
-      
-
   }
   
 
@@ -238,9 +236,7 @@ angular.module('lf.controllers', [])
   $scope.getMessages = function(){
       
       $rootScope.showLoading();
-      
-      OfficeService.getMessages($stateParams.item,function(error,data){
-          
+      OfficeService.getMessages($stateParams.item,function(error,data){       
           $rootScope.hideLoading();
 
           if(error)
