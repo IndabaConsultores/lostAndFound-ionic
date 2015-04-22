@@ -1,9 +1,8 @@
-<ion-view title="Settings">
+<ion-view title="{{'settings' | translate}}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-	<h1>Settings</h1>
 
 	<ul class="list">
 		<li class="item item-avatar">
@@ -17,15 +16,26 @@
 	  <li class="item item-toggle">
 	     Get Alerts
 	     <label class="toggle toggle-assertive">
-	       <input type="checkbox" checked>
+	       <input type="checkbox" ng-checked="settings.alerts" ng-model="settings.alerts">
 	       <div class="track">
 	         <div class="handle"></div>
 	       </div>
 	     </label>
 	  </li>
 
-
+	  <label class="item item-input item-select">
+	    <div class="input-label">
+	      Language
+	    </div>
+	    <select ng-model="settings.language">
+	      <option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.attributes.language">{{language.name}}</option>
+	    </select>
+	  </label>
 	</ul>
+
+	<button class="button button-block button-positive" ng-click="saveSettings(settings)">
+	  Save
+	</button>
 
 
   </ion-content>

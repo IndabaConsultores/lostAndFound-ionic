@@ -29,17 +29,28 @@
 
       if(!$rootScope.currentUser){
         if(typeof navigator.globalization !== "undefined") {
-                navigator.globalization.getPreferredLanguage(function(language) {
-                    $translate.use((language.value).split("-")[0]).then(function(data) {
-                        console.log("SUCCESS -> " + data);
-                    }, function(error) {
-                        console.log("ERROR -> " + error);
-                    });
-                }, null);
-            }
+            navigator.globalization.getPreferredLanguage(function(language) {
+                $translate.use((language.value).split("-")[0]).then(function(data) {
+                    console.log("SUCCESS -> " + data);
+                }, function(error) {
+                    console.log("ERROR -> " + error);
+                });
+            }, null);
+        }else{
+          $translate.use("en");
+        }
       }else{
         $translate.use($rootScope.currentUser.get("language"));
       }
+
+       $rootScope.languages = [
+                                { code: "en",
+                                  name: "English" },
+                                { code: "es",
+                                  name: "Español"},
+                                { code: "eu",
+                                  name: "Euskara"}
+                              ];
       
 
       window.fbAsyncInit = function() {
@@ -229,6 +240,7 @@
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/found_items');
 
+   
 
     $translateProvider.translations('en', {
         found_items: "Found Items",
@@ -238,7 +250,16 @@
         settings: "Settings",
         logout: "Logout",
         login: "Login",
-        get_alerts: "Get Alerts"
+        get_alerts: "Get Alerts",
+        back: "Back",
+        item_name: "Item Name",
+        item_description: "Item Description",
+        picture: "Picture",
+        camera: "Camera",
+        use_picture: "Use Picture",
+        comments: "Comments",
+        comment: "Comment",
+        share: "Share"
     });
 
 
@@ -250,7 +271,16 @@
         settings: "Ajustes",
         logout: "Salir",
         login: "Login",
-        get_alerts: "Recibir Alertas"
+        get_alerts: "Recibir Alertas",
+        back: "Atras",
+        item_name: "Nombre",
+        item_description: "Descripcion",
+        picture: "Imagen",
+        camera: "Camara",
+        use_picture: "Usar Imagen",
+        comments: "Comentarios",
+        comment: "Comentar",
+        share: "Compartir"
     });
 
     $translateProvider.translations('eu', {
@@ -261,7 +291,16 @@
         settings: "Ezarpenak",
         logout: "Irten",
         login: "Login",
-        get_alerts: "Alertak Jaso"
+        get_alerts: "Alertak Jaso",
+        back: "Itzuli",
+        item_name: "Izena",
+        item_description: "Deskribapena",
+        picture: "Irudia",
+        camera: "Kamera",
+        use_picture: "Erabili Irudia",
+        comments: "Iruzkin",
+        comment: "Iruzkinak",
+        share: "Elkarbanatu"
     });
 
 

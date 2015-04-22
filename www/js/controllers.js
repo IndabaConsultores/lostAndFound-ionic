@@ -1,6 +1,6 @@
 angular.module('lf.controllers', [])
 
-.controller('AppCtrl', function($scope,$state,$rootScope,$ionicPopup,$ionicModal,$timeout) {
+.controller('AppCtrl', function($scope,$state,$rootScope,$ionicPopup,$ionicModal,$timeout,$translate) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -67,6 +67,7 @@ angular.module('lf.controllers', [])
         $rootScope.hideLoading();
         $scope.loginData = {};
         $rootScope.currentUser = user;
+        $translate.use(user.get("language"));
         $state.go('app.foundItems');
       },
       error: function(user, error) {
@@ -451,9 +452,21 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('SettingsCtrl', function($scope,$translate){
+.controller('SettingsCtrl', function($scope,$rootScope,$translate){
 
-    $translate.use("eu");
+    $scope.settings = {
+      language : $rootScope.currentUser.get("language"),
+      alerts: $rootScope.currentUser.get("alerts")
+    };
+
+
+    $scope.saveSettings = function(){
+      console.log($scope.settings);
+      $rootScope.currentUser.set("language",$scope.settings.language);
+      $rootScope.currentUser.set("alerts", $scope.settings.alerts);
+      $rootScope.currentUser.save();
+      $translate.use($scope.settings.language);
+    };
   
 })
 
