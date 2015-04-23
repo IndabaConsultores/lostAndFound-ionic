@@ -209,3 +209,20 @@ a.autolinker {
 .loader .ion-loading-c {
   font-size: 64px;
 }
+
+@media (min-width: 680px){
+  .modal{
+    top:44px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% ;
+  }
+}
+
+.modal{
+  top: 44px;
+}
+
+.item-avatar.settings{ padding:0; text-align: center;}
+.profile_avatar img{ max-width: 30%;}

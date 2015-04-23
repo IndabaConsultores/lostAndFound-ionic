@@ -6,7 +6,7 @@
 
   angular.module('starter', ['ionic','pascalprecht.translate','angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -38,9 +38,11 @@
             }, null);
         }else{
           $translate.use("en");
+          amMoment.changeLocale("en");
         }
       }else{
         $translate.use($rootScope.currentUser.get("language"));
+        amMoment.changeLocale($rootScope.currentUser.get("language"));
       }
 
        $rootScope.languages = [
@@ -132,7 +134,6 @@
         });
       }
   })
-
 
   .constant('angularMomentConfig', {
 //    preprocess: 'unix', // optional
@@ -238,9 +239,7 @@
         }
       });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/found_items');
-
-   
+    $urlRouterProvider.otherwise('/app/found_items');   
 
     $translateProvider.translations('en', {
         found_items: "Found Items",
@@ -259,7 +258,8 @@
         use_picture: "Use Picture",
         comments: "Comments",
         comment: "Comment",
-        share: "Share"
+        share: "Share",
+        language: "Language"
     });
 
 
@@ -280,7 +280,8 @@
         use_picture: "Usar Imagen",
         comments: "Comentarios",
         comment: "Comentar",
-        share: "Compartir"
+        share: "Compartir",
+        language: "Idioma"
     });
 
     $translateProvider.translations('eu', {
@@ -300,13 +301,9 @@
         use_picture: "Erabili Irudia",
         comments: "Iruzkin",
         comment: "Iruzkinak",
-        share: "Elkarbanatu"
+        share: "Elkarbanatu",
+        language: "Hizkuntza"
     });
-
-
     $translateProvider.preferredLanguage("en");
     $translateProvider.fallbackLanguage("en");
-
-
   });
-

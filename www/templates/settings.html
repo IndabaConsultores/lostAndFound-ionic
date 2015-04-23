@@ -5,16 +5,21 @@
   <ion-content class="has-header">
 
 	<ul class="list">
-		<li class="item item-avatar">
-	      <img src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url" />
-          <img src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url" />
+		<li class="item item-avatar settings">
+		  <div class="profile_avatar">
+		  	<img src="data:image/jpg;base64, {{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()" />
+		  	<img src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url && !imageBase64" ng-click="showPopup()" />
+	        <img src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url && !imageBase64" />
+	        <i class="ion-edit"></i>
+		  </div>
+	      
 	      <h2>{{currentUser.attributes.username}}</h2>
 	      <p>{{currentUser.attributes.email}}</p>
 	    </a>
 
 
 	  <li class="item item-toggle">
-	     Get Alerts
+	     {{'get_alerts' | translate}}
 	     <label class="toggle toggle-assertive">
 	       <input type="checkbox" ng-checked="settings.alerts" ng-model="settings.alerts">
 	       <div class="track">
@@ -25,7 +30,7 @@
 
 	  <label class="item item-input item-select">
 	    <div class="input-label">
-	      Language
+	      {{'language' | translate}}
 	    </div>
 	    <select ng-model="settings.language">
 	      <option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.attributes.language">{{language.name}}</option>
