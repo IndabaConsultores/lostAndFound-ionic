@@ -293,7 +293,17 @@ angular.module('lf.controllers', [])
 
 })
 
-.controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,CameraService,ItemService) {
+.controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService) {
+
+  $scope.showPopup = function() {
+      $ionicModal.fromTemplateUrl('templates/use_camera.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+      });
+  };
 
 
 
@@ -342,12 +352,7 @@ angular.module('lf.controllers', [])
 
 
   var Item = Parse.Object.extend("Item");
-
   $scope.newalert = {};
-
-
-
-
 
   $scope.useCamera = function(){
       /*
@@ -358,10 +363,10 @@ angular.module('lf.controllers', [])
         destinationType: navigator.camera.DestinationType.DATA_URL 
       };
 
-
       CameraService.getPicture(options)
         .then(function(imageURI) {
               $scope.imageBase64 = imageURI;
+              $scope.modal.hide();
         }, function(err) {
             alert(err);
         });
@@ -378,11 +383,10 @@ angular.module('lf.controllers', [])
         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
       };
 
-      console.log(options);
-
       CameraService.getPicture(options)
         .then(function(imageURI) {
               $scope.imageBase64 = imageURI;
+              $scope.modal.hide();
         }, function(err) {
             alert(err);
         });
@@ -449,7 +453,7 @@ angular.module('lf.controllers', [])
 
 
 
-.controller('SettingsCtrl', function($scope,$rootScope,$translate,$ionicPopup,$ionicModal,amMoment,CameraService){
+.controller('SettingsCtrl', function($scope,$rootScope,$translate,$ionicModal,amMoment,CameraService){
 
     $scope.settings = {
       language : $rootScope.currentUser.get("language"),
@@ -458,7 +462,7 @@ angular.module('lf.controllers', [])
 
 
     $scope.saveSettings = function(){
-      console.log($scope.settings);
+      $rootScope.showLoading();
       $rootScope.currentUser.set("language",$scope.settings.language);
       $rootScope.currentUser.set("alerts", $scope.settings.alerts);
       if($scope.imageBase64){
@@ -466,63 +470,53 @@ angular.module('lf.controllers', [])
           parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
           $rootScope.currentUser.set("avatar",parseFile);
       }
-      $rootScope.currentUser.save();
-      $translate.use($scope.settings.language);
-      amMoment.changeLocale($scope.settings.language);
+      $rootScope.currentUser.save(null, {
+          success:function(ob) {
+            $translate.use($scope.settings.language);
+            amMoment.changeLocale($scope.settings.language);
+            $rootScope.hideLoading();
+          }, 
+          error:function(e) {
+            $rootScope.hideLoading();
+            alert("error");
+            console.log("Oh crap", e);
+        }
+      });
     };
 
 
     $scope.showPopup = function() {
-
-      $ionicModal.fromTemplateUrl('templates/use_camera.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        $scope.modal = modal;
-        $scope.modal.show();
-      });
-
-
-
-
-
-      /*
-     $scope.data = {}
-      var myPopup = $ionicPopup.show({
-          title: 'Add a photo',
-          subTitle: 'Choose from Camera or Gallery',
+        $ionicModal.fromTemplateUrl('templates/use_camera.html', {
           scope: $scope,
-          buttons: [
-            {
-              text: '<i class="icon ion-camera"></i>',
-              type: 'button-stable',
-              onTap: function(e) {
-                  $scope.capturePhoto();
-                  return;
-                }
-            },
-            {
-              text: '<i class="icon ion-image"></i>',
-              type: 'button-stable',
-              onTap: function(e) {
-                $scope.chooseFromGallery();
-                return;
-              }
-            }
-          ]
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+          $scope.modal.show();
         });
-        myPopup.then(function(res) {
-          console.log('Tapped!', res);
-        });
-    */
+    };
+
+    $scope.useCamera = function(){
+      var options = {
+        quality: 50,
+        destinationType: navigator.camera.DestinationType.DATA_URL 
       };
 
-      $scope.camera = function(){
-        var options = {
-          quality: 50,
-          destinationType: navigator.camera.DestinationType.DATA_URL 
-        };
 
+      CameraService.getPicture(options)
+        .then(function(imageURI) {
+              $scope.imageBase64 = imageURI;
+              $scope.modal.hide();
+        }, function(err) {
+            alert(err);
+        });
+    };
+
+    $scope.usePicture = function(){
+       var options = {
+          quality: 50,
+          destinationType: navigator.camera.DestinationType.DATA_URL,
+          sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+        };
 
         CameraService.getPicture(options)
           .then(function(imageURI) {
@@ -530,28 +524,8 @@ angular.module('lf.controllers', [])
                 $scope.modal.hide();
           }, function(err) {
               alert(err);
-          });
-      };
-
-      $scope.file = function(){
-         var options = {
-            quality: 50,
-            destinationType: navigator.camera.DestinationType.DATA_URL,
-            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-          };
-
-          console.log(options);
-
-          CameraService.getPicture(options)
-            .then(function(imageURI) {
-                  $scope.imageBase64 = imageURI;
-                  $scope.modal.hide();
-            }, function(err) {
-                alert(err);
-            });
-
-      };
-
+        });
+    };
 })
 
 
