@@ -81,9 +81,6 @@ angular.module('lf.controllers', [])
     }); 
 
 
-
-    console.log('Doing login', $scope.loginData);
-
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
@@ -105,13 +102,9 @@ angular.module('lf.controllers', [])
         user.set("password", $scope.newuser.password);
         user.set("email", $scope.newuser.email);
          
-        // other fields can be set just like with Parse.Object
-        // user.set("phone", "415-392-0202");
-         
         user.signUp(null, {
           success: function(user) {
             $rootScope.hideLoading();
-            console.log(user);
             $scope.newuser = {};
             $rootScope.currentUser = user;
             var alertPopup = $ionicPopup.alert({
@@ -136,8 +129,6 @@ angular.module('lf.controllers', [])
 
 
 .controller('FoundItemsCtrl', function($scope,$rootScope,ItemService,OfficeService){
-
-
   $scope.listSetUp = function(){
     if($rootScope.founditems_collection && $rootScope.category_collection){
 
@@ -181,8 +172,6 @@ angular.module('lf.controllers', [])
   if($rootScope.alert_collection){
       $scope.item = $rootScope.alert_collection.get($stateParams.item);
 
-      console.log($scope.item);
-
       if($scope.item.get("alertLocation")){
           
           $scope.map = L.map('alertmap',{ tap:true }).setView([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude], 14);
@@ -194,7 +183,6 @@ angular.module('lf.controllers', [])
           $scope.marker = L.marker([$scope.item.get("alertLocation")._latitude, $scope.item.get("alertLocation")._longitude]).addTo($scope.map);
       }
   }
-  
 
   OfficeService.getMessageCount($stateParams.item, function(error,data){
     $rootScope.hideLoading();
@@ -230,7 +218,7 @@ angular.module('lf.controllers', [])
 })
 
 
-.controller('MessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,OfficeService){
+.controller('MessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,$ionicModal,OfficeService){
 
   
 
@@ -261,7 +249,17 @@ angular.module('lf.controllers', [])
         $scope.getMessages();
         $ionicScrollDelegate.scrollBottom(true);
       });
-  }
+  };
+
+  $scope.showPopup = function() {
+      $ionicModal.fromTemplateUrl('templates/use_camera.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+      });
+  };
 
   $scope.getMessages();
 
@@ -447,19 +445,12 @@ angular.module('lf.controllers', [])
 })
 
 
-
-
-
-
-
-
 .controller('SettingsCtrl', function($scope,$rootScope,$translate,$ionicModal,amMoment,CameraService){
 
     $scope.settings = {
       language : $rootScope.currentUser.get("language"),
       alerts: $rootScope.currentUser.get("alerts")
     };
-
 
     $scope.saveSettings = function(){
       $rootScope.showLoading();
@@ -527,7 +518,6 @@ angular.module('lf.controllers', [])
         });
     };
 })
-
 
 .controller('InfoCtrl', function($scope){
 

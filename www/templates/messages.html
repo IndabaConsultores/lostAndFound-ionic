@@ -2,6 +2,9 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button ng-click="showPopup()" class="button button-icon icon ion-paperclip"></button>
+  </ion-nav-buttons>
   <ion-content class="has-header has-footer" has-bouncing="true">
 
 	<h2 ng-if="messages.length == 0">No hay mensajes</h2>
@@ -14,6 +17,7 @@
 
 	      <div class="chat-bubble left">
 
+	      	 <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
