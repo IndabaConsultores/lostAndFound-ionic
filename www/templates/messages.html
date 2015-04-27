@@ -13,11 +13,11 @@
 	<div ng-repeat="message in messages" class="message-wrapper">
 	  <div ng-if="currentUser.id !== message.attributes.sender.id">
 	    <img class="profile-pic left" 
-	          ng-src="{{message.attributes.sender.attributes.avatar._url}}"  />
+	          ng-src="{{message.attributes.sender.attributes.avatar._url}}" />
 
 	      <div class="chat-bubble left">
 
-	      	 <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail" />
+	      	 <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"  ng-click="showPicture(message.attributes.picture._url)" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
@@ -36,7 +36,7 @@
 	          ng-src="{{message.attributes.sender.attributes.avatar._url}}"  />
 
 	      <div class="chat-bubble right">
-
+	      	  <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"   ng-click="showPicture(message.attributes.picture._url)" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
@@ -90,15 +90,4 @@
 	      </div>
 	  </ion-footer-bar>
 	</form>
-
-
-  <!--
-  <div class="bar bar-footer" ng-if="currentUser">
-	    <input type="search" ng-model="msg.text" placeholder="Texto" style="width:100%; height:30px; padding-top:0; border: 1px solid grey;">
-	  	<button class="button button-outline button-positive pull-right" ng-click="sendMessage()">Send</button>
-  </div>
-
-	-->
-
-
 </ion-view>

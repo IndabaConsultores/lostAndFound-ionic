@@ -92,6 +92,7 @@ angular.module('lf.services.office', [])
                     Item = Parse.Object.extend('Item'),
                     item = new Item(),
                     query = new Parse.Query(Message);
+                    query.ascending("createdAt");
 
 
                 item.id = item_id;
@@ -130,8 +131,33 @@ angular.module('lf.services.office', [])
                     cb(error,null);
                   }
                 });
+            },
+
+            postPictureOnMessage: function(pict,item_id,cb){
+
+                var Message = Parse.Object.extend("Message"),
+                    Item = Parse.Object.extend("Item"),
+                    User = Parse.Object.extend("User"),
+                    item = new Item(),
+                    user = new User(),
+                    message = new Message();
+
+                item.id = item_id;
+                user.id = $rootScope.currentUser.id;
+                message.set("item", item);
+                message.set("picture",pict);
+                message.set("sender", user);
+
+                message.save(null, {
+                  success: function(message) {
+                    cb(null,message);
+                  },
+                  error: function(message, error) {
+                    cb(error,null);
+                  }
+                });
+
             }
-            
         }
-        return  service;
+        return service;
     });
