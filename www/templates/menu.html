@@ -14,8 +14,8 @@
     <ion-content class="has-header">
       <ion-list>
         <ion-item nav-clear ng-if="currentUser">
-          <img class="avatar" src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url" />
-          <img class="avatar" src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url" />
+          <img class="avatar" ng-src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url" />
+          <img class="avatar" ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url" />
            <p>{{currentUser.attributes.username}}</p>
         </ion-item>
 

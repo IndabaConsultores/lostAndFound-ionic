@@ -16,7 +16,7 @@
                 {{ category.category }}
             </div>
             <a class="item item-thumbnail-left" ng-repeat="item in category.items" href="#/app/found_items/{{item.id}}">
-                <img src="{{item.attributes.thumbnail._url}}">
+                <img ng-src="{{item.attributes.thumbnail._url}}">
                 <h2>{{ item.attributes.name }}</h2>
                 <p am-time-ago="item.createdAt"></p>
             </a>

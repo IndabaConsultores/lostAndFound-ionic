@@ -5,14 +5,14 @@
       <div class="list card">
 
       <div class="item item-avatar">
-        <img src="{{item.attributes.createdBy.attributes.avatar._url}}">
+        <img ng-src="{{item.attributes.createdBy.attributes.avatar._url}}">
         <h2>{{item.attributes.createdBy.attributes.username}}</h2>
         <p>{{item.createdAt | amDateFormat: 'MMMM D, YYYY' }}</p>
       </div>
 
       <div class="item item-body">
         <h2>{{item.attributes.name}}</h2>
-        <img class="full-image" src="{{item.attributes.picture._url}}">
+        <img class="full-image" ng-src="{{item.attributes.picture._url}}">
 
         <label class="item item-input item-stacked-label">
           <!-- <map on-create="mapCreated(map)"></map> -->

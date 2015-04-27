@@ -11,7 +11,7 @@
             <h2>Empty list</h2>
         </div>
         <a class="item item-thumbnail-left" collection-repeat="item in items" href="#/app/alerts/{{item.id}}" >
-            <img src="{{item.attributes.thumbnail._url}}">
+            <img ng-src="{{item.attributes.thumbnail._url}}">
             <h2>{{item.attributes.name}}</h2>
             <p am-time-ago="item.createdAt"></p>
         </a>

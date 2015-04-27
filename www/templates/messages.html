@@ -17,7 +17,7 @@
 
 	      <div class="chat-bubble left">
 
-	      	 <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"  ng-click="showPicture(message.attributes.picture._url)" />
+	      	 <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"  ng-click="showPicture(message.attributes.picture._url)" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
@@ -36,7 +36,7 @@
 	          ng-src="{{message.attributes.sender.attributes.avatar._url}}"  />
 
 	      <div class="chat-bubble right">
-	      	  <img src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"   ng-click="showPicture(message.attributes.picture._url)" />
+	      	  <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"   ng-click="showPicture(message.attributes.picture._url)" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
@@ -48,34 +48,11 @@
 	      </div>
 	  </div>
 
-
-
-
-
 	  <div class="cf"></div>
 
 
 	</div>
 
-
-
-
-
-<!--
-	<div class="list">
-
-
-	<a class="item item-avatar white-space-normal" href="#" ng-repeat="message in messages">
-		{{message.attributes.sender.id}}
-		{{currentUser.id}}
-		<img src="{{message.attributes.sender.attributes.avatar._url}}" />
-		<h2>{{message.attributes.sender.attributes.username}}</h2>
-		<p am-time-ago="message.createdAt"></p>
-		<p>{{message.attributes.text}}</p>
-	</a>
-
-</div>
--->
   </ion-content>
 
   <form name="sendMessageForm" ng-submit="sendMessage()" novalidate>
