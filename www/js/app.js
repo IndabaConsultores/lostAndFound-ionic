@@ -6,7 +6,7 @@
 
   angular.module('starter', ['ionic','pascalprecht.translate','angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment,constants) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -19,11 +19,7 @@
       }
 
 
-      var APP_ID = 'rLLNluRNBUF8oE80COn93iypqnJowLhHeij4w1jT';
-      var JS_KEY = 'Ibs97GtVmHrVaM9vp68pGCYdOSNDjig5jrARo3L8';
-      var FB_APP_ID = '1613742718862649';
-
-      Parse.initialize(APP_ID, JS_KEY);
+      Parse.initialize(constants.APP_ID, constants.JS_KEY);
 
       $rootScope.currentUser = Parse.User.current();
 
@@ -57,7 +53,7 @@
 
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({ // this line replaces FB.init({
-          appId      : FB_APP_ID, // Facebook App ID
+          appId      : constants.FB_APP_ID, // Facebook App ID
           status     : true,  // check Facebook Login status
           cookie     : true,  // enable cookies to allow Parse to access the session
           xfbml      : true,  // initialize Facebook social plugins on the page
@@ -259,7 +255,14 @@
         comments: "Comments",
         comment: "Comment",
         share: "Share",
-        language: "Language"
+        language: "Language",
+        username: "Username",
+        password: "Password",
+        email: "Email",
+        create_account: "Create Account",
+        cancel: "Cancel",
+        choose_from_camera_or_gallery: "Choose from camera or gallery",
+        sign_up: "Sign up"
     });
 
 
@@ -281,7 +284,14 @@
         comments: "Comentarios",
         comment: "Comentar",
         share: "Compartir",
-        language: "Idioma"
+        language: "Idioma",
+        username: "Nombre de usuario",
+        password: "Contraseña",
+        email: "Email",
+        create_account: "Crear Cuenta",
+        cancel: "Cancelar",
+        choose_from_camera_or_gallery: "Desde la camara o galeria",
+        sign_up: "Darse de alta"
     });
 
     $translateProvider.translations('eu', {
@@ -302,7 +312,14 @@
         comments: "Iruzkin",
         comment: "Iruzkinak",
         share: "Elkarbanatu",
-        language: "Hizkuntza"
+        language: "Hizkuntza",
+        username: "Erabiltzailea",
+        password: "Pasahitza",
+        email: "Emaila",
+        create_account: "Kontua Sortu",
+        cancel: "Utzi",
+        choose_from_camera_or_gallery: "Kamaratik edo argazki galeriatik aukeratu",
+        sign_up: "Alta eman"
     });
     $translateProvider.preferredLanguage("en");
     $translateProvider.fallbackLanguage("en");

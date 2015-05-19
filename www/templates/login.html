@@ -9,11 +9,11 @@
     <form ng-submit="doLogin()">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Username</span>
+          <span class="input-label">{{'username' | translate}}</span>
           <input type="text" ng-model="loginData.username">
         </label>
         <label class="item item-input">
-          <span class="input-label">Password</span>
+          <span class="input-label">{{'password' | translate}}</span>
           <input type="password" ng-model="loginData.password">
         </label>
         <label class="item">
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col col-25"><button class="button button-block button-facebook" ng-click="fblogin()"><i class="ion-social-facebook"></i></button></div>
             <!-- <div class="col col-25"><button class="button button-block button-twitter"><i class="ion-social-twitter"></i></button></div> -->
-            <div class="col col-75"><button class="button button-block button-stable" ng-click="signup()">Sign Up</button></div>
+            <div class="col col-75"><button class="button button-block button-stable" ng-click="signup()">{{'sign_up' | translate}}</button></div>
         </div>
       </div>
     

@@ -2,20 +2,19 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-<ion-content class="has-header">
-    <ion-refresher on-refresh="doRefresh()">
-                     
-      </ion-refresher>
-    <div class="list">
-        <div class="item" ng-if="items.length < 1">
-            <h2>Empty list</h2>
+    <ion-content class="has-header">
+        <ion-refresher on-refresh="doRefresh()">
+                         
+        </ion-refresher>
+        <div class="list">
+            <div class="item" ng-if="items.length < 1">
+                <h2>Empty list</h2>
+            </div>
+            <a class="item item-thumbnail-left" collection-repeat="item in items" href="#/app/alerts/{{item.id}}" >
+                <img ng-src="{{item.attributes.thumbnail._url}}">
+                <h2>{{item.attributes.name}}</h2>
+                <p am-time-ago="item.createdAt"></p>
+            </a>
         </div>
-        <a class="item item-thumbnail-left" collection-repeat="item in items" href="#/app/alerts/{{item.id}}" >
-            <img ng-src="{{item.attributes.thumbnail._url}}">
-            <h2>{{item.attributes.name}}</h2>
-            <p am-time-ago="item.createdAt"></p>
-        </a>
-    </div>
-        
-</ion-content>
+    </ion-content>
 </ion-view>
