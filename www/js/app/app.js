@@ -147,7 +147,7 @@
       .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "js/app/components/main/main.html",
+        templateUrl: "js/app/components/main/menu.html",
         controller: 'AppCtrl'
       })
 
@@ -210,6 +210,7 @@
           }
         }
       })
+      
       .state('app.info', {
         url: '/info',
         views: {
