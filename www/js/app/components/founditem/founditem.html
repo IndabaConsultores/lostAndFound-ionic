@@ -1,0 +1,41 @@
+<ion-view title="{{item.name}}">
+  <ion-content class="has-header">
+      
+      <div class="list card">
+
+      <div class="item item-avatar">
+        <img ng-src="{{item.attributes.createdBy.attributes.avatar._url}}">
+        <h2>{{item.attributes.createdBy.attributes.username}}</h2>
+        <p>{{item.createdAt | amDateFormat: 'MMMM D, YYYY' }}</p>
+      </div>
+
+      <div class="item item-body">
+        <h2>{{item.attributes.name}}</h2>
+        <img class="full-image" ng-src="{{item.attributes.picture._url}}">
+
+       
+        
+        <p>
+          {{item.attributes.description}}
+        </p>
+        <p>
+          <a href="#" class="subdued">1 Like</a>
+          <a href="#/app/found_items/messages/{{item.id}}" class="subdued">{{messages}} {{"comments" | translate}}</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        
+        <a class="tab-item" href="#/app/found_items/messages/{{item.id}}">
+          <i class="icon ion-chatbox"></i>
+          {{"comment" | translate}}
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          {{"share" | translate}}
+        </a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

@@ -4,7 +4,15 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('starter', ['ionic','pascalprecht.translate','angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
+  angular.module('lf', ['ionic',
+                             'pascalprecht.translate',
+                             'angularMoment',
+                             'nl2br',
+                             'lf.services.office', 
+                             'lf.services.category',
+                             'lf.services.item',
+                             'lf.directives.map',
+                             'lf.services.camera'])
 
   .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment,constants) {
     $ionicPlatform.ready(function() {
@@ -76,9 +84,7 @@
           'models': []
       };
 
-
-      initAppInfo();
-      
+      initAppInfo();    
 
       $rootScope.showLoading = function()  {
        $ionicLoading.show({template: 'Loading...',noBackdrop:true});
@@ -96,7 +102,6 @@
             $rootScope.office = office;
 
             // bulk loading of data
-
             async.parallel([
               function(cb){
                 CategoryService.fetch(function(error,collection){
@@ -142,7 +147,7 @@
       .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "templates/menu.html",
+        templateUrl: "js/app/components/main/main.html",
         controller: 'AppCtrl'
       })
 
@@ -150,7 +155,7 @@
         url: "/found_items",
         views: {
           'menuContent' :{
-            templateUrl: "templates/found_items.html",
+            templateUrl: "js/app/components/founditems/founditems.html",
             controller: 'FoundItemsCtrl'
           }
         }
@@ -159,8 +164,8 @@
       .state('app.item', {
         url: "/found_items/:item",
         views: {
-          'menuContent' :{
-            templateUrl: "templates/item.html",
+          'menuContent': {
+            templateUrl: "js/app/components/founditem/founditem.html",
             controller: 'FoundItemCtrl'
           }
         }
@@ -170,7 +175,7 @@
         url: "/found_items/messages/:item",
         views: {
           'menuContent': {
-            templateUrl: "templates/messages.html",
+            templateUrl: "js/app/components/message/message.html",
             controller: 'MessageCtrl'
           }
         }
@@ -180,7 +185,7 @@
         url: "/alerts",
         views: {
           'menuContent' :{
-            templateUrl: "templates/alerts.html",
+            templateUrl: "js/app/components/alerts/alerts.html",
             controller: "AlertsCtrl"
           }
         }
@@ -190,7 +195,7 @@
         url: "/alerts/:item",
         views: {
           'menuContent' :{
-            templateUrl: "templates/item.html",
+            templateUrl: "js/app/components/alertitem/alertitem.html",
             controller: 'AlertItemCtrl'
           }
         }
@@ -200,7 +205,7 @@
         url: "/launch_alert",
         views: {
           'menuContent' :{
-            templateUrl: "templates/launch_alert.html",
+            templateUrl: "js/app/components/launchalert/launchalert.html",
             controller: 'LaunchAlertCtrl'
           }
         }
@@ -209,7 +214,7 @@
         url: '/info',
         views: {
           'menuContent' :{
-            templateUrl: 'templates/info.html',
+            templateUrl: 'js/app/components/info/info.html',
             controller: 'InfoCtrl'
           }
         }
@@ -219,7 +224,7 @@
         url: '/settings',
         views: {
           'menuContent': {
-            templateUrl: 'templates/settings.html',
+            templateUrl: 'js/app/components/settings/settings.html',
             controller: 'SettingsCtrl' 
           }
         }
@@ -229,7 +234,7 @@
         url: "/signup",
         views: {
           'menuContent' :{
-            templateUrl: "templates/signup.html",
+            templateUrl: "js/app/components/signup/signup.html",
             controller: 'SignUpCtrl'
           }
         }
