@@ -1,6 +1,6 @@
 angular.module('lf')
 
-.controller('AppCtrl', function($scope,$state,$rootScope,$ionicPopup,$ionicModal,$timeout,$translate) {
+.controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$ionicModal,$timeout,$translate) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -13,6 +13,7 @@ angular.module('lf')
 
   $scope.logout = function() {
     Parse.User.logOut();
+    $ionicHistory.clearCache();
     $rootScope.currentUser = null;
     $state.go('app.foundItems');
   };
