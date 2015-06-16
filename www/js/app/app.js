@@ -87,7 +87,7 @@
       initAppInfo();    
 
       $rootScope.showLoading = function()  {
-       $ionicLoading.show({template: 'Loading...',noBackdrop:true});
+       $ionicLoading.show({ template: 'Loading...', noBackdrop:true });
       };
 
       $rootScope.hideLoading = function()  {
@@ -97,7 +97,7 @@
     });
 
     function initAppInfo() {
-        $ionicLoading.show({template: 'Iniciando aplicacion...',noBackdrop:true});
+        $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
         OfficeService.loadOffice(function(error,office){
             $rootScope.office = office;
 
@@ -141,7 +141,7 @@
       timezone: 'Europe/Madrid' // optional
   })
 
-  .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
       .state('app', {
@@ -241,92 +241,6 @@
         }
       });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/found_items');   
+    $urlRouterProvider.otherwise('/app/found_items');
 
-    $translateProvider.translations('en', {
-        found_items: "Found Items",
-        alerts: "Alerts",
-        launch_alert: "Launch Alert",
-        info: "Info",
-        settings: "Settings",
-        logout: "Logout",
-        login: "Login",
-        get_alerts: "Get Alerts",
-        back: "Back",
-        item_name: "Item Name",
-        item_description: "Item Description",
-        picture: "Picture",
-        camera: "Camera",
-        use_picture: "Use Picture",
-        comments: "Comments",
-        comment: "Comment",
-        share: "Share",
-        language: "Language",
-        username: "Username",
-        password: "Password",
-        email: "Email",
-        create_account: "Create Account",
-        cancel: "Cancel",
-        choose_from_camera_or_gallery: "Choose from camera or gallery",
-        sign_up: "Sign up"
-    });
-
-
-    $translateProvider.translations('es', {
-        found_items: "Encontrados",
-        alerts: "Alertas",
-        launch_alert: "Crear Alerta",
-        info: "Informacion",
-        settings: "Ajustes",
-        logout: "Salir",
-        login: "Login",
-        get_alerts: "Recibir Alertas",
-        back: "Atras",
-        item_name: "Nombre",
-        item_description: "Descripcion",
-        picture: "Imagen",
-        camera: "Camara",
-        use_picture: "Usar Imagen",
-        comments: "Comentarios",
-        comment: "Comentar",
-        share: "Compartir",
-        language: "Idioma",
-        username: "Nombre de usuario",
-        password: "Contraseña",
-        email: "Email",
-        create_account: "Crear Cuenta",
-        cancel: "Cancelar",
-        choose_from_camera_or_gallery: "Desde la camara o galeria",
-        sign_up: "Darse de alta"
-    });
-
-    $translateProvider.translations('eu', {
-        found_items: "Aurkitutakoak",
-        alerts: "Alertak",
-        launch_alert: "Alerta Berria",
-        info: "Informazioa",
-        settings: "Ezarpenak",
-        logout: "Irten",
-        login: "Login",
-        get_alerts: "Alertak Jaso",
-        back: "Itzuli",
-        item_name: "Izena",
-        item_description: "Deskribapena",
-        picture: "Irudia",
-        camera: "Kamera",
-        use_picture: "Erabili Irudia",
-        comments: "Iruzkin",
-        comment: "Iruzkinak",
-        share: "Elkarbanatu",
-        language: "Hizkuntza",
-        username: "Erabiltzailea",
-        password: "Pasahitza",
-        email: "Emaila",
-        create_account: "Kontua Sortu",
-        cancel: "Utzi",
-        choose_from_camera_or_gallery: "Kamaratik edo argazki galeriatik aukeratu",
-        sign_up: "Alta eman"
-    });
-    $translateProvider.preferredLanguage("en");
-    $translateProvider.fallbackLanguage("en");
   });
