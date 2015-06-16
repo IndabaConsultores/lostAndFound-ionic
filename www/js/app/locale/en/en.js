@@ -19,6 +19,7 @@ angular.module('lf')
 		        use_picture: "Use Picture",
 		        comments: "Comments",
 		        comment: "Comment",
+		        messages: "Messages",
 		        share: "Share",
 		        language: "Language",
 		        username: "Username",

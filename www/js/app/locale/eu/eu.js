@@ -19,6 +19,7 @@ angular.module('lf')
 		        use_picture: "Erabili Irudia",
 		        comments: "Iruzkin",
 		        comment: "Iruzkinak",
+		        messages: "Iruzkinak",
 		        share: "Elkarbanatu",
 		        language: "Hizkuntza",
 		        username: "Erabiltzailea",

@@ -1,5 +1,5 @@
 angular.module('lf')
-.controller('SettingsCtrl', function($scope,$rootScope,$translate,$ionicModal,amMoment,CameraService){
+.controller('SettingsCtrl', function($scope,$rootScope,$ionicHistory,$translate,$ionicModal,amMoment,CameraService){
 
     $scope.settings = {
       language : $rootScope.currentUser.get("language"),
@@ -8,6 +8,7 @@ angular.module('lf')
 
     $scope.saveSettings = function(){
       $rootScope.showLoading();
+      $ionicHistory.clearCache();
       $rootScope.currentUser.set("language",$scope.settings.language);
       $rootScope.currentUser.set("alerts", $scope.settings.alerts);
       if($scope.imageBase64){
