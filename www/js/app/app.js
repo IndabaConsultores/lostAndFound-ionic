@@ -4,7 +4,15 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('starter', ['ionic','pascalprecht.translate','angularMoment','nl2br', 'lf.controllers', 'lf.services.office', 'lf.services.category','lf.services.item','lf.directives.map','lf.services.camera'])
+  angular.module('lf', ['ionic',
+                             'pascalprecht.translate',
+                             'angularMoment',
+                             'nl2br',
+                             'lf.services.office', 
+                             'lf.services.category',
+                             'lf.services.item',
+                             'lf.directives.map',
+                             'lf.services.camera'])
 
   .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment,constants) {
     $ionicPlatform.ready(function() {
@@ -76,12 +84,10 @@
           'models': []
       };
 
-
-      initAppInfo();
-      
+      initAppInfo();    
 
       $rootScope.showLoading = function()  {
-       $ionicLoading.show({template: 'Loading...',noBackdrop:true});
+       $ionicLoading.show({ template: 'Loading...', noBackdrop:true });
       };
 
       $rootScope.hideLoading = function()  {
@@ -91,12 +97,11 @@
     });
 
     function initAppInfo() {
-        $ionicLoading.show({template: 'Iniciando aplicacion...',noBackdrop:true});
+        $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
         OfficeService.loadOffice(function(error,office){
             $rootScope.office = office;
 
             // bulk loading of data
-
             async.parallel([
               function(cb){
                 CategoryService.fetch(function(error,collection){
@@ -136,13 +141,13 @@
       timezone: 'Europe/Madrid' // optional
   })
 
-  .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
       .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "templates/menu.html",
+        templateUrl: "js/app/components/main/menu.html",
         controller: 'AppCtrl'
       })
 
@@ -150,7 +155,7 @@
         url: "/found_items",
         views: {
           'menuContent' :{
-            templateUrl: "templates/found_items.html",
+            templateUrl: "js/app/components/founditems/founditems.html",
             controller: 'FoundItemsCtrl'
           }
         }
@@ -159,8 +164,8 @@
       .state('app.item', {
         url: "/found_items/:item",
         views: {
-          'menuContent' :{
-            templateUrl: "templates/item.html",
+          'menuContent': {
+            templateUrl: "js/app/components/founditem/founditem.html",
             controller: 'FoundItemCtrl'
           }
         }
@@ -170,7 +175,7 @@
         url: "/found_items/messages/:item",
         views: {
           'menuContent': {
-            templateUrl: "templates/messages.html",
+            templateUrl: "js/app/components/message/message.html",
             controller: 'MessageCtrl'
           }
         }
@@ -180,7 +185,7 @@
         url: "/alerts",
         views: {
           'menuContent' :{
-            templateUrl: "templates/alerts.html",
+            templateUrl: "js/app/components/alerts/alerts.html",
             controller: "AlertsCtrl"
           }
         }
@@ -190,7 +195,7 @@
         url: "/alerts/:item",
         views: {
           'menuContent' :{
-            templateUrl: "templates/item.html",
+            templateUrl: "js/app/components/alertitem/alertitem.html",
             controller: 'AlertItemCtrl'
           }
         }
@@ -200,16 +205,17 @@
         url: "/launch_alert",
         views: {
           'menuContent' :{
-            templateUrl: "templates/launch_alert.html",
+            templateUrl: "js/app/components/launchalert/launchalert.html",
             controller: 'LaunchAlertCtrl'
           }
         }
       })
+      
       .state('app.info', {
         url: '/info',
         views: {
           'menuContent' :{
-            templateUrl: 'templates/info.html',
+            templateUrl: 'js/app/components/info/info.html',
             controller: 'InfoCtrl'
           }
         }
@@ -219,7 +225,7 @@
         url: '/settings',
         views: {
           'menuContent': {
-            templateUrl: 'templates/settings.html',
+            templateUrl: 'js/app/components/settings/settings.html',
             controller: 'SettingsCtrl' 
           }
         }
@@ -229,98 +235,12 @@
         url: "/signup",
         views: {
           'menuContent' :{
-            templateUrl: "templates/signup.html",
+            templateUrl: "js/app/components/signup/signup.html",
             controller: 'SignUpCtrl'
           }
         }
       });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/found_items');   
+    $urlRouterProvider.otherwise('/app/found_items');
 
-    $translateProvider.translations('en', {
-        found_items: "Found Items",
-        alerts: "Alerts",
-        launch_alert: "Launch Alert",
-        info: "Info",
-        settings: "Settings",
-        logout: "Logout",
-        login: "Login",
-        get_alerts: "Get Alerts",
-        back: "Back",
-        item_name: "Item Name",
-        item_description: "Item Description",
-        picture: "Picture",
-        camera: "Camera",
-        use_picture: "Use Picture",
-        comments: "Comments",
-        comment: "Comment",
-        share: "Share",
-        language: "Language",
-        username: "Username",
-        password: "Password",
-        email: "Email",
-        create_account: "Create Account",
-        cancel: "Cancel",
-        choose_from_camera_or_gallery: "Choose from camera or gallery",
-        sign_up: "Sign up"
-    });
-
-
-    $translateProvider.translations('es', {
-        found_items: "Encontrados",
-        alerts: "Alertas",
-        launch_alert: "Crear Alerta",
-        info: "Informacion",
-        settings: "Ajustes",
-        logout: "Salir",
-        login: "Login",
-        get_alerts: "Recibir Alertas",
-        back: "Atras",
-        item_name: "Nombre",
-        item_description: "Descripcion",
-        picture: "Imagen",
-        camera: "Camara",
-        use_picture: "Usar Imagen",
-        comments: "Comentarios",
-        comment: "Comentar",
-        share: "Compartir",
-        language: "Idioma",
-        username: "Nombre de usuario",
-        password: "Contraseña",
-        email: "Email",
-        create_account: "Crear Cuenta",
-        cancel: "Cancelar",
-        choose_from_camera_or_gallery: "Desde la camara o galeria",
-        sign_up: "Darse de alta"
-    });
-
-    $translateProvider.translations('eu', {
-        found_items: "Aurkitutakoak",
-        alerts: "Alertak",
-        launch_alert: "Alerta Berria",
-        info: "Informazioa",
-        settings: "Ezarpenak",
-        logout: "Irten",
-        login: "Login",
-        get_alerts: "Alertak Jaso",
-        back: "Itzuli",
-        item_name: "Izena",
-        item_description: "Deskribapena",
-        picture: "Irudia",
-        camera: "Kamera",
-        use_picture: "Erabili Irudia",
-        comments: "Iruzkin",
-        comment: "Iruzkinak",
-        share: "Elkarbanatu",
-        language: "Hizkuntza",
-        username: "Erabiltzailea",
-        password: "Pasahitza",
-        email: "Emaila",
-        create_account: "Kontua Sortu",
-        cancel: "Utzi",
-        choose_from_camera_or_gallery: "Kamaratik edo argazki galeriatik aukeratu",
-        sign_up: "Alta eman"
-    });
-    $translateProvider.preferredLanguage("en");
-    $translateProvider.fallbackLanguage("en");
   });
