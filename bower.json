@@ -11,6 +11,7 @@
     "async": "~0.9.2",
     "angular-leaflet-directive": "~0.7.11",
     "angular-moment": "~0.10.0",
-    "angular-nl2br": "~1.0.3"
+    "angular-nl2br": "~1.0.3",
+    "angular-translate": "~2.9.0"
   }
 }
