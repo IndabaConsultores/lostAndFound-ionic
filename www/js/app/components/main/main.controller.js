@@ -63,6 +63,21 @@ angular.module('lf')
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     $rootScope.showLoading();
+
+    $rootScope.ref.authWithPassword({
+      "email": $scope.loginData.username,
+      "password": $scope.loginData.password
+    }, function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        console.log("Authenticated successfully with payload:", authData);
+        $rootScope.currentUser = authData;
+      }
+    });
+
+
+/*
     Parse.User.logIn($scope.loginData.username, $scope.loginData.password, {
       success: function(user) {
         $rootScope.hideLoading();
@@ -80,7 +95,7 @@ angular.module('lf')
          alertPopup.then(function(res) {});
       }
     }); 
-
+*/
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system

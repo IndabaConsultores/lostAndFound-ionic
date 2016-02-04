@@ -4,15 +4,16 @@
   // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
   // the 2nd parameter is an array of 'requires'
 
-  angular.module('lf', ['ionic',
-                             'pascalprecht.translate',
-                             'angularMoment',
-                             'nl2br',
-                             'lf.services.office', 
-                             'lf.services.category',
-                             'lf.services.item',
-                             'lf.directives.map',
-                             'lf.services.camera'])
+  angular.module('lf', [ 'ionic',
+                         'pascalprecht.translate',
+                         'angularMoment',
+                         'nl2br',
+                         'firebase',
+                         'lf.services.office', 
+                         'lf.services.category',
+                         'lf.services.item',
+                         'lf.directives.map',
+                         'lf.services.camera'])
 
   .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment,constants) {
     $ionicPlatform.ready(function() {
@@ -26,10 +27,13 @@
         StatusBar.styleDefault();
       }
 
+      $rootScope.ref = new Firebase(constants.FIREBASEID);
+      $rootScope.currentUser = $rootScope.ref.getAuth();
+      console.log($rootScope.currentUser);
 
       Parse.initialize(constants.APP_ID, constants.JS_KEY);
 
-      $rootScope.currentUser = Parse.User.current();
+      //$rootScope.currentUser = Parse.User.current();
 
       if(!$rootScope.currentUser){
         if(typeof navigator.globalization !== "undefined") {
