@@ -10,9 +10,9 @@
             <div class="item" ng-if="items.length < 1">
                 <h2>Empty list</h2>
             </div>
-            <a class="item item-thumbnail-left" collection-repeat="item in items" href="#/app/alerts/{{item.id}}" >
-                <img ng-src="{{item.attributes.thumbnail._url}}">
-                <h2>{{item.attributes.name}}</h2>
+            <a class="item item-thumbnail-left" collection-repeat="item in items" href="#/app/alerts/{{item.$id}}" >
+                <img ng-src="{{item.picture.thumbnail}}">
+                <h2>{{item.name}}</h2>
                 <p am-time-ago="item.createdAt"></p>
             </a>
         </div>

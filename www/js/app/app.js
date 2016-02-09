@@ -88,10 +88,11 @@
       }(document, 'script', 'facebook-jssdk'));
 
 
-
+/*
       $rootScope.alert_collection = {
           'models': []
       };
+*/
 
       initAppInfo();    
 

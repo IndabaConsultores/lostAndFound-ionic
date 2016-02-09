@@ -2,12 +2,13 @@ angular.module('lf')
 .controller('AlertsCtrl', function($scope,$rootScope,ItemService){
 
   if($rootScope.alert_collection)
-    $scope.items = $rootScope.alert_collection.models;
+    $scope.items = $rootScope.alert_collection;
 
+/*
   $rootScope.$watch('alert_collection', function(newValue, oldValue) {
     $scope.items = newValue.models;
   });
-
+*/
   $scope.doRefresh = function(){
     ItemService.fetchAlerts(function(error,collection){
      $rootScope.$apply(function () {
