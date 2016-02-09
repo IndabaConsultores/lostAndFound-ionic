@@ -1,12 +1,17 @@
 angular.module('lf.services.item', [])
 
 
-    .factory('ItemService', function ($rootScope) {
+    .factory('ItemService', function ($rootScope,$firebaseArray) {
         $rootScope.item;
 
         var service = {
 
             fetchAlerts: function (cb) {
+                var alerts = $firebaseArray($rootScope.ref.child('items').child("alert"));
+                alerts.$loaded().then(function () {
+                    cb(null,alerts);
+                });
+/*
             	var Item = Parse.Object.extend("Item"),
 
                     ItemCollection = Parse.Collection.extend({
@@ -23,6 +28,7 @@ angular.module('lf.services.item', [])
                     cb(error,null);
                   }
                 });
+*/                
             },
 
             fetchFoundItems: function(cb) {

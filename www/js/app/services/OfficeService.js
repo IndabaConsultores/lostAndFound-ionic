@@ -1,12 +1,20 @@
 angular.module('lf.services.office', [])
 
 
-    .factory('OfficeService', function ($rootScope) {
+    .factory('OfficeService', function ($rootScope,$firebaseObject) {
         
 
         var service = {
 
             loadOffice: function (cb) {
+
+
+                var my_office = $firebaseObject($rootScope.ref.child('offices').child("Ke0BYLMdR1"));
+                my_office.$loaded().then(function () {
+                    cb(null,my_office);
+                });
+
+/*
             	var Office = Parse.Object.extend("Office");
             	var query = new Parse.Query(Office);
             	query.equalTo("codeName", "00-indaba");
@@ -20,6 +28,7 @@ angular.module('lf.services.office', [])
                         cb(error,null);
                     }
                 });
+*/                
             },
 
 /*

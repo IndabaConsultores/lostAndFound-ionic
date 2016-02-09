@@ -1,6 +1,6 @@
 angular.module('lf')
 
-.controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$ionicModal,$timeout,$translate) {
+.controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$firebaseObject,$ionicModal,$timeout,$translate) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -12,7 +12,8 @@ angular.module('lf')
   });
 
   $scope.logout = function() {
-    Parse.User.logOut();
+    //Parse.User.logOut();
+    $rootScope.ref.unauth();
     $ionicHistory.clearCache();
     $rootScope.currentUser = null;
     $state.go('app.foundItems');
@@ -72,7 +73,9 @@ angular.module('lf')
         console.log("Login Failed!", error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
-        $rootScope.currentUser = authData;
+        $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(authData.uid));
+        console.log($rootScope.currentUser);
+        //$rootScope.currentUser = authData;
       }
     });
 

@@ -15,7 +15,7 @@
                          'lf.directives.map',
                          'lf.services.camera'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate, OfficeService, CategoryService, ItemService,amMoment,constants) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate,$firebaseObject, OfficeService, CategoryService, ItemService,amMoment,constants) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -28,15 +28,19 @@
       }
 
       $rootScope.ref = new Firebase(constants.FIREBASEID);
-      $rootScope.currentUser = $rootScope.ref.getAuth();
-      console.log($rootScope.currentUser);
+      var auth = $rootScope.ref.getAuth();
 
-      Parse.initialize(constants.APP_ID, constants.JS_KEY);
-
-      //$rootScope.currentUser = Parse.User.current();
-
-      if(!$rootScope.currentUser){
-        if(typeof navigator.globalization !== "undefined") {
+      if(!!auth){
+          $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
+          $rootScope.currentUser.$loaded().then(function () {
+              console.log($rootScope.currentUser.name);
+              console.log($rootScope.currentUser.language);
+              $translate.use($rootScope.currentUser.language);
+              amMoment.changeLocale($rootScope.currentUser.language);
+          });
+      }else{
+          // usuario no autetificado
+          if(typeof navigator.globalization !== "undefined") {
             navigator.globalization.getPreferredLanguage(function(language) {
                 $translate.use((language.value).split("-")[0]).then(function(data) {
                     console.log("SUCCESS -> " + data);
@@ -48,11 +52,12 @@
           $translate.use("en");
           amMoment.changeLocale("en");
         }
-      }else{
-        $translate.use($rootScope.currentUser.get("language"));
-        amMoment.changeLocale($rootScope.currentUser.get("language"));
       }
 
+
+      Parse.initialize(constants.APP_ID, constants.JS_KEY);
+
+      //$rootScope.currentUser = Parse.User.current();
        $rootScope.languages = [
                                 { code: "en",
                                   name: "English" },
@@ -103,32 +108,39 @@
     function initAppInfo() {
         $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
         OfficeService.loadOffice(function(error,office){
+            console.log(office);
             $rootScope.office = office;
 
             // bulk loading of data
             async.parallel([
               function(cb){
+                /*
                 CategoryService.fetch(function(error,collection){
                   $rootScope.$apply(function () {
                       $rootScope.category_collection = collection;
                       cb(error,collection);
                   });
                 });
+                  */
+                  cb(null,null);
               },
               function(cb){
+                /*
                 ItemService.fetchFoundItems(function(error,collection){
                   $rootScope.$apply(function () {
                     $rootScope.founditems_collection = collection;
                     cb(error,collection);
                   });
                 });
+                */
+                cb(null,null);
               },
               function(cb){
                 ItemService.fetchAlerts(function(error,collection){
-                 $rootScope.$apply(function () {
-                    $rootScope.alert_collection = collection;
-                    cb(error,collection);
-                  });
+                  console.log(collection);
+                  console.log(collection.length);
+                  $rootScope.alert_collection = collection;
+                  cb(error,collection);
                 });
               }
           ], function(err,results){
