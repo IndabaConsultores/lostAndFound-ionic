@@ -1,13 +1,19 @@
 angular.module('lf.services.category', [])
 
 
-    .factory('CategoryService', function ($rootScope) {
+    .factory('CategoryService', function ($rootScope,$firebaseArray) {
 
         var service = {
 
             fetch: function(cb) {
+
+                var categories = $firebaseArray($rootScope.ref.child('categories'));
+                categories.$loaded().then(function () {
+                    cb(null,categories);
+                });
             	
 
+/*
                 var Category = Parse.Object.extend("Category"),
                     CategoryCollection = Parse.Collection.extend({
                         model: Category,
@@ -24,7 +30,7 @@ angular.module('lf.services.category', [])
                     cb(error,null);
                   }
                 });
-
+*/
 
             },
                         

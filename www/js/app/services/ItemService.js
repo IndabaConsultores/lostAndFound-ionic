@@ -1,13 +1,13 @@
 angular.module('lf.services.item', [])
 
 
-    .factory('ItemService', function ($rootScope,$firebaseArray) {
+    .factory('ItemService', function ($rootScope,$firebaseArray,constants) {
         $rootScope.item;
 
         var service = {
 
             fetchAlerts: function (cb) {
-                var alerts = $firebaseArray($rootScope.ref.child('items').child("alert"));
+                var alerts = $firebaseArray($rootScope.ref.child('items').child("alert").child("lost"));
                 alerts.$loaded().then(function () {
                     cb(null,alerts);
                 });
@@ -33,6 +33,13 @@ angular.module('lf.services.item', [])
 
             fetchFoundItems: function(cb) {
 
+
+                var foundRef = new Firebase(constants.FIREBASEID+'/items/office'),
+                    foundCollection = $firebaseArray(foundRef),
+                    query = foundRef.orderByChild("office").equalTo($rootScope.office.$id);
+
+                cb(null,$firebaseArray(query));
+/*
             	var Item = Parse.Object.extend("Item"),
                     ItemCollection = Parse.Collection.extend({
                         model: Item,
@@ -48,16 +55,21 @@ angular.module('lf.services.item', [])
                     cb(error,null);
                   }
                 });
-
+*/
             },
 
             foundItemsByCategory: function(category_id,cb) {
-                var results = [];
-                $rootScope.founditems_collection.each(function(object){
-                    if(object.attributes.category.id == category_id)
-                      results.push(object);
+                results = [];
+                $rootScope.founditems_collection.$loaded().then(function(){
+                    angular.forEach($rootScope.founditems_collection, function(item) {
+                        if(item.category === category_id){
+                            results.push(item);
+                        }
+                    });
+                    cb(null,results);
                 });
-                cb(null,results);
+                
+                
             }
 
         }

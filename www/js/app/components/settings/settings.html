@@ -32,7 +32,7 @@
 	      {{'language' | translate}}
 	    </div>
 	    <select ng-model="settings.language">
-	      <option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.attributes.language">{{language.name}}</option>
+	      <option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.language">{{language.name}}</option>
 	    </select>
 	  </label>
 	</ul>

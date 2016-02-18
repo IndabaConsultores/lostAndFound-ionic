@@ -30,6 +30,8 @@
       $rootScope.ref = new Firebase(constants.FIREBASEID);
       var auth = $rootScope.ref.getAuth();
 
+      console.log(auth);
+
       if(!!auth){
           $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
           $rootScope.currentUser.$loaded().then(function () {
@@ -115,32 +117,30 @@
             // bulk loading of data
             async.parallel([
               function(cb){
-                /*
+                
                 CategoryService.fetch(function(error,collection){
-                  $rootScope.$apply(function () {
-                      $rootScope.category_collection = collection;
-                      cb(error,collection);
-                  });
+                    $rootScope.category_collection = collection;
+                    cb(error,collection);
                 });
-                  */
-                  cb(null,null);
+                  
+                  //cb(null,null);
               },
               function(cb){
-                /*
+                
                 ItemService.fetchFoundItems(function(error,collection){
-                  $rootScope.$apply(function () {
-                    $rootScope.founditems_collection = collection;
-                    cb(error,collection);
-                  });
+                  $rootScope.founditems_collection = collection;
+                  console.log(collection);
+                  cb(error,collection);
                 });
-                */
-                cb(null,null);
+                
+                //cb(null,null);
               },
               function(cb){
                 ItemService.fetchAlerts(function(error,collection){
                   console.log(collection);
                   console.log(collection.length);
                   $rootScope.alert_collection = collection;
+                  console.log(collection);
                   cb(error,collection);
                 });
               }

@@ -2,31 +2,28 @@ angular.module('lf')
 .controller('SettingsCtrl', function($scope,$rootScope,$ionicHistory,$translate,$ionicModal,amMoment,CameraService){
 
     $scope.settings = {
-      language : $rootScope.currentUser.get("language"),
-      alerts: $rootScope.currentUser.get("alerts")
+      language : $rootScope.currentUser.language,
+      alerts: $rootScope.currentUser.alerts
     };
 
     $scope.saveSettings = function(){
       $rootScope.showLoading();
       $ionicHistory.clearCache();
-      $rootScope.currentUser.set("language",$scope.settings.language);
-      $rootScope.currentUser.set("alerts", $scope.settings.alerts);
+      $rootScope.currentUser.language = $scope.settings.language;
+      $rootScope.currentUser.alerts = $scope.settings.alerts;
+      
       if($scope.imageBase64){
-          var file_name = Date.now(),
-          parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
-          $rootScope.currentUser.set("avatar",parseFile);
+          $rootScope.currentUser.avatar = $scope.imageBase64;
       }
-      $rootScope.currentUser.save(null, {
-          success:function(ob) {
-            $translate.use($scope.settings.language);
-            amMoment.changeLocale($scope.settings.language);
-            $rootScope.hideLoading();
-          }, 
-          error:function(e) {
-            $rootScope.hideLoading();
+
+      $rootScope.currentUser.$save().then(function(ref){
+          $translate.use($scope.settings.language);
+          amMoment.changeLocale($scope.settings.language);
+          $rootScope.hideLoading();
+      }, function(error){
+           $rootScope.hideLoading();
             alert("error");
             console.log("Oh crap", e);
-        }
       });
     };
 
