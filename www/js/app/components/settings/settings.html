@@ -8,8 +8,8 @@
 		<li class="item item-avatar settings">
 		  <div class="profile_avatar">
 		  	<img ng-src="data:image/jpg;base64, {{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()" />
-		  	<img ng-src="{{currentUser.attributes.avatar._url}}" ng-if="currentUser.attributes.avatar._url && !imageBase64" ng-click="showPopup()" />
-	        <img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.attributes.avatar._url && !imageBase64" />
+		  	<img ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar && !imageBase64" ng-click="showPopup()" />
+	        <img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar && !imageBase64" />
 	        <i class="ion-edit"></i>
 		  </div>
 	      
