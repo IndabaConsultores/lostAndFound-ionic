@@ -58,7 +58,7 @@ angular.module('lf.services.office', [])
                     error: function(error){
                         cb(error,null);
                     }
-                })
+                });
             },
 /*
             getItem: function(item_id,cb){
@@ -77,6 +77,9 @@ angular.module('lf.services.office', [])
 */
             getMessageCount: function(item_id,cb){
 
+                cb(null,{});
+
+                /*
                 var Message = Parse.Object.extend("Message"),
                     Item = Parse.Object.extend('Item'),
                     item = new Item(),
@@ -94,9 +97,12 @@ angular.module('lf.services.office', [])
                         cb(error,null);
                     }
                 });
+                */
             },
 
             getMessages: function(item_id,cb){
+                cb(null,{});
+                /*
                 var Message = Parse.Object.extend("Message"),
                     Item = Parse.Object.extend('Item'),
                     item = new Item(),
@@ -115,10 +121,12 @@ angular.module('lf.services.office', [])
                         cb(error,null);
                     }
                 });
+                */
             },
 
             postMessage: function(msg,item_id,cb){
 
+                /*
                 var Message = Parse.Object.extend("Message"),
                     Item = Parse.Object.extend('Item'),
                     User = Parse.Object.extend('User'),
@@ -140,10 +148,12 @@ angular.module('lf.services.office', [])
                     cb(error,null);
                   }
                 });
+                */
             },
 
             postPictureOnMessage: function(pict,item_id,cb){
 
+                /*
                 var Message = Parse.Object.extend("Message"),
                     Item = Parse.Object.extend("Item"),
                     User = Parse.Object.extend("User"),
@@ -165,6 +175,7 @@ angular.module('lf.services.office', [])
                     cb(error,null);
                   }
                 });
+                */
 
             }
         }

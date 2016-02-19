@@ -56,9 +56,7 @@
         }
       }
 
-
-      Parse.initialize(constants.APP_ID, constants.JS_KEY);
-
+      //Parse.initialize(constants.APP_ID, constants.JS_KEY);
       //$rootScope.currentUser = Parse.User.current();
        $rootScope.languages = [
                                 { code: "en",
@@ -69,7 +67,7 @@
                                   name: "Euskara"}
                               ];
       
-
+      /*
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({ // this line replaces FB.init({
           appId      : constants.FB_APP_ID, // Facebook App ID
@@ -80,6 +78,7 @@
         });
         // Run code after the Facebook SDK is loaded.
       };
+      */
      
       (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];

@@ -28,7 +28,7 @@ angular.module('lf')
     };
 
     $scope.showPopup = function() {
-        $ionicModal.fromTemplateUrl('templates/use_camera.html', {
+        $ionicModal.fromTemplateUrl('js/app/templates/use_camera.html', {
           scope: $scope,
           animation: 'slide-in-up'
         }).then(function(modal) {
