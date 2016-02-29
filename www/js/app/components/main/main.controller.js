@@ -69,11 +69,19 @@ angular.module('lf')
       "email": $scope.loginData.username,
       "password": $scope.loginData.password
     }, function(error, authData) {
+      $rootScope.hideLoading();
       if (error) {
+        var alertPopup = $ionicPopup.alert({
+           title: 'Sign Up ERROR' + error.code,
+           template: error.message
+         });
+         alertPopup.then(function(res) {});
+
         console.log("Login Failed!", error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
         $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(authData.uid));
+        $translate.use($rootScope.currentUser.language);
         console.log($rootScope.currentUser);
         //$rootScope.currentUser = authData;
       }
@@ -97,7 +105,7 @@ angular.module('lf')
          });
          alertPopup.then(function(res) {});
       }
-    }); 
+    });
 */
 
     // Simulate a login delay. Remove this and replace with your login

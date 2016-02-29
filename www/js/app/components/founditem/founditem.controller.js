@@ -32,7 +32,6 @@ angular.module('lf')
 
           $scope.marker = L.marker([$scope.item.alertLocation.latitude, $scope.item.alertLocation.longitude]).addTo($scope.map);
 
-
     }
 
 

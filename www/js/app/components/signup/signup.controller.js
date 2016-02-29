@@ -1,12 +1,45 @@
 angular.module('lf')
 
-.controller('SignUpCtrl', function($scope,$rootScope,$state,$ionicPopup){
+.controller('SignUpCtrl', function($scope,$rootScope,$state,$ionicPopup,$firebaseArray,Auth){
 
   $scope.newuser = {};
 
     $scope.signup = function(){
 
         $rootScope.showLoading();
+
+        Auth.$createUser({
+          email: $scope.newuser.email,
+          password: $scope.newuser.password
+        }).then(function(userData) {
+          $scope.message = "User created with uid: " + userData.uid;
+
+          var users = $firebaseArray($rootScope.ref.child("users"));
+          // add new items to the array
+          // the message is automatically added to our Firebase database!
+          $rootScope.hideLoading();
+        
+          users.$add({
+            id: userData.uid,
+            alerts:true,
+            username: $scope.newuser.username
+          });
+
+          var alertPopup = $ionicPopup.alert({
+             title: 'New User success '+ $scope.newuser.username,
+             template: 'ready for login'
+           }).then(function(res) {
+              $state.go('app.foundItems');
+           });
+        
+        }).catch(function(error) {
+          $scope.error = error;
+          console.log(error);
+        });
+
+
+
+/*
 
         var user = new Parse.User();
         user.set("username", $scope.newuser.username);
@@ -35,5 +68,6 @@ angular.module('lf')
              alertPopup.then(function(res) {});
           }
         });
+  */        
     }
 });

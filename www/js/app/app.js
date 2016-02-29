@@ -197,6 +197,16 @@
         }
       })
 
+      .state('app.alertMessages', {
+        url: "/alert_items/messages/:item",
+        views: {
+          'menuContent': {
+            templateUrl: "js/app/components/message/alert/alertmessage.html",
+            controller: "AlertMessageCtrl"
+          }
+        }
+      })
+
       .state('app.alerts', {
         url: "/alerts",
         views: {

@@ -2,7 +2,7 @@ angular.module('lf')
 .controller('FoundItemsCtrl', function($scope,$rootScope,ItemService,OfficeService){
   $scope.listSetUp = function(){
 
-    if($rootScope.founditems_collection && $rootScope.category_collection){
+    if(!!$rootScope.founditems_collection && !!$rootScope.category_collection){
       var category_length = $rootScope.category_collection.length;
       $scope.bycategory = [];
 
@@ -31,10 +31,13 @@ angular.module('lf')
   
   $scope.listSetUp();
 
-
+/*
   $rootScope.$watch('founditems_collection', function(newValue, oldValue) {
-      $scope.listSetUp();
+      if(!!$rootScope.category_collection){
+          $scope.listSetUp();
+      } 
   });
+*/
 
   $rootScope.$watch('category_collection', function(newValue, oldValue) {
       $scope.listSetUp();

@@ -25,7 +25,7 @@ angular.module('lf')
 
   }
 
-  OfficeService.getMessageCount($stateParams.item, function(error,data){
+  OfficeService.getAlertMessageCount($stateParams.item, function(error,data){
     $rootScope.hideLoading();
     $scope.messages = data;
   });

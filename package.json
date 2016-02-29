@@ -24,6 +24,10 @@
     "org.apache.cordova.console",
     "org.apache.cordova.device",
     "org.apache.cordova.geolocation",
-    "org.apache.cordova.globalization"
-  ]
+    "org.apache.cordova.globalization",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-inappbrowser"
+  ],
+  "cordovaPlatforms": []
 }

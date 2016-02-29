@@ -9,6 +9,9 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <allow-navigation href="*" />
+  <allow-intent href="*.firebaseio.com" />
+  <allow-intent href="auth.firebase.com" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

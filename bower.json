@@ -12,10 +12,7 @@
     "angular-leaflet-directive": "~0.7.11",
     "angular-moment": "~0.10.0",
     "angular-nl2br": "~1.0.3",
-<<<<<<< HEAD
-    "angular-translate": "~2.7.2"
-=======
-    "angular-translate": "~2.9.0"
->>>>>>> structure
+    "angular-translate": "~2.9.0",
+    "angularfire": "~1.1.4"
   }
 }

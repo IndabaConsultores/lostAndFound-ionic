@@ -12,11 +12,11 @@ angular.module('lf')
 
   $scope.doRefresh = function(){
     ItemService.fetchAlerts(function(error,collection){
-     $rootScope.$apply(function () {
+      setTimeout(function(){
         $rootScope.alert_collection = collection;
         //Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
-      });
+      },1000);
     });
   }
 
