@@ -2,7 +2,7 @@ angular.module('lf')
 .controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService) {
 
   $scope.showPopup = function() {
-      $ionicModal.fromTemplateUrl('templates/use_camera.html', {
+      $ionicModal.fromTemplateUrl('js/app/templates/use_camera.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -49,7 +49,7 @@ angular.module('lf')
       $scope.coords = {'lat':success.coords.latitude, 'lng': success.coords.longitude };
       $scope.initMap();
   },function(error){ 
-      $scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude };
+      $scope.coords = {'lat':$rootScope.office.location.latitude, 'lng': $rootScope.office.location.longitude };
       $scope.initMap();
   },{timeout:10000});
 
@@ -57,7 +57,7 @@ angular.module('lf')
 
 
 
-  var Item = Parse.Object.extend("Item");
+//  var Item = Parse.Object.extend("Item");
   $scope.newalert = {};
 
   $scope.useCamera = function(){
@@ -71,7 +71,7 @@ angular.module('lf')
 
       CameraService.getPicture(options)
         .then(function(imageURI) {
-              $scope.imageBase64 = imageURI;
+              $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
               $scope.modal.hide();
         }, function(err) {
             alert(err);
@@ -91,7 +91,7 @@ angular.module('lf')
 
       CameraService.getPicture(options)
         .then(function(imageURI) {
-              $scope.imageBase64 = imageURI;
+              $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
               $scope.modal.hide();
         }, function(err) {
             alert(err);
@@ -101,6 +101,39 @@ angular.module('lf')
   $scope.createAlert = function(){
     if($rootScope.currentUser){
         $rootScope.showLoading();
+
+
+        var new_item = {
+              "type": "alert",
+              "createdBy": $rootScope.currentUser.id,
+              "picture": {
+                  "image": $scope.imageBase64,
+                  "thumbnail": $scope.imageBase64
+              },
+              "office": $rootScope.office.id,
+              "name": $scope.newalert.name,
+              "description": $scope.newalert.description,
+              "alertLocation": {
+                  "latitude": $scope.coords.lat,
+                  "longitude": $scope.coords.lng
+              }
+        };
+
+        ItemService.newAlertItem(new_item, function(error,data){
+            ItemService.fetchAlerts(function(error,collection){
+                $rootScope.hideLoading();
+                $scope.newalert = {};
+                $scope.imageBase64 = null;
+                $rootScope.alert_collection = collection;
+                var alertPopup = $ionicPopup.alert({
+                   title: 'New alert',
+                   template: 'New alert created successfully'
+                 });
+                 alertPopup.then(function(res) {});
+            });
+        });
+
+/*
         var file_name = Date.now(),
             parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64}),
             alertlocation = new Parse.GeoPoint({latitude: $scope.coords.lat, longitude: $scope.coords.lng });
@@ -131,7 +164,7 @@ angular.module('lf')
                        alertPopup.then(function(res) {});
                     });
                   });
-              }, 
+                }, 
                 error:function(e) {
                   $rootScope.hideLoading();
                   alert("error");
@@ -142,13 +175,15 @@ angular.module('lf')
             alert("Error");
             console.log(error);
           });
+    */
     }else{
         var alertPopup = $ionicPopup.alert({
            title: 'Access denied',
            template: 'Para crear una alerta necesitas iniciar sesion primero'
          });
          alertPopup.then(function(res) {});
-    }  
+    } 
+
   };
 
   $scope.$on('$destroy', function() {

@@ -94,6 +94,7 @@ angular.module('lf.services.office', [])
                 });
             },
 
+
             getMessageCount: function(item_id,cb){
 
                 cb(null,{});
@@ -178,10 +179,8 @@ angular.module('lf.services.office', [])
                     }else{
                         cb(null,[]);
                     }
-               
                 });
-
- */
+                */
                         
 /*
                 }else{
@@ -197,7 +196,7 @@ angular.module('lf.services.office', [])
             },
 
             postAlertMessage: function(msg,item_id,cb){
-                console.log("postAlertMessage")
+                console.log("postAlertMessage");
                 /*
                     Crear una entrada de en /messages/alert/
                         * createdAt: Date.now()
@@ -219,7 +218,6 @@ angular.module('lf.services.office', [])
                   messagesRef.$save(messagesRef.$indexFor(id)).then(function(){
                     console.log("id saved");
                   });
-
 
                   var itemMessagesRef = $rootScope.ref.child("items").child("alert").child(item_id).child("messages");
 
@@ -247,7 +245,6 @@ angular.module('lf.services.office', [])
                 });
 
             },
-
 
             postMessage: function(msg,item_id,cb){
 

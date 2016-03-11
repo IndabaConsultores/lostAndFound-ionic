@@ -1,5 +1,5 @@
 angular.module('lf')
-.controller('MessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,$ionicModal,OfficeService,CameraService){
+.controller('OfficeMessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,$ionicModal,OfficeService,CameraService){
 
 
   $scope.showPopup = function() {

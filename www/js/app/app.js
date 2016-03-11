@@ -187,12 +187,12 @@
         }
       })
 
-      .state('app.messages',{
+      .state('app.officeMessages',{
         url: "/found_items/messages/:item",
         views: {
           'menuContent': {
-            templateUrl: "js/app/components/message/message.html",
-            controller: 'MessageCtrl'
+            templateUrl: "js/app/components/message/office/officemessage.html",
+            controller: 'OfficeMessageCtrl'
           }
         }
       })

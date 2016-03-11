@@ -35,6 +35,18 @@ angular.module('lf')
   };
 
   $scope.fblogin = function(){
+
+    $rootScope.ref.authWithOAuthPopup("facebook", function(error, authData) {
+        if (error) {
+            console.log("Login Failed!", error);
+        } else {
+            console.log("Authenticated successfully with payload:", authData);
+        }
+    });
+
+
+
+      /*
       Parse.FacebookUtils.logIn(null, {
         success: function(user) {
           if (!user.existed()) {
@@ -59,6 +71,7 @@ angular.module('lf')
            alertPopup.then(function(res) {});
         }
       });
+      */
   };
 
   // Perform the login action when the user submits the login form
@@ -114,4 +127,7 @@ angular.module('lf')
       $scope.closeLogin();
     }, 1000);
   };
+
+
+  
 });

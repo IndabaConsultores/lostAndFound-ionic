@@ -74,6 +74,34 @@ angular.module('lf.services.item', [])
 */                
             },
 
+            newAlertItem: function(new_item,cb) {
+/*
+                var new_item = {
+                    "type": "alert",
+                    "createdBy": $rootScope.currentUser,
+                    "picture": null,
+                    "office": $rootScope.office,
+                    "name": $scope.newalert.name,
+                    "description": $scope.newalert.description,
+                    "alertlocation": alertlocation
+                };
+*/
+
+                var alertRef = $firebaseArray($rootScope.ref.child("items").child("alert"));
+                alertRef.$add(new_item).then(function(ref) {
+                  var id = ref.key();
+                  console.log("added record with id " + id);
+                  alertRef[alertRef.$indexFor(id)].id = id; // returns location in the array
+                  alertRef.$save(alertRef.$indexFor(id)).then(function(){
+                    cb(null,true);
+                  });
+                });
+
+
+
+
+            },
+
             fetchFoundItems: function(cb) {
 
 

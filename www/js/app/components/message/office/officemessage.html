@@ -17,7 +17,7 @@
 
 	      <div class="chat-bubble left">
 
-	      	 <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"  ng-click="showPicture(message.attributes.picture._url)" />
+	      	 <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail" ng-click="showPicture(message.attributes.picture._url)" />
 	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
 	          </div>
 
