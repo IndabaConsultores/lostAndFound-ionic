@@ -105,6 +105,7 @@ angular.module('lf')
 
         var new_item = {
               "type": "alert",
+              "createdAt": Date.now(),
               "createdBy": $rootScope.currentUser.id,
               "picture": {
                   "image": $scope.imageBase64,

@@ -17,7 +17,7 @@ angular.module('lf')
   $scope.getMessages = function(){
       
       $rootScope.showLoading();
-      OfficeService.getAlertMessages($stateParams.item,function(error,data){
+      OfficeService.getOfficeMessages($stateParams.item,function(error,data){
           $rootScope.hideLoading();
 
           if(error)
@@ -32,20 +32,19 @@ angular.module('lf')
 
       $rootScope.showLoading();
 
-      OfficeService.postMessage($scope.msg.text,$stateParams.item,function(error,data){
+      OfficeService.postOfficeMessage($scope.msg.text,$stateParams.item,function(error,data){
         $scope.msg.text = "";
         $rootScope.hideLoading();
         if(error)
             alert("error" + error.code);
         
-        $scope.getMessages();
         $ionicScrollDelegate.scrollBottom(true);
       });
   };
 
   $scope.showPicture = function(picSource){
       $scope.picSource = picSource;
-      $ionicModal.fromTemplateUrl('templates/image_modal.html', {
+      $ionicModal.fromTemplateUrl('js/app/templates/image_modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -84,30 +83,29 @@ angular.module('lf')
       });
   };
 
-  $scope.usePicture = function(){
-     var options = {
-        quality: 50,
-        destinationType: navigator.camera.DestinationType.DATA_URL,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-      };
+  $scope.useCamera = function(){
+    var options = {
+      quality: 50,
+      destinationType: navigator.camera.DestinationType.DATA_URL 
+    };
 
-      CameraService.getPicture(options)
-        .then(function(imageURI) {
-            $scope.imageBase64 = imageURI;
+    CameraService.getPicture(options)
+      .then(function(imageURI) {
+            $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
             $scope.modal.hide();
             $rootScope.showLoading();
-            var file_name = Date.now(),
-                parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
-                OfficeService.postPictureOnMessage(parseFile, $stateParams.item, function(error,data){
+            var file_name = Date.now();
+                //parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
+                OfficeService.postPictureOnOfficeMessage($scope.imageBase64, $stateParams.item, function(error,data){
                   $rootScope.hideLoading();
                   if(error)
                       alert("error" + error.code);
-                  
-                  $scope.getMessages();
+                  //$scope.getMessages();
                   $ionicScrollDelegate.scrollBottom(true);
                 });
-        }, function(err) {
-            alert(err);
+
+      }, function(err) {
+          alert(err);
       });
   };
 

@@ -34,8 +34,6 @@ angular.module('lf')
 
     }
 
-
-
 /*
       if($scope.item.get("alertLocation")){
 
@@ -45,7 +43,7 @@ angular.module('lf')
   }
   
 
-  OfficeService.getMessageCount($stateParams.item, function(error,data){
+  OfficeService.getOfficeMessageCount($stateParams.item, function(error,data){
     $rootScope.hideLoading();
     $scope.messages = data;
   });

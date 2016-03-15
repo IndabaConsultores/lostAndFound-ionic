@@ -30,8 +30,6 @@
       $rootScope.ref = new Firebase(constants.FIREBASEID);
       var auth = $rootScope.ref.getAuth();
 
-      console.log(auth);
-
       if(!!auth){
           $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
           $rootScope.currentUser.$loaded().then(function () {

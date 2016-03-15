@@ -11,18 +11,18 @@
 
 
 	<div ng-repeat="message in messages" class="message-wrapper">
-	  <div ng-if="currentUser.id !== message.attributes.sender.id">
+	  <div ng-if="currentUser.id !== message.user">
 	    <img class="profile-pic left" 
 	          ng-src="{{message.avatar}}" />
 
 	      <div class="chat-bubble left">
 
-	      	 <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail" ng-click="showPicture(message.attributes.picture._url)" />
-	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
+	      	 <img ng-src="{{message.picture.image}}" ng-if="!!message.picture"  ng-click="showPicture(message.picture.image)" />
+	          <div class="message" ng-bind-html="message.text|nl2br" autolinker>
 	          </div>
 
 	          <div class="message-detail">
-	              <span class="bold">{{message.user}}</span>,
+	              <span class="bold">{{message.username}}</span>,
 	              <span am-time-ago="message.createdAt"></span>
 	          </div>
 
@@ -31,13 +31,13 @@
 
 
 
-	  <div ng-if="currentUser.id === message.attributes.sender.id">
+	  <div ng-if="currentUser.id === message.user">
 	    <img class="profile-pic right" 
 	          ng-src="{{message.avatar}}"  />
 
 	      <div class="chat-bubble right">
-	      	  <img ng-src="{{message.attributes.thumbnail._url}}" ng-if="message.attributes.thumbnail"   ng-click="showPicture(message.attributes.picture._url)" />
-	          <div class="message" ng-bind-html="message.attributes.text|nl2br" autolinker>
+	      	  <img ng-src="{{message.picture.image}}" ng-if="message.picture.image"   ng-click="showPicture(message.picture.image)" />
+	          <div class="message" ng-bind-html="message.text|nl2br" autolinker>
 	          </div>
 
 	          <div class="message-detail">

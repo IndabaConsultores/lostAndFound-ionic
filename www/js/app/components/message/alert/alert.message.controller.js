@@ -15,7 +15,7 @@ angular.module('lf')
   
 
   $scope.getMessages = function(){
-      
+      console.log("controller get messages");
       $rootScope.showLoading();
       OfficeService.getAlertMessages($stateParams.item,function(error,data){
           $rootScope.hideLoading();
@@ -27,7 +27,7 @@ angular.module('lf')
           console.log($scope.messages.length);
           $ionicScrollDelegate.scrollBottom(true);
       });
-  }
+  };
 
   $scope.sendMessage = function(){
 
@@ -55,8 +55,8 @@ angular.module('lf')
   };
 
   $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
+    $scope.modal.hide();
+  };
 
 
   $scope.useCamera = function(){
@@ -79,6 +79,7 @@ angular.module('lf')
                   //$scope.getMessages();
                   $ionicScrollDelegate.scrollBottom(true);
                 });
+
       }, function(err) {
           alert(err);
       });
