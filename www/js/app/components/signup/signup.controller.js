@@ -1,6 +1,6 @@
 angular.module('lf')
 
-.controller('SignUpCtrl', function($scope,$rootScope,$state,$ionicPopup,$firebaseArray,Auth){
+.controller('SignUpCtrl', function($scope,$rootScope,$state,$translate,$ionicPopup,$firebaseArray,Auth,constants){
 
   $scope.newuser = {};
 
@@ -14,17 +14,16 @@ angular.module('lf')
         }).then(function(userData) {
           $scope.message = "User created with uid: " + userData.uid;
 
-          var users = $firebaseArray($rootScope.ref.child("users"));
-          // add new items to the array
-          // the message is automatically added to our Firebase database!
-          $rootScope.hideLoading();
-        
-          users.$add({
+          var new_userRef = new Firebase(constants.FIREBASEID+"/users/"+userData.uid);
+
+          new_userRef.set({
             id: userData.uid,
             alerts:true,
+            language: $translate.use(),
             username: $scope.newuser.username
           });
 
+          $rootScope.hideLoading();
           var alertPopup = $ionicPopup.alert({
              title: 'New User success '+ $scope.newuser.username,
              template: 'ready for login'
