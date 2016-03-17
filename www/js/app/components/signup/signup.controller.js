@@ -5,7 +5,7 @@ angular.module('lf')
   $scope.newuser = {};
 
     $scope.signup = function(){
-
+        console.log("signup controller signup function");
         $rootScope.showLoading();
 
         Auth.$createUser({

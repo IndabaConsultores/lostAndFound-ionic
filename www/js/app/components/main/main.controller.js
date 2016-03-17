@@ -30,6 +30,7 @@ angular.module('lf')
   };
 
   $scope.signup = function(){
+    console.log("signup");
     $scope.modal.hide();
     $state.go('app.signup');
   };
@@ -76,6 +77,7 @@ angular.module('lf')
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+    console.log("do login");
     $rootScope.showLoading();
 
     $rootScope.ref.authWithPassword({
