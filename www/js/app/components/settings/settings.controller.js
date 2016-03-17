@@ -46,7 +46,7 @@ angular.module('lf')
 
       CameraService.getPicture(options)
         .then(function(imageURI) {
-              $scope.imageBase64 = imageURI;
+              $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
               $scope.modal.hide();
         }, function(err) {
             alert(err);
@@ -62,7 +62,7 @@ angular.module('lf')
 
         CameraService.getPicture(options)
           .then(function(imageURI) {
-                $scope.imageBase64 = imageURI;
+                $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
                 $scope.modal.hide();
           }, function(err) {
               alert(err);
