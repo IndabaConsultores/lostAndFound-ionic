@@ -347,11 +347,20 @@ angular.module('lf.services.office', [])
                 */
             },
 
-            postPictureOnAlertMessage: function(pict,item_id,cb){
+            postPictureOnAlertMessage: function(picture_item,cb){
+                /*
+                    picture_item: { image
+                               thumb
+                               item_id}
+                */
                 var messagesRef = $firebaseArray($rootScope.ref.child("messages").child("alert"));
                     var picture = {};
-                    picture["image"] = pict;
-                messagesRef.$add({ "createdAt": Date.now(), "item": item_id, "picture": picture, "updatedAt": Date.now(), "user":$rootScope.currentUser.id }).then(function(ref) {
+                        picture["image"] = picture_item.image;
+                        picture["thumbnail"] = picture_item.thumb;
+                console.log(picture_item);
+                    var new_obj = { "createdAt": Date.now(), "item": picture_item.item_id, "picture": picture, "updatedAt": Date.now(), "user":$rootScope.currentUser.id };
+                console.log(new_obj);
+                messagesRef.$add(new_obj).then(function(ref) {
                   var id = ref.key();
                   console.log("added record with id " + id);
                   messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
@@ -359,7 +368,7 @@ angular.module('lf.services.office', [])
                     console.log("id saved");
                   });
 
-                  var itemMessagesRef = $rootScope.ref.child("items").child("alert").child(item_id).child("messages");
+                  var itemMessagesRef = $rootScope.ref.child("items").child("alert").child(picture_item.item_id).child("messages");
 
                   itemMessagesRef.once("value", function(snapshot){
                         
@@ -375,7 +384,7 @@ angular.module('lf.services.office', [])
                             //crear messages con un elemento en el array
                             var msg = {};
                             msg["messages"] = obj;
-                            var itemRef = $rootScope.ref.child("items").child("alert").child(item_id);
+                            var itemRef = $rootScope.ref.child("items").child("alert").child(picture.item_id);
                             itemRef.update(msg, function(){
                                 cb(null,true);
                             });
@@ -384,11 +393,17 @@ angular.module('lf.services.office', [])
                 });
             },
 
-            postPictureOnOfficeMessage: function(pict,item_id,cb){
+            postPictureOnOfficeMessage: function(picture_item,cb){
+                /*
+                    picture: { image
+                               thumb
+                               item_id}
+                */
                 var messagesRef = $firebaseArray($rootScope.ref.child("messages").child("office"));
                     var picture = {};
-                    picture["image"] = pict;
-                messagesRef.$add({ "createdAt": Date.now(), "item": item_id, "picture": picture, "updatedAt": Date.now(), "user":$rootScope.currentUser.id }).then(function(ref) {
+                    picture["image"] = picture_item.image;
+                    picture["thumbnail"] = picture_item.thumbnail;
+                messagesRef.$add({ "createdAt": Date.now(), "item": picture_item.item_id, "picture": picture, "updatedAt": Date.now(), "user":$rootScope.currentUser.id }).then(function(ref) {
                   var id = ref.key();
                   console.log("added record with id " + id);
                   messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
@@ -396,7 +411,7 @@ angular.module('lf.services.office', [])
                     console.log("id saved");
                   });
 
-                  var itemMessagesRef = $rootScope.ref.child("items").child("office").child(item_id).child("messages");
+                  var itemMessagesRef = $rootScope.ref.child("items").child("office").child(picture_item.item_id).child("messages");
 
                   itemMessagesRef.once("value", function(snapshot){
                         var obj = {};
@@ -411,7 +426,7 @@ angular.module('lf.services.office', [])
                             //crear messages con un elemento en el array
                             var msg = {};
                             msg["messages"] = obj;
-                            var itemRef = $rootScope.ref.child("items").child("office").child(item_id);
+                            var itemRef = $rootScope.ref.child("items").child("office").child(picture_item.item_id);
                             itemRef.update(msg, function(){
                                 cb(null,true);
                             });

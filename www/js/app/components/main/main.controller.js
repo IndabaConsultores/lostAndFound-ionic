@@ -12,7 +12,6 @@ angular.module('lf')
   });
 
   $scope.logout = function() {
-    //Parse.User.logOut();
     $rootScope.ref.unauth();
     $ionicHistory.clearCache();
     $rootScope.currentUser = null;

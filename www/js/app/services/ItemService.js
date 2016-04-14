@@ -9,8 +9,15 @@ angular.module('lf.services.item', [])
             fetchAlerts: function (cb) {
                 //var lostalerts = $firebaseArray($rootScope.ref.child('items').child("alert").child("lost"));
                 //var foundalerts = $firebaseArray($rootScope.ref.child('items').child("alert").child("found"));
+/*
+                var messagesRef = new Firebase(URL).child("messages");
+                var query = messagesRef.orderByChild("timestamp").limitToLast(10);
+                var list = $firebaseArray(query);
+*/
 
-                var alerts = $firebaseArray($rootScope.ref.child("items").child("alert"));
+
+
+                var alerts = $firebaseArray($rootScope.ref.child("items").child("alert").orderByChild("createdAt"));
 
                 alerts.$loaded().then(function(){
                     cb(null,alerts);
