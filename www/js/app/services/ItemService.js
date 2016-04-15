@@ -71,7 +71,7 @@ angular.module('lf.services.item', [])
                     cb(error,null);
                   }
                 });
-*/                
+*/
             },
 
             newAlertItem: function(new_item,cb) {
@@ -88,6 +88,7 @@ angular.module('lf.services.item', [])
 */
 
                 var alertRef = $firebaseArray($rootScope.ref.child("items").child("alert"));
+                console.log(new_item);
                 alertRef.$add(new_item).then(function(ref) {
                   var id = ref.key();
                   console.log("added record with id " + id);
@@ -139,8 +140,8 @@ angular.module('lf.services.item', [])
                     });
                     cb(null,results);
                 });
-                
-                
+
+
             }
 
         }

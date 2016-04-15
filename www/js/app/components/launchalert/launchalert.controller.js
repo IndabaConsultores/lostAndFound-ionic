@@ -48,7 +48,7 @@ angular.module('lf')
       */
       $scope.coords = {'lat':success.coords.latitude, 'lng': success.coords.longitude };
       $scope.initMap();
-  },function(error){ 
+  },function(error){
       $scope.coords = {'lat':$rootScope.office.location.latitude, 'lng': $rootScope.office.location.longitude };
       $scope.initMap();
   },{timeout:10000});
@@ -66,7 +66,7 @@ angular.module('lf')
       */
       var options = {
         quality: 50,
-        destinationType: navigator.camera.DestinationType.DATA_URL 
+        destinationType: navigator.camera.DestinationType.DATA_URL
       };
 
       CameraService.getPicture(options)
@@ -102,11 +102,14 @@ angular.module('lf')
     if($rootScope.currentUser){
         $rootScope.showLoading();
 
+        if(typeof $scope.imageBase64 == 'undefined'){
+          $scope.imageBase64=null;
+        }
 
         var new_item = {
               "type": "alert",
               "createdAt": Date.now(),
-              "createdBy": $rootScope.currentUser.id,
+              "createdBy": $rootScope.currentUser.$id,
               "picture": {
                   "image": $scope.imageBase64,
                   "thumbnail": $scope.imageBase64
@@ -141,7 +144,7 @@ angular.module('lf')
             parseFile.save().then(function() {
 
               var item = new Item();
-              
+
               item.set("type","alert");
               item.set("createdBy",$rootScope.currentUser);
               item.set("picture",parseFile);
@@ -165,7 +168,7 @@ angular.module('lf')
                        alertPopup.then(function(res) {});
                     });
                   });
-                }, 
+                },
                 error:function(e) {
                   $rootScope.hideLoading();
                   alert("error");
@@ -183,7 +186,7 @@ angular.module('lf')
            template: 'Para crear una alerta necesitas iniciar sesion primero'
          });
          alertPopup.then(function(res) {});
-    } 
+    }
 
   };
 
