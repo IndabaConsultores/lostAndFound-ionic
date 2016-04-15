@@ -1,5 +1,11 @@
 angular.module('lf')
 .controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService) {
+  
+
+  function imageToDataUri(img, width, height) {
+    //CameraService
+      
+  }
 
   $scope.showPopup = function() {
       $ionicModal.fromTemplateUrl('js/app/templates/use_camera.html', {
@@ -14,7 +20,7 @@ angular.module('lf')
 
 
   $scope.initMap = function(){
-      $scope.map = L.map('map',{ tap:true }).setView([$scope.coords.lat, $scope.coords.lng], 14);
+      $scope.map = L.map('map',{ tap:true }).setView([ $scope.coords.lat, $scope.coords.lng ], 14);
 
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: 'Lost & Found',
@@ -54,7 +60,9 @@ angular.module('lf')
   },{timeout:10000});
 
 
-
+  function resizeImage() {
+      $scope.imageThumb = CameraService.resizeImage(this, 64, 64);
+  }
 
 
 //  var Item = Parse.Object.extend("Item");
@@ -72,6 +80,10 @@ angular.module('lf')
       CameraService.getPicture(options)
         .then(function(imageURI) {
               $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
+              var img = new Image;
+                  img.onload = resizeImage;
+                  img.src = $scope.imageBase64;
+              
               $scope.modal.hide();
         }, function(err) {
             alert(err);
@@ -92,6 +104,9 @@ angular.module('lf')
       CameraService.getPicture(options)
         .then(function(imageURI) {
               $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
+              var img = new Image;
+                  img.onload = resizeImage;
+                  img.src = $scope.imageBase64;
               $scope.modal.hide();
         }, function(err) {
             alert(err);
@@ -112,7 +127,7 @@ angular.module('lf')
               "createdBy": $rootScope.currentUser.$id,
               "picture": {
                   "image": $scope.imageBase64,
-                  "thumbnail": $scope.imageBase64
+                  "thumbnail": $scope.imageThumb
               },
               "office": $rootScope.office.id,
               "name": $scope.newalert.name,

@@ -42,6 +42,7 @@
           // usuario no autetificado
           if(typeof navigator.globalization !== "undefined") {
             navigator.globalization.getPreferredLanguage(function(language) {
+                console.log(language);
                 $translate.use((language.value).split("-")[0]).then(function(data) {
                     console.log("SUCCESS -> " + data);
                 }, function(error) {
@@ -107,7 +108,10 @@
 
     function initAppInfo() {
         $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
+        console.log("init app");
         OfficeService.loadOffice(function(error,office){
+          console.log(error);
+          console.log(office);
             console.log(office);
             $rootScope.office = office;
 
@@ -116,6 +120,8 @@
               function(cb){
                 
                 CategoryService.fetch(function(error,collection){
+                    console.log(error);
+                    console.log(collection);
                     $rootScope.category_collection = collection;
                     cb(error,collection);
                 });
@@ -125,6 +131,8 @@
               function(cb){
                 
                 ItemService.fetchFoundItems(function(error,collection){
+                  console.log(error);
+                  console.log(collection);
                   $rootScope.founditems_collection = collection;
                   console.log(collection);
                   cb(error,collection);
@@ -136,6 +144,7 @@
                 ItemService.fetchAlerts(function(error,collection){
                   console.log(collection);
                   console.log(collection.length);
+                  console.log(error);
                   $rootScope.alert_collection = collection;
                   console.log(collection);
                   cb(error,collection);

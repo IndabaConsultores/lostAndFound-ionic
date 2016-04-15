@@ -3,7 +3,7 @@ angular.module('lf')
 
 
   $scope.showPopup = function() {
-      $ionicModal.fromTemplateUrl('templates/use_camera.html', {
+      $ionicModal.fromTemplateUrl('js/app/templates/use_camera.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -30,16 +30,20 @@ angular.module('lf')
 
   $scope.sendMessage = function(){
 
-      $rootScope.showLoading();
+      if(!!$rootScope.currentUser){
+          $rootScope.showLoading();
 
-      OfficeService.postOfficeMessage($scope.msg.text,$stateParams.item,function(error,data){
-        $scope.msg.text = "";
-        $rootScope.hideLoading();
-        if(error)
-            alert("error" + error.code);
-        
-        $ionicScrollDelegate.scrollBottom(true);
-      });
+          OfficeService.postOfficeMessage($scope.msg.text,$stateParams.item,function(error,data){
+            $scope.msg.text = "";
+            $rootScope.hideLoading();
+            if(error)
+                alert("error" + error.code);
+            
+            $ionicScrollDelegate.scrollBottom(true);
+          });
+        }else{
+          console.log("please, log in");
+        }
   };
 
   $scope.showPicture = function(picSource){
@@ -55,8 +59,20 @@ angular.module('lf')
 
   $scope.closeModal = function() {
       $scope.modal.hide();
-    };
+  };
 
+  function resizeImage() {
+      var thumb = CameraService.resizePicture(this, 64, 64);
+      var file_name = Date.now();
+      $rootScope.showLoading();
+      OfficeService.postPictureOnMessage({"image":$scope.imageBase64,"thumb": thumb,"item_id":$stateParams.item}, function(error,data){
+        $rootScope.hideLoading();
+        if(error)
+            alert("error" + error.code);
+        $scope.getMessages();
+        $ionicScrollDelegate.scrollBottom(true);
+      });
+  };
 
   $scope.useCamera = function(){
     var options = {
@@ -67,17 +83,10 @@ angular.module('lf')
     CameraService.getPicture(options)
       .then(function(imageURI) {
             $scope.imageBase64 = imageURI;
+            var img = new Image;
+                img.onload = resizeImage;
+                img.src = $scope.imageBase64;
             $scope.modal.hide();
-            $rootScope.showLoading();
-            var file_name = Date.now(),
-                parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
-                OfficeService.postPictureOnMessage(parseFile, $stateParams.item, function(error,data){
-                  $rootScope.hideLoading();
-                  if(error)
-                      alert("error" + error.code);
-                  $scope.getMessages();
-                  $ionicScrollDelegate.scrollBottom(true);
-                });
       }, function(err) {
           alert(err);
       });
@@ -92,18 +101,10 @@ angular.module('lf')
     CameraService.getPicture(options)
       .then(function(imageURI) {
             $scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
+            var img = new Image;
+                img.onload = resizeImage;
+                img.src = $scope.imageBase64;
             $scope.modal.hide();
-            $rootScope.showLoading();
-            var file_name = Date.now();
-                //parseFile = new Parse.File(file_name+".jpg", {base64:$scope.imageBase64});
-                OfficeService.postPictureOnOfficeMessage($scope.imageBase64, $stateParams.item, function(error,data){
-                  $rootScope.hideLoading();
-                  if(error)
-                      alert("error" + error.code);
-                  //$scope.getMessages();
-                  $ionicScrollDelegate.scrollBottom(true);
-                });
-
       }, function(err) {
           alert(err);
       });
