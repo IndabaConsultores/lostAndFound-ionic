@@ -20,6 +20,7 @@ angular.module('lf.services.item', [])
                 var alerts = $firebaseArray($rootScope.ref.child("items").child("alert").orderByChild("createdAt"));
 
                 alerts.$loaded().then(function(){
+					console.log("Alerts: " + alerts);
                     cb(null,alerts);
                 });
 
@@ -99,7 +100,7 @@ angular.module('lf.services.item', [])
                 alertRef.$add(new_item).then(function(ref) {
                   var id = ref.key();
                   console.log("added record with id " + id);
-                  alertRef[alertRef.$indexFor(id)].id = id; // returns location in the array
+                  //alertRef[alertRef.$indexFor(id)].id = id; // returns location in the array
                   alertRef.$save(alertRef.$indexFor(id)).then(function(){
                     cb(null,true);
                   });
@@ -111,13 +112,20 @@ angular.module('lf.services.item', [])
             },
 
             fetchFoundItems: function(cb) {
+/*
+				var alerts = $firebaseArray($rootScope.ref.child("items").child("office").orderByChild("createdAt"));
 
+                alerts.$loaded().then(function(){
+					console.log("Found: " + alerts);
+                    cb(null,alerts);
+                });
+*/
 
                 var foundRef = new Firebase(constants.FIREBASEID+'/items/office'),
-                    foundCollection = $firebaseArray(foundRef),
-                    query = foundRef.orderByChild("office").equalTo($rootScope.office.$id);
+                    query = foundRef.orderByChild("office");//.equalTo($rootScope.office.$id);
+				var foundItems = $firebaseArray(query);
+				cb(null, foundItems);
 
-                cb(null,$firebaseArray(query));
 /*
             	var Item = Parse.Object.extend("Item"),
                     ItemCollection = Parse.Collection.extend({
@@ -138,10 +146,10 @@ angular.module('lf.services.item', [])
             },
 
             foundItemsByCategory: function(category_id,cb) {
-                results = [];
+                var results = [];
                 $rootScope.founditems_collection.$loaded().then(function(){
                     angular.forEach($rootScope.founditems_collection, function(item) {
-                        if(item.category === category_id){
+                        if(item.category == category_id){
                             results.push(item);
                         }
                     });

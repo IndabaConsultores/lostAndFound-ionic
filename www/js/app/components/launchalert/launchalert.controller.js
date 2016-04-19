@@ -120,6 +120,7 @@ angular.module('lf')
         if(typeof $scope.imageBase64 == 'undefined'){
           $scope.imageBase64=null;
         }
+		if (!$scope.imageThumb) $scope.imageThumb=null;
 
         var new_item = {
               "type": "alert",
@@ -129,7 +130,7 @@ angular.module('lf')
                   "image": $scope.imageBase64,
                   "thumbnail": $scope.imageThumb
               },
-              "office": $rootScope.office.id,
+              "office": $rootScope.office.$id,
               "name": $scope.newalert.name,
               "description": $scope.newalert.description,
               "alertLocation": {

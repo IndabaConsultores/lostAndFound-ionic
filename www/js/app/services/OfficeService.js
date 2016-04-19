@@ -8,7 +8,7 @@ angular.module('lf.services.office', [])
 
             loadOffice: function (cb) {
 
-                var my_office = $firebaseObject($rootScope.ref.child('offices').child("Ke0BYLMdR1"));
+                var my_office = $firebaseObject($rootScope.ref.child('offices').child("20232"));
                 my_office.$loaded().then(function () {
                     cb(null,my_office);
                 });

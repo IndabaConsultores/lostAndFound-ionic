@@ -111,8 +111,8 @@
         console.log("init app");
         OfficeService.loadOffice(function(error,office){
           console.log(error);
-          console.log(office);
-            console.log(office);
+          console.log("Office: " + office);
+            console.log("Office id: " + office.$id);
             $rootScope.office = office;
 
             // bulk loading of data
@@ -120,8 +120,8 @@
               function(cb){
                 
                 CategoryService.fetch(function(error,collection){
-                    console.log(error);
-                    console.log(collection);
+                    console.log('fetchCategory Error: ' + error);
+                    console.log('Categories: ' + collection);
                     $rootScope.category_collection = collection;
                     cb(error,collection);
                 });
@@ -131,10 +131,10 @@
               function(cb){
                 
                 ItemService.fetchFoundItems(function(error,collection){
-                  console.log(error);
-                  console.log(collection);
+                  console.log('fetchFoundItems Error: ' + error);
+                  console.log('FoundItems: '+ collection);
                   $rootScope.founditems_collection = collection;
-                  console.log(collection);
+                  console.log('FoundItemsCollection: ' + $rootScope.founditems_collection);
                   cb(error,collection);
                 });
                 
