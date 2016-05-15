@@ -97,7 +97,7 @@
       initAppInfo();    
 
       $rootScope.showLoading = function()  {
-       $ionicLoading.show({ template: 'Loading...', noBackdrop:true });
+        $ionicLoading.show({ template: 'Loading...', noBackdrop:true });
       };
 
       $rootScope.hideLoading = function()  {
@@ -108,45 +108,29 @@
 
     function initAppInfo() {
         $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
-        console.log("init app");
         OfficeService.loadOffice(function(error,office){
-          console.log(error);
-          console.log("Office: " + office);
-            console.log("Office id: " + office.$id);
             $rootScope.office = office;
 
+
+            $ionicLoading.hide();
             // bulk loading of data
+/*
             async.parallel([
               function(cb){
-                
                 CategoryService.fetch(function(error,collection){
-                    console.log('fetchCategory Error: ' + error);
-                    console.log('Categories: ' + collection);
                     $rootScope.category_collection = collection;
                     cb(error,collection);
                 });
-                  
-                  //cb(null,null);
               },
               function(cb){
-                
                 ItemService.fetchFoundItems(function(error,collection){
-                  console.log('fetchFoundItems Error: ' + error);
-                  console.log('FoundItems: '+ collection);
                   $rootScope.founditems_collection = collection;
-                  console.log('FoundItemsCollection: ' + $rootScope.founditems_collection);
                   cb(error,collection);
                 });
-                
-                //cb(null,null);
               },
               function(cb){
                 ItemService.fetchAlerts(function(error,collection){
-                  console.log(collection);
-                  console.log(collection.length);
-                  console.log(error);
                   $rootScope.alert_collection = collection;
-                  console.log(collection);
                   cb(error,collection);
                 });
               }
@@ -155,8 +139,11 @@
                   if(err)
                     $ionicPopup.alert({ title: err.message })
             });
-        });
-      }
+
+            */
+  //      });
+      });
+    }
   })
 
   .constant('angularMomentConfig', {

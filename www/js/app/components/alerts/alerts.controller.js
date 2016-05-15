@@ -1,13 +1,21 @@
 angular.module('lf')
 .controller('AlertsCtrl', function($scope,$rootScope,ItemService){
 
+/*
   if($rootScope.alert_collection)
     $scope.items = $rootScope.alert_collection;
-
-
+*/
+/*
   $rootScope.$watch('alert_collection', function(newValue, oldValue) {
      $scope.items = newValue;
     //$scope.items = newValue.models;
+  });
+*/
+  $rootScope.showLoading();
+  ItemService.fetchAlerts(function(error, items){
+    $rootScope.hideLoading();
+    $scope.items = items;
+    $scope.$apply();
   });
 
   $scope.doRefresh = function(){
@@ -20,7 +28,4 @@ angular.module('lf')
     });
   }
 
-  
-
-
-})
+});

@@ -1,85 +1,180 @@
 angular.module('lf.services.item', [])
 
-
     .factory('ItemService', function ($rootScope,$firebaseArray,constants) {
         $rootScope.item;
 
         var service = {
 
             fetchAlerts: function (cb) {
-                //var lostalerts = $firebaseArray($rootScope.ref.child('items').child("alert").child("lost"));
-                //var foundalerts = $firebaseArray($rootScope.ref.child('items').child("alert").child("found"));
-/*
-                var messagesRef = new Firebase(URL).child("messages");
-                var query = messagesRef.orderByChild("timestamp").limitToLast(10);
-                var list = $firebaseArray(query);
-*/
 
+                var alerts = $rootScope.ref.child("items").child("alert");
 
+                alerts.on("value", function(snapshot){
 
-                var alerts = $firebaseArray($rootScope.ref.child("items").child("alert").orderByChild("createdAt"));
+                    var alert_num = snapshot.numChildren(),
+                        final_alerts = [],
+                        readed = 0;
 
-                alerts.$loaded().then(function(){
-					console.log("Alerts: " + alerts);
-                    cb(null,alerts);
-                });
+                    $rootScope.ref.child("items").child("alert").on("child_added", function(alert){          
+                        var alertId = alert.key(),
+                            alertData = alert.val(),
 
-/*
+                            user = $rootScope.ref.child("users").child(alertData.createdBy);
 
-                var norm = new Firebase.util.NormalizedCollection(
-                   $rootScope.ref.child('items').child("alert").child("lost"),
-                   $rootScope.ref.child('items').child("alert").child("found")
-                )
-                .select('lost.alertLocation','lost.createdAt','lost.createdBy','lost.name','lost.description','lost.picture', 'fount.alertLocation', 'found.createdAt','found.createdBy','found.name','found.description','found.picture');
-                var alertsRef = $firebaseArray(norm.ref());
+                            var cover_exists = alert.child("cover").exists();
+                            
+                            if(cover_exists){
+                                var cover = $rootScope.ref.child("images").child(alertData.cover);    
+                            }
 
-                alertsRef.$loaded().then(function() {
-                    cb(null,alertsRef);
-                });
+                            
+                            
 
-*/
-
-/*
-                async.parallel([
-                    function(callback){
-                        lostalerts.$loaded().then(function () {
-                            callback(null,lostalerts);
+                        async.parallel([
+                            function(callback){
+                                if(cover_exists){
+                                    cover.on("value", function(cover_image_snap){
+                                        callback(null,cover_image_snap.val());
+                                    });    
+                                }else{
+                                    callback(null,null);
+                                }
+                            },
+                            function(callback){
+                                user.on("value", function(user_snap){
+                                    callback(null,user_snap.val());
+                                });
+                            }
+                        ],
+                        function(err, results){
+                            if(!!err){
+                                cb(err,null);
+                            }else{
+                                alertData.id = alertId;
+                                alertData.cover = results[0];
+                                alertData.createdBy = results[1];
+                                final_alerts.push(alertData);
+                                readed++;
+                                if(readed === alert_num){
+                                    cb(null,final_alerts);
+                                }
+                            }
                         });
-                    },
-                    function(callback){
-                        foundalerts.$loaded().then(function () {
-                            callback(null,foundalerts);
-                        });
-                    }
-                ],
-                // optional callback
-                function(err, results){
-                    // the results array will equal ['one','two'] even though
-                    // the second function had a shorter timeout.
-                    console.log("all alerts");
-                    console.log(results);
-                    cb(null,results[0].concat(results[1]));
-                });
-*/
-
-/*
-            	var Item = Parse.Object.extend("Item"),
-
-                    ItemCollection = Parse.Collection.extend({
-                        model: Item,
-                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','alert').include('createdBy').descending("createdAt")
                     });
-                var item_collection = new ItemCollection();
-
-                item_collection.fetch({
-                  success: function(collection) {
-                    cb(null,collection);
-                  },
-                  error: function(collection, error) {
-                    cb(error,null);
-                  }
                 });
-*/
+
+            },
+
+
+            getAlert: function(alert_id, cb){
+                var alertRef = $rootScope.ref.child("items").child("alert").child(alert_id);
+
+                alertRef.on("value", function(snap){
+                    var alert =  snap.val();
+                    var userRef = $rootScope.ref.child("users").child(alert.createdBy);
+                    var officeRef = $rootScope.ref.child("offices").child(alert.office);
+                    var messagesRef = $rootScope.ref.child("items").child("alert").child(alert_id).child("messages");
+
+                    var cover_exists = snap.child("cover").exists();
+                    if(cover_exists){
+                        var coverRef = $rootScope.ref.child("images").child(alert.cover);
+                    }
+
+
+                    async.parallel([
+                            function(callback){
+                                userRef.on("value", function(user_snap){
+                                    callback(null,user_snap.val());
+                                });
+                            },
+                            function(callback){
+                                officeRef.on("value", function(office_snap){
+                                    callback(null,office_snap.val());
+                                });
+                            },
+                            function(callback){
+                                if(cover_exists){
+                                    coverRef.on("value", function(cover_snap){
+                                        callback(null,cover_snap.val());
+                                    });
+                                }else{
+                                    callback(null,null);
+                                }
+                            },
+                            function(callback){
+                                messagesRef.on("value",function(messages_snap){
+                                    callback(null,messages_snap.numChildren());
+                                });
+                            }
+                        ],
+                        function(err, results){
+                            if(!!err){
+                                cb(err,null);
+                            }else{
+                                alert.createdBy = results[0];
+                                alert.office = results[1];
+                                alert.cover = results[2];
+                                alert.messages_length = results[3];
+                                cb(null,alert);
+                            }
+                        });
+                });
+            },
+
+            getFoundItem: function(found_item_id, cb){
+                var alertRef = $rootScope.ref.child("items").child("office").child(found_item_id);
+
+                alertRef.on("value", function(snap){
+                    var alert =  snap.val();
+                    var userRef = $rootScope.ref.child("users").child(alert.createdBy);
+                    var officeRef = $rootScope.ref.child("offices").child(alert.office);
+                    var messagesRef = $rootScope.ref.child("items").child("office").child(found_item_id).child("messages");
+
+                    var cover_exists = snap.child("cover").exists();
+                    if(cover_exists){
+                        var coverRef = $rootScope.ref.child("images").child(alert.cover);
+                    }
+
+
+                    async.parallel([
+                            function(callback){
+                                userRef.on("value", function(user_snap){
+                                    callback(null,user_snap.val());
+                                });
+                            },
+                            function(callback){
+                                officeRef.on("value", function(office_snap){
+                                    callback(null,office_snap.val());
+                                });
+                            },
+                            function(callback){
+                                if(cover_exists){
+                                    coverRef.on("value", function(cover_snap){
+                                        callback(null,cover_snap.val());
+                                    });
+                                }else{
+                                    callback(null,null);
+                                }
+                            },
+                            function(callback){
+                                messagesRef.on("value",function(messages_snap){
+                                    callback(null,messages_snap.numChildren());
+                                });
+                            }
+                        ],
+                        function(err, results){
+                            if(!!err){
+                                cb(err,null);
+                            }else{
+                                alert.createdBy = results[0];
+                                alert.office = results[1];
+                                alert.cover = results[2];
+                                alert.messages_length = results[3];
+                                console.log(alert);
+                                cb(null,alert);
+                            }
+                        });
+                });
             },
 
             newAlertItem: function(new_item,cb) {
@@ -111,51 +206,69 @@ angular.module('lf.services.item', [])
 
             },
 
-            fetchFoundItems: function(cb) {
-/*
-				var alerts = $firebaseArray($rootScope.ref.child("items").child("office").orderByChild("createdAt"));
+            foundItemsByCategory: function(category_id,cb){
 
-                alerts.$loaded().then(function(){
-					console.log("Found: " + alerts);
-                    cb(null,alerts);
-                });
-*/
+                console.log(category_id);
 
-                var foundRef = new Firebase(constants.FIREBASEID+'/items/office'),
-                    query = foundRef.orderByChild("office");//.equalTo($rootScope.office.$id);
-				var foundItems = $firebaseArray(query);
-				cb(null, foundItems);
+                var officeItems = new Firebase.util.NormalizedCollection(
+                          $rootScope.ref.child('categories').child(category_id).child('items'),
+                          $rootScope.ref.child('items').child('office')
+                        ).select('office.name',
+                                 'office.cover',
+                                 'office.createdAt',
+                                 'office.description').ref();
 
-/*
-            	var Item = Parse.Object.extend("Item"),
-                    ItemCollection = Parse.Collection.extend({
-                        model: Item,
-                        query: (new Parse.Query(Item)).equalTo("office", $rootScope.office).equalTo('type','found').include('createdBy').include('category').descending("createdAt")
+                var itemsArray = $firebaseArray(officeItems);
+                console.log(itemsArray);
+                itemsArray.$loaded(function(){
+
+                    async.times(itemsArray.length, function(n, next){
+                        console.log(n);
+                        var coverRef = $rootScope.ref.child("images").child(itemsArray[n].cover);
+                        coverRef.on("value", function(coverSnap){
+                            itemsArray[n].cover = coverSnap.val();
+                            next(null,coverSnap.val());
+                        });
+                    }, function(err, users) {
+                        cb(itemsArray);
                     });
-                var item_collection = new ItemCollection();
-
-                item_collection.fetch({
-                  success: function(collection) {
-                    cb(null,collection);
-                  },
-                  error: function(collection, error) {
-                    cb(error,null);
-                  }
                 });
-*/
+                
             },
 
-            foundItemsByCategory: function(category_id,cb) {
-                var results = [];
-                $rootScope.founditems_collection.$loaded().then(function(){
-                    angular.forEach($rootScope.founditems_collection, function(item) {
-                        if(item.category == category_id){
-                            results.push(item);
-                        }
-                    });
-                    cb(null,results);
-                });
+            fetchFoundItems: function(cb) {
 
+                var categories = $rootScope.ref.child("categories");
+
+                categories.on("value",function(snap){
+                    
+                    var num_categories = snap.numChildren(),
+                        all_items = [],
+                        readed = 0;
+
+                    categories.on("child_added", function(item){
+                        //console.log(item.key());
+                        //console.log(item.val());
+
+                        service.foundItemsByCategory(item.key(), function(item_list){
+                            console.log(item_list);
+                            
+                            var cat = item.val();
+                            cat.items = item_list;
+                            
+                            all_items.push(cat);
+                            readed += 1;
+                            console.log(num_categories);
+                            console.log(readed);
+                            if(readed === num_categories){
+                                console.log(all_items);
+                                cb(null,all_items);
+                            }
+                        });
+
+                    });
+
+                });
 
             }
 

@@ -1,30 +1,36 @@
 <ion-view title="{{item.name}}">
   <ion-content class="has-header">
-      
+    
       <div class="list card">
 
       <div class="item item-avatar">
-        <img ng-src="{{userRef.avatar}}">
-        <h2>{{userRef.username}}</h2>
+        <img ng-src="{{item.createdBy.avatar}}">
+        <h2>{{item.createdBy.username}}</h2>
         <p>{{item.createdAt | amDateFormat: 'MMMM D, YYYY' }}</p>
       </div>
 
       <div class="item item-body">
         <h2>{{item.name}}</h2>
-        <img class="full-image" ng-src="{{item.picture.image}}">
+        <img class="full-image" ng-src="{{item.cover.image}}">
+
+        <label class="item item-input item-stacked-label">
+          <!-- <map on-create="mapCreated(map)"></map> -->
+            <div data-tap-disabled="true"><div id="alertmap" style="height:180px;"></div> </div>
+
+        </label>
 
         <p>
           {{item.description}}
         </p>
         <p>
           <a href="#" class="subdued">1 Like</a>
-          <a href="#/app/found_items/messages/{{item.id}}" class="subdued">{{messages}} {{"comments" | translate}}</a>
+          <a href="#/app/found_items/messages/{{item.$id}}" class="subdued">{{item.messages_length}} {{"comments" | translate}}</a>
         </p>
       </div>
 
       <div class="item tabs tabs-secondary tabs-icon-left">
         
-        <a class="tab-item" href="#/app/found_items/messages/{{item.id}}">
+        <a class="tab-item" href="#/app/found_items/messages/{{item.$id}}">
           <i class="icon ion-chatbox"></i>
           {{"comment" | translate}}
         </a>
@@ -35,5 +41,6 @@
       </div>
 
     </div>
+
   </ion-content>
 </ion-view>
