@@ -207,29 +207,29 @@ angular.module('lf.services.item', [])
             },
 
             foundItemsByCategory: function(category_id,cb){
-
-                console.log(category_id);
-
                 var officeItems = new Firebase.util.NormalizedCollection(
-                          $rootScope.ref.child('categories').child(category_id).child('items'),
-                          $rootScope.ref.child('items').child('office')
-                        ).select('office.name',
-                                 'office.cover',
-                                 'office.createdAt',
-                                 'office.description').ref();
+                          $rootScope.ref.child('categories').child(category_id).child('items').child('office'),
+                          [$rootScope.ref.child('items').child('office'),'office_item']
+                        ).select('office_item.name',
+                                 'office_item.images',
+                                 'office_item.createdAt',
+                                 'office_item.description').ref();
 
                 var itemsArray = $firebaseArray(officeItems);
                 console.log(itemsArray);
                 itemsArray.$loaded(function(){
 
                     async.times(itemsArray.length, function(n, next){
-                        console.log(n);
-                        var coverRef = $rootScope.ref.child("images").child(itemsArray[n].cover);
+                        console.log(Object.keys(itemsArray[n]));
+                      
+                        var coverRef = $rootScope.ref.child("images").child(Object.keys(itemsArray[n].images)[0]);
                         coverRef.on("value", function(coverSnap){
                             itemsArray[n].cover = coverSnap.val();
                             next(null,coverSnap.val());
                         });
+                        
                     }, function(err, users) {
+                        console.log(itemsArray);
                         cb(itemsArray);
                     });
                 });
@@ -258,8 +258,7 @@ angular.module('lf.services.item', [])
                             
                             all_items.push(cat);
                             readed += 1;
-                            console.log(num_categories);
-                            console.log(readed);
+
                             if(readed === num_categories){
                                 console.log(all_items);
                                 cb(null,all_items);
