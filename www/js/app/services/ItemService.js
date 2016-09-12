@@ -6,30 +6,19 @@ angular.module('lf.services.item', [])
         var service = {
 
             fetchAlerts: function (cb) {
-
                 var alerts = $rootScope.ref.child("items").child("alert");
-
                 alerts.on("value", function(snapshot){
-
                     var alert_num = snapshot.numChildren(),
                         final_alerts = [],
                         readed = 0;
-
                     $rootScope.ref.child("items").child("alert").on("child_added", function(alert){          
                         var alertId = alert.key(),
                             alertData = alert.val(),
-
                             user = $rootScope.ref.child("users").child(alertData.createdBy);
-
                             var cover_exists = alert.child("cover").exists();
-                            
                             if(cover_exists){
                                 var cover = $rootScope.ref.child("images").child(alertData.cover);    
                             }
-
-                            
-                            
-
                         async.parallel([
                             function(callback){
                                 if(cover_exists){
@@ -178,18 +167,6 @@ angular.module('lf.services.item', [])
             },
 
             newAlertItem: function(new_item,cb) {
-/*
-                var new_item = {
-                    "type": "alert",
-                    "createdBy": $rootScope.currentUser,
-                    "picture": null,
-                    "office": $rootScope.office,
-                    "name": $scope.newalert.name,
-                    "description": $scope.newalert.description,
-                    "alertlocation": alertlocation
-                };
-*/
-
                 var alertRef = $firebaseArray($rootScope.ref.child("items").child("alert"));
                 console.log(new_item);
                 alertRef.$add(new_item).then(function(ref) {
@@ -200,10 +177,6 @@ angular.module('lf.services.item', [])
                     cb(null,true);
                   });
                 });
-
-
-
-
             },
 
             foundItemsByCategory: function(category_id,cb){
@@ -237,7 +210,7 @@ angular.module('lf.services.item', [])
             },
 
             fetchFoundItems: function(cb) {
-
+				console.log($rootScope);
                 var categories = $rootScope.ref.child("categories");
 
                 categories.on("value",function(snap){

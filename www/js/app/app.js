@@ -5,162 +5,138 @@
   // the 2nd parameter is an array of 'requires'
 
   angular.module('lf', [ 'ionic',
-                         'pascalprecht.translate',
-                         'angularMoment',
-                         'nl2br',
-                         'firebase',
-                         'lf.services.office', 
-                         'lf.services.category',
-                         'lf.services.item',
-                         'lf.directives.map',
-                         'lf.services.camera'])
+						 'ionic.cloud',
+						 'pascalprecht.translate',
+						 'angularMoment',
+						 'nl2br',
+						 'firebase',
+						 'lf.services.office', 
+						 'lf.services.category',
+						 'lf.services.item',
+						 'lf.directives.map',
+						 'lf.services.camera'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, $translate,$firebaseObject, OfficeService, CategoryService, ItemService,amMoment,constants) {
-    $ionicPlatform.ready(function() {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      if(window.cordova && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      }
-      if(window.StatusBar) {
-        // org.apache.cordova.statusbar required
-        StatusBar.styleDefault();
-      }
+  .run(function($ionicPlatform, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
+	//Save Firebase reference and load it into the rootscope
+	$rootScope.ref = new Firebase(constants.FIREBASEID);
+	console.log('Firebase ref obtained');
 
-      $rootScope.ref = new Firebase(constants.FIREBASEID);
-      var auth = $rootScope.ref.getAuth();
+	//Register Ionic Push device token
+	$ionicPush.register().then(function(t) {
+		return $ionicPush.saveToken(t);
+	}).then(function(t) {
+		console.log('Token saved: %s', t.token);
+	});
+	
+	$ionicPlatform.ready(function() {
+		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+		// for form inputs)
+		if(window.cordova && window.cordova.plugins.Keyboard) {
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+		}
+		if(window.StatusBar) {
+			// org.apache.cordova.statusbar required
+			StatusBar.styleDefault();
+		}
+		
+		//Check user authentication
+		var auth = $rootScope.ref.getAuth();
 
-      if(!!auth){
-          $rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
-          $rootScope.currentUser.$loaded().then(function () {
-              console.log($rootScope.currentUser.name);
-              console.log($rootScope.currentUser.language);
-              $translate.use($rootScope.currentUser.language);
-              amMoment.changeLocale($rootScope.currentUser.language);
-          });
-      }else{
-          // usuario no autetificado
-          if(typeof navigator.globalization !== "undefined") {
-            navigator.globalization.getPreferredLanguage(function(language) {
-                console.log(language);
-                $translate.use((language.value).split("-")[0]).then(function(data) {
-                    console.log("SUCCESS -> " + data);
-                }, function(error) {
-                    console.log("ERROR -> " + error);
-                });
-            }, null);
-        }else{
-          $translate.use("en");
-          amMoment.changeLocale("en");
-        }
-      }
+		if(!!auth){
+			$rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
+			$rootScope.currentUser.$loaded().then(function () {
+				console.log($rootScope.currentUser.name);
+				console.log($rootScope.currentUser.language);
+				$translate.use($rootScope.currentUser.language);
+				amMoment.changeLocale($rootScope.currentUser.language);
+			});
+		}else{
+			// usuario no autetificado
+			if(typeof navigator.globalization !== "undefined") {
+				navigator.globalization.getPreferredLanguage(function(language) {
+					console.log(language);
+					$translate.use((language.value).split("-")[0]).then(function(data) {
+						console.log("SUCCESS -> " + data);
+					}, function(error) {
+						console.log("ERROR -> " + error);
+					});
+				}, null);
+			}else{
+				$translate.use("en");
+				amMoment.changeLocale("en");
+			}
+		}
 
-      //Parse.initialize(constants.APP_ID, constants.JS_KEY);
-      //$rootScope.currentUser = Parse.User.current();
-       $rootScope.languages = [
-                                { code: "en",
-                                  name: "English" },
-                                { code: "es",
-                                  name: "Español"},
-                                { code: "eu",
-                                  name: "Euskara"}
-                              ];
-      
-      /*
-      window.fbAsyncInit = function() {
-        Parse.FacebookUtils.init({ // this line replaces FB.init({
-          appId      : constants.FB_APP_ID, // Facebook App ID
-          status     : true,  // check Facebook Login status
-          cookie     : true,  // enable cookies to allow Parse to access the session
-          xfbml      : true,  // initialize Facebook social plugins on the page
-          version    : 'v2.2' // point to the latest Facebook Graph API version
-        });
-        // Run code after the Facebook SDK is loaded.
-      };
-      */
-     
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+		$rootScope.languages = [
+			{ code: "en",
+			  name: "English" },
+			{ code: "es",
+			  name: "Español" },
+			{ code: "eu",
+			  name: "Euskara" }
+		];
 
+			
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
 
-/*
-      $rootScope.alert_collection = {
-          'models': []
-      };
-*/
+		initAppInfo();    
 
-      initAppInfo();    
+		$rootScope.showLoading = function()  {
+			$ionicLoading.show({ template: 'Loading...', noBackdrop:true });
+		};
 
-      $rootScope.showLoading = function()  {
-        $ionicLoading.show({ template: 'Loading...', noBackdrop:true });
-      };
-
-      $rootScope.hideLoading = function()  {
-        $ionicLoading.hide();
-      };
-
-    });
+		$rootScope.hideLoading = function()  {
+			$ionicLoading.hide();
+		};
+	});
 
     function initAppInfo() {
-        $ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
-        OfficeService.loadOffice(function(error,office){
-            $rootScope.office = office;
+		$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
+		OfficeService.loadOffice(function(error,office){
+			$rootScope.office = office;
+			$ionicLoading.hide();
+		});
+	}
 
-
-            $ionicLoading.hide();
-            // bulk loading of data
-/*
-            async.parallel([
-              function(cb){
-                CategoryService.fetch(function(error,collection){
-                    $rootScope.category_collection = collection;
-                    cb(error,collection);
-                });
-              },
-              function(cb){
-                ItemService.fetchFoundItems(function(error,collection){
-                  $rootScope.founditems_collection = collection;
-                  cb(error,collection);
-                });
-              },
-              function(cb){
-                ItemService.fetchAlerts(function(error,collection){
-                  $rootScope.alert_collection = collection;
-                  cb(error,collection);
-                });
-              }
-          ], function(err,results){
-                  $ionicLoading.hide();
-                  if(err)
-                    $ionicPopup.alert({ title: err.message })
-            });
-
-            */
-  //      });
-      });
-    }
   })
 
   .constant('angularMomentConfig', {
-//    preprocess: 'unix', // optional
-      timezone: 'Europe/Madrid' // optional
+	//preprocess: 'unix', // optional
+	  timezone: 'Europe/Madrid' // optional
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
+  .config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
+	$ionicCloudProvider.init({
+		"core": {
+			"app_id": constants.IONIC_APP_ID  
+		},
+		"push": {
+			"sender_id": constants.SENDER_ID,
+			"pluginConfig": {
+				"ios": {
+					"badge": true,
+					"sound": true
+				},
+				"android": {
+					"iconColor": "#343434"
+				}
+			}
+		}	
+	});
 
+    $stateProvider
       .state('app', {
         url: "/app",
         abstract: true,
         templateUrl: "js/app/components/main/menu.html",
         controller: 'AppCtrl'
       })
-
       .state('app.foundItems', {
         url: "/found_items",
         views: {
@@ -170,7 +146,6 @@
           }
         }
       })
-      
       .state('app.item', {
         url: "/found_items/:item",
         views: {
@@ -180,7 +155,6 @@
           }
         }
       })
-
       .state('app.officeMessages',{
         url: "/found_items/messages/:item",
         views: {
@@ -190,7 +164,6 @@
           }
         }
       })
-
       .state('app.alertMessages', {
         url: "/alert_items/messages/:item",
         views: {
@@ -200,7 +173,6 @@
           }
         }
       })
-
       .state('app.alerts', {
         url: "/alerts",
         views: {
@@ -210,7 +182,6 @@
           }
         }
       })
-
       .state('app.alertitem', {
         url: "/alerts/:item",
         views: {
@@ -220,7 +191,6 @@
           }
         }
       })
-
       .state('app.launchAlert', {
         url: "/launch_alert",
         views: {
@@ -230,7 +200,6 @@
           }
         }
       })
-      
       .state('app.info', {
         url: '/info',
         views: {
@@ -240,7 +209,6 @@
           }
         }
       })
-
       .state('app.settings', {
         url: '/settings',
         views: {
@@ -250,7 +218,6 @@
           }
         }
       })
-
       .state('app.signup', {
         url: "/signup",
         views: {
@@ -260,7 +227,7 @@
           }
         }
       });
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/found_items');
-
   });

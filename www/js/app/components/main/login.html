@@ -1,33 +1,36 @@
 <div class="modal">
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">{{'email' | translate}}</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">{{'password' | translate}}</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-    </form>
+	<ion-header-bar>
+		<h1 class="title">Login</h1>
+		<div class="buttons">
+			<button class="button button-clear" ng-click="closeLogin()">Close</button>
+		</div>
+	</ion-header-bar>
+	<ion-content>
+		<form ng-submit="doLogin()">
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">{{'email' | translate}}</span>
+					<input type="text" ng-model="loginData.username">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">{{'password' | translate}}</span>
+					<input type="password" ng-model="loginData.password">
+				</label>
+				<label class="item">
+					<button class="button button-block button-positive" type="submit">Log in</button>
+				</label>
+			</div>
+		</form>
 
-        <div class="row">
-            <div class="col col-25"><a class="button button-block button-facebook" ng-click="fblogin()"><i class="ion-social-facebook"></i></a></div>
-            <!-- <div class="col col-25"><button class="button button-block button-twitter"><i class="ion-social-twitter"></i></button></div> -->
-            <div class="col col-75"><a class="button button-block button-stable" ng-click="signup()">{{'sign_up' | translate}}</a></div>
-        </div>
-      </div>
-
-  </ion-content>
+		<div class="row">
+			<div class="col col-25">
+				<a class="button button-block button-facebook" ng-click="fblogin()">
+					<i class="ion-social-facebook"></i>
+				</a>
+			</div>
+			<!-- <div class="col col-25"><button class="button button-block button-twitter"><i class="ion-social-twitter"></i></button></div> -->
+			<div class="col col-75"><a class="button button-block button-stable" ng-click="signup()">{{'sign_up' | translate}}</a></div>
+		</div>
+	</ion-content>
 </div>
 
