@@ -199,12 +199,15 @@ angular.module('lf.services.item', [])
 			}).then(function(itemsArray){
 
 				async.times(itemsArray.length, function(n, next){
-					var coverRef = firebase.database().ref().child("images").child(Object.keys(itemsArray[n].images)[0]);
-					coverRef.on("value", function(coverSnap){
-						itemsArray[n].cover = coverSnap.val();
-						next(null,coverSnap.val());
-					});
-					
+					if (itemsArray[n].images) {
+						var coverRef = firebase.database().ref('images').child(Object.keys(itemsArray[n].images)[0]);
+						coverRef.on('value', function(coverSnap){
+							itemsArray[n].cover = coverSnap.val();
+							next(null,coverSnap.val());
+						});
+					} else {
+						next(null, null);
+					}
 				}, function(err, users) {
 					cb(itemsArray);
 				});
