@@ -12,10 +12,11 @@ angular.module('lf')
 	});
 
 	$scope.logout = function() {
-		$rootScope.ref.unauth();
-		$ionicHistory.clearCache();
-		$rootScope.currentUser = null;
-		$state.go('app.foundItems');
+		firebase.auth().signOut().then(function() {
+			$ionicHistory.clearCache();
+			$rootScope.currentUser = null;
+			$state.go('app.foundItems');
+		});
 	};
 
 	// Triggered in the login modal to close it
@@ -29,54 +30,57 @@ angular.module('lf')
 	};
 
 	$scope.signup = function(){
-		console.log("signup");
 		$scope.modal.hide();
 		$state.go('app.signup');
 	};
 
 	$scope.fblogin = function(){
-		$rootScope.ref.authWithOAuthPopup("facebook", function(error, authData) {
-			if (error) {
-				console.log("Login Failed!", error);
-			} else {
-				console.log("Authenticated successfully with payload:", authData);
-			}
+		var provider = new firebase.auth.FacebookAuthProvider();
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+			var token = result.credential.accessToken;
+			var user = result.user;
+			console.log("User authenticated with payload " + token);
+		}).catch(function(error) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Log In ERROR' + error.code,
+				template: error.message
+			});
+			alertPopup.then(function(res) {});
+			console.log("Login Failed!", error);
 		});
 	};
 
 	// Perform the login action when the user submits the login form
 	$scope.doLogin = function() {
-		console.log("do login");
 		$rootScope.showLoading();
 
-		$rootScope.ref.authWithPassword({
-			"email": $scope.loginData.username,
-			"password": $scope.loginData.password
-		}, function(error, authData) {
-			$rootScope.hideLoading();
-			if (error) {
-				var alertPopup = $ionicPopup.alert({
-					title: 'Sign Up ERROR' + error.code,
-					template: error.message
-				});
-				alertPopup.then(function(res) {});
-				console.log("Login Failed!", error);
-			} else {
-				console.log("Authenticated successfully with payload:", authData);
-				$rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(authData.uid));
-				$translate.use($rootScope.currentUser.language);
-				//$rootScope.currentUser = authData;
-			}
-		});
+		var email = $scope.loginData.username;
+		var password = $scope.loginData.password;
 
-		// Simulate a login delay. Remove this and replace with your login
-		// code if using a login system
-		$timeout(function() {
-			$scope.closeLogin();
-		}, 1000);
+		firebase.auth().signInWithEmailAndPassword(email, password)
+		.then(function(user) {
+			$rootScope.hideLoading();
+			console.log("User authenticated");
+			$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
+			$rootScope.currentUser.$loaded().then(function() {
+				$translate.use($rootScope.currentUser.language);
+			});
+			$scope.modal.hide();
+		}).catch(function(error) {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Sign Up ERROR' + error.code,
+				template: error.message
+			});
+			$rootScope.hideLoading();
+			alertPopup.then(function(res) {});
+			console.log("Login Failed!", error);
+		});
+	
 	};
 
 	$scope.$on('cloud:push:notification', function(event, data) {
+		//TODO manage push notification when app is open
 		console.log("Notification received %s", data.message.text);
+		$state.go('app.alerts');
 	});
 });

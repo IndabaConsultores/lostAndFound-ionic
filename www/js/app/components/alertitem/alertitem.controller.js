@@ -17,5 +17,4 @@ angular.module('lf')
         $rootScope.hideLoading();
     });
 
-
 });

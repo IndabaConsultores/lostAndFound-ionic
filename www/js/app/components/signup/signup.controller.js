@@ -8,13 +8,11 @@ angular.module('lf')
 		console.log("signup controller signup function");
 		$rootScope.showLoading();
 
-		Auth.$createUser({
-			email: $scope.newuser.email,
-			password: $scope.newuser.password
-		}).then(function(userData) {
+		Auth.$createUserWithEmailAndPassword($scope.newuser.email, $scope.newuser.password
+		).then(function(userData) {
 			$scope.message = "User created with uid: " + userData.uid;
 
-			var new_userRef = new Firebase(constants.FIREBASEID+"/users/"+userData.uid);
+			var new_userRef = firebase.database().ref("/users/"+userData.uid);
 
 			new_userRef.set({
 				id: userData.uid,

@@ -1,70 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<title></title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
-    <link href="css/style.css" rel="stylesheet">
+		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+		<link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
+		<link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+		<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+		<link href="css/ionic.app.css" rel="stylesheet">
+		-->
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-	<script src="lib/ionic.cloud.min.js"></script>
-    <script src="lib/angular-translate/angular-translate.min.js"></script>
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-    <!-- <script src="lib/parse/parse.min.js"></script> -->
-    <!-- Firebase -->
-    <script src="lib/firebase/firebase.js"></script>
-    <script src="lib/firebase-util/dist/firebase-util.min.js"></script>
-    <!-- AngularFire -->
-    <script src="lib/angularfire/dist/angularfire.min.js"></script>
-    <script src="lib/underscore/underscore-min.js"></script>
-    <script src="lib/async/lib/async.js"></script>
-    <script src="lib/moment/moment.js"></script>
-    <script src="lib/moment/locale/en-gb.js"></script>
-    <script src="lib/moment/locale/es.js"></script>
-    <script src="lib/moment/locale/eu.js"></script>
-    <script src="lib/angular-moment/angular-moment.js"></script>
-    <script src="lib/angular-nl2br/angular-nl2br.js"></script>
+		<!-- ionic/angularjs js -->
+		<script src="lib/ionic/js/ionic.bundle.js"></script>
+		<script src="lib/ionic.cloud.min.js"></script>
+		<script src="lib/angular-translate/angular-translate.min.js"></script>
+		<!-- cordova script (this will be a 404 during development) -->
+		<script src="cordova.js"></script>
+		<!-- Firebase -->
+		<script src="lib/firebase/firebase.js"></script>
+		<!-- AngularFire -->
+		<script src="lib/angularfire/dist/angularfire.min.js"></script>
+		<script src="lib/underscore/underscore-min.js"></script>
+		<script src="lib/async/lib/async.js"></script>
+		<script src="lib/moment/moment.js"></script>
+		<script src="lib/moment/locale/en-gb.js"></script>
+		<script src="lib/moment/locale/es.js"></script>
+		<script src="lib/moment/locale/eu.js"></script>
+		<script src="lib/angular-moment/angular-moment.js"></script>
+		<script src="lib/angular-nl2br/angular-nl2br.js"></script>
 
-    <script src="lib/leaflet/dist/leaflet.js"></script>
+		<script src="lib/leaflet/dist/leaflet.js"></script>
 
-    <!-- your app's js -->
+		<!-- your app's js -->
 
-    <script src="js/app/app.js"></script>
-    <script src="js/app/constants.js"></script>
-    <script src="js/app/components/main/main.controller.js"></script>
-    <script src="js/app/components/alertitem/alertitem.controller.js"></script>
-    <script src="js/app/components/alerts/alerts.controller.js"></script>
-    <script src="js/app/components/founditem/founditem.controller.js"></script>
-    <script src="js/app/components/founditems/founditems.controller.js"></script>
-    <script src="js/app/components/info/info.controller.js"></script>
-    <script src="js/app/components/launchalert/launchalert.controller.js"></script>
-    <script src="js/app/components/message/office/office.message.controller.js"></script>
-    <script src="js/app/components/message/alert/alert.message.controller.js"></script>
-    <script src="js/app/components/settings/settings.controller.js"></script>
-    <script src="js/app/components/signup/signup.controller.js"></script>
-    <script src="js/app/services/OfficeService.js"></script>
-    <script src="js/app/services/CategoryService.js"></script>
-    <script src="js/app/services/ItemService.js"></script>
-    <script src="js/app/directives/MapDirective.js"></script>
-    <script src="js/app/services/CameraService.js"></script>
-    <script src="js/app/factories/auth.js"></script>
-    <script src="js/app/locale/locale.js"></script>
-    <script src="js/app/locale/en/en.js"></script>
-    <script src="js/app/locale/es/es.js"></script>
-    <script src="js/app/locale/eu/eu.js"></script>
+		<script src="js/app/app.js"></script>
+		<script src="js/app/constants.js"></script>
+		<script src="js/app/components/main/main.controller.js"></script>
+		<script src="js/app/components/alertitem/alertitem.controller.js"></script>
+		<script src="js/app/components/alerts/alerts.controller.js"></script>
+		<script src="js/app/components/founditem/founditem.controller.js"></script>
+		<script src="js/app/components/founditems/founditems.controller.js"></script>
+		<script src="js/app/components/info/info.controller.js"></script>
+		<script src="js/app/components/launchalert/launchalert.controller.js"></script>
+		<script src="js/app/components/message/office/office.message.controller.js"></script>
+		<script src="js/app/components/message/alert/alert.message.controller.js"></script>
+		<script src="js/app/components/settings/settings.controller.js"></script>
+		<script src="js/app/components/signup/signup.controller.js"></script>
+		<script src="js/app/services/OfficeService.js"></script>
+		<script src="js/app/services/CategoryService.js"></script>
+		<script src="js/app/services/ItemService.js"></script>
+		<script src="js/app/services/ImageService.js"></script>
+		<script src="js/app/directives/MapDirective.js"></script>
+		<script src="js/app/services/CameraService.js"></script>
+		<script src="js/app/factories/auth.js"></script>
+		<script src="js/app/locale/locale.js"></script>
+		<script src="js/app/locale/en/en.js"></script>
+		<script src="js/app/locale/es/es.js"></script>
+		<script src="js/app/locale/eu/eu.js"></script>
+	</head>
 
-  </head>
-
-  <body ng-app="lf">
-    <ion-nav-view></ion-nav-view>
-  </body>
+	<body ng-app="lf">
+		<ion-nav-view></ion-nav-view>
+	</body>
 </html>

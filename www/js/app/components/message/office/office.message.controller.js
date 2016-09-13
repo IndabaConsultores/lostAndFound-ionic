@@ -16,8 +16,10 @@ angular.module('lf')
 
   $scope.getMessages = function(){
       
+	console.log('getMessages()', $stateParams.item);
       $rootScope.showLoading();
       OfficeService.getOfficeMessages($stateParams.item,function(error,data){
+		console.log('Office messages', data);
           $rootScope.hideLoading();
 
           if(error)
