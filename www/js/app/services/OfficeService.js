@@ -5,9 +5,13 @@ angular.module('lf.services.office', [])
 
 		loadOffice: function (cb) {
 			var my_office = $firebaseObject(firebase.database().ref('offices/' + constants.OFFICE_ID));
+			console.log('loadOffice');
 			my_office.$loaded().then(function () {
 				cb(null,my_office);
-			});
+			}).catch(function(error) {
+				console.log(error);
+				cb(error, null);
+			});;
 		},
 
 		getAlertMessageCount: function(item_id,cb){

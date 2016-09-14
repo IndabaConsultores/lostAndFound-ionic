@@ -220,7 +220,6 @@ angular.module('lf.services.item', [])
 						alert.office = results[1];
 						alert.cover = results[2];
 						alert.messages_length = results[3];
-						console.log(alert);
 						cb(null,alert);
 					}
 				});
@@ -264,14 +263,13 @@ angular.module('lf.services.item', [])
 					cb(itemsArray);
 				});
 			});
-			
 		},
 
 		fetchFoundItems: function(cb) {
 			if (firebase.apps.length == 0)
 				cb(null, null);
 
-			var categories = firebase.database().ref().child("categories");
+			var categories = firebase.database().ref('categories').orderByChild('office').equalTo(constants.OFFICE_ID);
 
 			categories.once('value',function(snap){
 				var num_categories = snap.numChildren(),
@@ -297,3 +295,4 @@ angular.module('lf.services.item', [])
 	}
 	return  service;
 });
+

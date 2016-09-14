@@ -16,11 +16,21 @@
 					<span class="input-label">{{'password' | translate}}</span>
 					<input type="password" ng-model="loginData.password">
 				</label>
+				<div class="item item-toggle">
+					Remember Me
+					<label class="toggle toggle-assertive">
+						<input type="checkbox" ng-checked="loginData.rememberMe" ng-model="loginData.rememberMe">
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</label>
+				</div>
 				<label class="item">
 					<button class="button button-block button-positive" type="submit">Log in</button>
 				</label>
 			</div>
 		</form>
+
 
 		<div class="row">
 			<div class="col col-25">

@@ -1,3 +1,4 @@
+
 <ion-view title="{{'settings' | translate}}">
 	<ion-nav-buttons side="left">
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
@@ -5,11 +6,11 @@
 	<ion-content class="has-header">
 		<ul class="list">
 			<li class="item item-avatar settings">
-				<div class="profile_avatar" ng-click="showPopup()">
-					<img ng-src="{{imageBase64}}" ng-if="imageBase64" />
-					<img ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar && !imageBase64" />
-					<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar && !imageBase64" />
-					<i class="ion-edit"></i>
+				<div class="profile_avatar" >
+					<img ng-src="{{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()"/>
+					<img ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar && !imageBase64" ng-click="showPopup()"/>
+					<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar && !imageBase64" /ng-click="showPopup()">
+					<i class="ion-edit" ng-click="showPopup()"></i>
 				</div>
 			  
 				<h2>{{currentUser.attributes.username}}</h2>
@@ -32,7 +33,7 @@
 				</div>
 				<select ng-model="settings.language">
 					<option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.language">
-						{{language.name}}
+						{{language.name}} 
 					</option>
 				</select>
 			</label>
@@ -43,3 +44,4 @@
 		</button>
 	</ion-content>
 </ion-view>
+

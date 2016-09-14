@@ -1,8 +1,14 @@
+
 angular.module('lf')
 
 .controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$firebaseObject,$ionicModal,$timeout,$translate) {
+	if (window.localStorage.getItem('rememberMe') === undefined)
+		window.localStorage.setItem('rememberMe', false);	
+	
 	// Form data for the login modal
-	$scope.loginData = {};
+	$scope.loginData = {
+		rememberMe: window.localStorage.getItem('rememberMe'),
+	};
 
 	// Create the login modal that we will use later
 	$ionicModal.fromTemplateUrl('js/app/components/main/login.html', {
@@ -56,6 +62,15 @@ angular.module('lf')
 
 		var email = $scope.loginData.username;
 		var password = $scope.loginData.password;
+		
+		console.log($scope.loginData);
+		if ($scope.loginData.rememberMe) {
+			window.localStorage.setItem('email', email);
+			window.localStorage.setItem('password', password);
+		} else {
+			window.localStorage.removeItem('email');
+			window.localStorage.removeItem('password');
+		}
 
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(user) {
@@ -73,14 +88,20 @@ angular.module('lf')
 			});
 			$rootScope.hideLoading();
 			alertPopup.then(function(res) {});
-			console.log("Login Failed!", error);
+			if ($scope.rememberMe) {
+				window.localStorage.removeItem('email');
+				window.localStorage.removeItem('password');
+			}
+			console.log('Login Failed!' + error);
 		});
-	
 	};
 
 	$scope.$on('cloud:push:notification', function(event, data) {
 		//TODO manage push notification when app is open
-		console.log("Notification received %s", data.message.text);
+		console.log('Target scope: ' + event.targetScope);
+		console.log('Notification received ' + data.message.text);
+		console.log('Item ID: ' + data.itemId);
 		$state.go('app.alerts');
 	});
 });
+

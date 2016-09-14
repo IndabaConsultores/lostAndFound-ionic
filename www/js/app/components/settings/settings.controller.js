@@ -1,3 +1,4 @@
+
 angular.module('lf')
 .controller('SettingsCtrl', function($scope,$rootScope,$ionicHistory,$translate,$ionicModal,amMoment,CameraService){
 
@@ -71,3 +72,4 @@ angular.module('lf')
 		$scope.modal.remove();
 	});
 });
+

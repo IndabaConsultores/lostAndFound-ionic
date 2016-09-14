@@ -26,7 +26,7 @@ angular.module('lf', [ 'ionic',
 	$ionicPush.register().then(function(t) {
 		return $ionicPush.saveToken(t);
 	}).then(function(t) {
-		console.log('Token saved: %s', t.token);
+		//save token to Firebase?
 	});
 
 	$rootScope.showLoading = function()  {
@@ -38,6 +38,27 @@ angular.module('lf', [ 'ionic',
 	};
 
 	$ionicPlatform.ready(function() {
+		if (window.localStorage.getItem('email') !== null &&
+			window.localStorage.getItem('password') !== null) {
+			var email = window.localStorage.getItem('email');
+			var password = window.localStorage.getItem('password');
+			firebase.auth().signInWithEmailAndPassword(email, password)
+			.then(function(user) {
+				$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
+				$rootScope.currentUser.$loaded().then(function() {
+					$translate.use($rootScope.currentUser.language);
+				});
+			}).catch(function(error) {
+				var alertPopup = $ionicPopup.alert({
+					title: 'Sign Up ERROR' + error.code,
+					template: error.message
+				});
+				$rootScope.hideLoading();
+				alertPopup.then(function(res) {});
+				console.log('Login Failed!' + error);
+			});
+		}
+
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -97,7 +118,6 @@ angular.module('lf', [ 'ionic',
 		}(document, 'script', 'facebook-jssdk'));
 
 		initAppInfo();    
-
 	});
 
 	function initAppInfo() {
@@ -111,7 +131,6 @@ angular.module('lf', [ 'ionic',
 	navigator.geolocation.watchPosition(function(pos) {
 		$rootScope.currentLocation = pos.coords;
 	}, function(error) {
-		console.log("Geolocation error: " + error.message);
 		$rootScope.currentLocation = {
 			"latitude" : 42,
 			"longitude" : -2

@@ -1,3 +1,4 @@
+
 <ion-view title="{{'found_items' | translate}}" hide-back-button="true">
 
 	<ion-nav-buttons side="left">
@@ -5,6 +6,7 @@
 	</ion-nav-buttons>
 
 	<ion-content class="has-header">
+		<ion-refresher on-refresh="doRefresh()"></ion-refresher>
 		<div class="list">
 			<div class="item" ng-if="bycategory.length < 1">
 				<h2>Empty list</h2>
@@ -24,3 +26,4 @@
 	</ion-content>
 
 </ion-view>
+
