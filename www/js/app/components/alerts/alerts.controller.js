@@ -12,13 +12,13 @@ angular.module('lf')
 	});
 
 	$rootScope.showLoading();
-	ItemService.fetchAlerts(function(error, items){
+	ItemService.fetchAlerts(function(error, items) {
 		$rootScope.hideLoading();
 		$scope.items = items;
 		$scope.$apply();
 	});
 
-	$scope.doRefresh = function(){
+	$scope.doRefresh = function() {
 		ItemService.fetchAlerts(function(error,collection){
 			setTimeout(function(){
 				$rootScope.alert_collection = collection;

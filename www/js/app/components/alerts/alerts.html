@@ -8,10 +8,11 @@
 			<div class="item" ng-if="items.length < 1">
 				<h2>Empty list</h2>
 			</div>
-			<a class="item item-thumbnail-left" collection-repeat="item in items | orderBy:'-createdAt'" href="#/app/alerts/{{item.id}}" >
+			<a class="item item-thumbnail-left" collection-repeat="item in items | orderBy:'distance'" href="#/app/alerts/{{item.$id}}" >
 				<img ng-src="{{item.cover.image}}">
 				<h2>{{item.name}}</h2>
 				<p am-time-ago="item.createdAt"></p>
+				<p>{{item.distance}} m away</p>
 			</a>
 		</div>
 	</ion-content>

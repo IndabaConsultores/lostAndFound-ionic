@@ -1,5 +1,5 @@
 angular.module('lf')
-.controller('LaunchAlertCtrl', function($scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService,ImageService) {
+.controller('LaunchAlertCtrl', function($state, $scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService,ImageService) {
 
 	function imageToDataUri(img, width, height) {
 		//CameraService

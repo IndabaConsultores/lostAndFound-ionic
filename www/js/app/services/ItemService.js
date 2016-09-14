@@ -1,12 +1,63 @@
 
 angular.module('lf.services.item', [])
 
-.factory('ItemService', function ($firebaseArray, $firebaseObject, constants) {
+.factory('ItemService', function ($rootScope, $firebaseArray, $firebaseObject, constants) {
+	function deg2rad(deg) {
+		return (deg/180)*Math.PI;
+	};
+
+	function calculateDistance(locationTo) {
+		var lat1 = $rootScope.currentLocation.latitude;
+		var lat2 = locationTo.latitude;
+		var lon1 = $rootScope.currentLocation.longitude;
+		var lon2 = locationTo.longitude;
+
+		var R = 6371000;
+		var phi1 = deg2rad(lat1);
+		var phi2 = deg2rad(lat2);
+		var dphi = deg2rad(lat2 - lat1);
+		var dlmb = deg2rad(lon2 - lon1);
+		
+		var a = Math.pow(Math.sin(dphi/2), 2) + Math.cos(phi1) * Math.cos(phi2) * Math.pow(Math.sin(dlmb/2), 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		var d = R * c;
+		return Math.round(d*100)/100;
+	};
+
 	var service = {
 
-		fetchAlerts: function (cb) {
+		fetchAlerts: function(cb) {
+			var alertsRef = firebase.database().ref('items/alert');
+			var resultItems = [];
+			alertsRef.once('value').then(function(alertsSnap) {
+				var count = 0;
+				var alerts = alertsSnap.val();
+				var userRef = firebase.database().ref('users');
+				var imgRef = firebase.database().ref('images');
+				for (alertKey in alerts) {
+					var item = alerts[alertKey];
+					var promises = [];
+					promises.push(alertsRef.child(alertKey).once('value'));
+					if (item.createdBy) promises.push(userRef.child(item.createdBy).once('value'));
+					if (item.images) promises.push(imgRef.child(Object.keys(item.images)[0]).once('value'));
+					Promise.all(promises).then(function(results) {
+						var item = results[0].val();
+						item.$id = results[0].key;
+						item.createdBy = results[1].val();
+						if (results[2])
+							item.cover = results[2].val();
+						item.distance = calculateDistance(item.location);
+						resultItems.push(item);
+						count++;
+						if (count == Object.keys(alerts).length)
+							cb(null, resultItems);
+					});
+				}
+			});
+			/*
 			var alerts = firebase.database().ref('items/alert')
-			alerts.once('value').then(function(snapshot){
+			alerts.once('value').then(function(snapshot) {
 				var alert_num = snapshot.numChildren(),
 					final_alerts = [],
 					readed = 0;
@@ -55,6 +106,7 @@ angular.module('lf.services.item', [])
 					});
 				});
 			});
+			*/
 		},
 
 

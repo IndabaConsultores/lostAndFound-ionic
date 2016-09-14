@@ -107,6 +107,20 @@ angular.module('lf', [ 'ionic',
 			$ionicLoading.hide();
 		});
 	}
+	
+	navigator.geolocation.watchPosition(function(pos) {
+		$rootScope.currentLocation = pos.coords;
+	}, function(error) {
+		console.log("Geolocation error: " + error.message);
+		$rootScope.currentLocation = {
+			"latitude" : 42,
+			"longitude" : -2
+		};
+	}, {
+		"enableHighAccuracy": false,
+		"timeout": 5000,
+		"maximumAge": Infinity
+	});
 })
 
 .constant('angularMomentConfig', {
