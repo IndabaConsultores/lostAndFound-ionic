@@ -1,3 +1,4 @@
+
 <div class="modal">
 	<ion-header-bar>
 		<h1 class="title">Login</h1>
@@ -10,7 +11,7 @@
 			<div class="list">
 				<label class="item item-input">
 					<span class="input-label">{{'email' | translate}}</span>
-					<input type="text" ng-model="loginData.username">
+					<input type="email" ng-model="loginData.username">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">{{'password' | translate}}</span>
@@ -19,7 +20,7 @@
 				<div class="item item-toggle">
 					Remember Me
 					<label class="toggle toggle-assertive">
-						<input type="checkbox" ng-checked="loginData.rememberMe" ng-model="loginData.rememberMe">
+						<input type="checkbox" ng-model="loginData.rememberMe">
 						<div class="track">
 							<div class="handle"></div>
 						</div>

@@ -1,13 +1,18 @@
 
 angular.module('lf')
 
-.controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$firebaseObject,$ionicModal,$timeout,$translate) {
-	if (window.localStorage.getItem('rememberMe') === undefined)
+.controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$firebaseObject,$ionicModal,$timeout,$translate, amMoment) {
+	if (!window.localStorage.getItem('rememberMe')) {
 		window.localStorage.setItem('rememberMe', false);	
+		window.localStorage.removeItem('email');
+		window.localStorage.removeItem('password');
+	}
 	
 	// Form data for the login modal
 	$scope.loginData = {
-		rememberMe: window.localStorage.getItem('rememberMe'),
+		username: window.localStorage.getItem('email'),
+		password: window.localStorage.getItem('password'),
+		rememberMe: window.localStorage.getItem('rememberMe') == 'true'
 	};
 
 	// Create the login modal that we will use later
@@ -62,8 +67,8 @@ angular.module('lf')
 
 		var email = $scope.loginData.username;
 		var password = $scope.loginData.password;
+		window.localStorage.setItem('rememberMe', $scope.loginData.rememberMe);
 		
-		console.log($scope.loginData);
 		if ($scope.loginData.rememberMe) {
 			window.localStorage.setItem('email', email);
 			window.localStorage.setItem('password', password);
@@ -75,10 +80,11 @@ angular.module('lf')
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(user) {
 			$rootScope.hideLoading();
-			console.log("User authenticated");
 			$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
 			$rootScope.currentUser.$loaded().then(function() {
 				$translate.use($rootScope.currentUser.language);
+				amMoment.changeLocale($rootScope.currentUser.language);
+				$rootScope.settings.language = $rootScope.currentUser.language;
 			});
 			$scope.modal.hide();
 		}).catch(function(error) {
@@ -97,11 +103,16 @@ angular.module('lf')
 	};
 
 	$scope.$on('cloud:push:notification', function(event, data) {
-		//TODO manage push notification when app is open
-		console.log('Target scope: ' + event.targetScope);
-		console.log('Notification received ' + data.message.text);
-		console.log('Item ID: ' + data.itemId);
-		$state.go('app.alerts');
+		//console.log('DATA: ' + JSON.stringify(data));
+		var closed = data.message.app.closed;
+		var asleep = data.message.app.asleep;
+		var itemId = data.message.payload.itemId;
+		if (closed || asleep) {
+			$state.go('app.alertitem', {'item':itemId});;
+		} else {
+			//TODO manage push notification when app is open
+			console.log(data.message.title + ': ' + data.message.text);
+		}
 	});
 });
 

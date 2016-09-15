@@ -5,7 +5,6 @@ angular.module('lf.services.office', [])
 
 		loadOffice: function (cb) {
 			var my_office = $firebaseObject(firebase.database().ref('offices/' + constants.OFFICE_ID));
-			console.log('loadOffice');
 			my_office.$loaded().then(function () {
 				cb(null,my_office);
 			}).catch(function(error) {
@@ -33,63 +32,68 @@ angular.module('lf.services.office', [])
 
 		getAlertMessages: function(item_id,cb){
 			var itemMsgsRef = firebase.database().ref('items/alert/'+item_id+'/messages');
-			itemMsgsRef.once('value').then(function(itemMsgSnap) {
+			var users = $firebaseArray(firebase.database().ref('users'));
+			Promise.all([itemMsgsRef.once('value'), users.$loaded()]).then(function(results) {
+				var itemMsgSnap = results[0];
 				var itemMsgsKeys = itemMsgSnap.val();
 				if (itemMsgsKeys) {
-					var itemMsgPromises = [];
+					var messages = [];
 					var msgRef = firebase.database().ref('messages');
 					return msgRef.orderByChild('createDate').once('value').then(function(msgsSnap) {
 						var msgs = msgsSnap.val();
 						for (msgKey in msgs) {
-							if (itemMsgsKeys.hasOwnProperty(msgKey))
-								itemMsgPromises.push($firebaseObject(msgsSnap.ref.child(msgKey)));
+							if (itemMsgsKeys.hasOwnProperty(msgKey)) {
+								var message = msgs[msgKey];
+								messages.push(message);
+								message.user = users.$getRecord(message.user);
+							}
 						}
-						return Promise.all(itemMsgPromises);
+						return messages;
 					});
 				} else {
 					var messages = [];
 					return messages;
 				}
 			}).then(function(messages){
-				console.log(messages);
 				cb(null,messages);
 			},function(error){
 				console.log(error);
 				cb(error,null)
 			});
-
 		},
 
 		getOfficeMessages: function(item_id,cb){
 			var itemMsgsRef = firebase.database().ref('items/office/'+item_id+'/messages');
-			itemMsgsRef.once('value').then(function(itemMsgSnap) {
+			var users = $firebaseArray(firebase.database().ref('users'));
+			Promise.all([itemMsgsRef.once('value'), users.$loaded()]).then(function(results) {
+				var itemMsgSnap = results[0];
 				var itemMsgsKeys = itemMsgSnap.val();
 				if (itemMsgsKeys) {
-					var itemMsgPromises = [];
+					var messages = [];
 					var msgRef = firebase.database().ref('messages');
 					return msgRef.orderByChild('createDate').once('value').then(function(msgsSnap) {
 						var msgs = msgsSnap.val();
 						for (msgKey in msgs) {
-							if (itemMsgsKeys.hasOwnProperty(msgKey))
-								itemMsgPromises.push($firebaseObject(msgsSnap.ref.child(msgKey)));
+							if (itemMsgsKeys.hasOwnProperty(msgKey)) {
+								var message = msgs[msgKey];
+								messages.push(message);
+								message.user = users.$getRecord(message.user);
+							}
 						}
-						return Promise.all(itemMsgPromises);
+						return messages;
 					});
 				} else {
 					var messages = [];
 					return messages;
 				}
 			}).then(function(messages){
-				console.log(messages);
 				cb(null,messages);
 			},function(error){
 				console.log(error);
 				cb(error,null)
-			});
-		},
+			});		},
 
 		postAlertMessage: function(msg,item_id,cb){
-			console.log("postAlertMessage");
 			/*
 			Crear una entrada de en /messages/alert/
 			* createdAt: Date.now()
@@ -102,46 +106,27 @@ angular.module('lf.services.office', [])
 			Crear una entrada en /items/alert/$item_id/messages
 			* id_del mensaje anterior: true
 			*/
-			var messagesRef = $firebaseArray(firebase.database().ref().child("messages").child("alert"));
+			var messagesRef = $firebaseArray(firebase.database().ref('messages'));
 			messagesRef.$add({ 
-				"createdAt": Date.now(), 
-				"item": item_id, 
-				"text": msg, 
-				"updatedAt": Date.now(), 
-				"user":$rootScope.currentUser.id 
+				'createDate': firebase.database.ServerValue.TIMESTAMP, 
+				'item': item_id, 
+				'body': msg, 
+				'user': $rootScope.currentUser.$id 
 			}).then(function(ref) {
-				var id = ref.key();
-				console.log("added record with id " + id);
+				var id = ref.key;
 				messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
-				messagesRef.$save(messagesRef.$indexFor(id)).then(function(){
-					console.log("id saved");
-				});
-				var itemMessagesRef = firebase.database().ref().child("items").child("alert").child(item_id).child("messages");
-				itemMessagesRef.once("value", function(snapshot){
-										
-					var obj = {};
-					obj[id] = true;
-										
-					if(snapshot.exists()){
-						// ya existe algún mensaje
-						itemMessagesRef.update(obj,function(){
-							cb(null,true);
-						});
-					}else{
-						//crear messages con un elemento en el array
-						var msg = {};
-						msg["messages"] = obj;
-						var itemRef = firebase.database().ref().child("items").child("alert").child(item_id);
-						itemRef.update(msg, function(){
-							cb(null,true);
-						});
-					}
+				var itemMessagesRef = firebase.database().ref('items/alert').child(item_id).child('messages');
+				var itemMessages = $firebaseObject(itemMessagesRef);
+				itemMessages.$loaded().then(function() {
+					itemMessages[id] = true;	
+					itemMessages.$save().then(function(ref) {
+						cb(null, true);
+					});
 				});
 			});
 		},
 
 		postOfficeMessage: function(msg,item_id,cb){
-			console.log("postAlertMessage");
 			/*
 			Crear una entrada de en /messages/alert/
 			* createdAt: Date.now()
@@ -154,40 +139,22 @@ angular.module('lf.services.office', [])
 			Crear una entrada en /items/alert/$item_id/messages
 			* id_del mensaje anterior: true
 			*/
-			var messagesRef = $firebaseArray(firebase.database().ref().child("messages").child("office"));
+			var messagesRef = $firebaseArray(firebase.database().ref('messages'));
 			messagesRef.$add({ 
-				"createdAt": Date.now(), 
-				"item": item_id, 
-				"text":msg, 
-				"updatedAt": Date.now(), 
-				"user":$rootScope.currentUser.id 
+				'createDate': firebase.database.ServerValue.TIMESTAMP, 
+				'item': item_id, 
+				'body': msg, 
+				'user': $rootScope.currentUser.$id 
 			}).then(function(ref) {
-				var id = ref.key();
-				console.log("added record with id " + id);
+				var id = ref.key;
 				messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
-				messagesRef.$save(messagesRef.$indexFor(id)).then(function(){
-					console.log("id saved");
-				});
-				var itemMessagesRef = firebase.database().ref().child("items").child("office").child(item_id).child("messages");
-
-				itemMessagesRef.once("value", function(snapshot){
-					var obj = {};
-					obj[id] = true;
-
-					if(snapshot.exists()){
-						// ya existe algún mensaje
-						itemMessagesRef.update(obj,function(){
-							cb(null,true);
-						});
-					}else{
-						//crear messages con un elemento en el array
-						var msg = {};
-						msg["messages"] = obj;
-						var itemRef = firebase.database().ref().child("items").child("office").child(item_id);
-						itemRef.update(msg, function(){
-							cb(null,true);
-						});
-					}
+				var itemMessagesRef = firebase.database().ref('items/office').child(item_id).child('messages');
+				var itemMessages = $firebaseObject(itemMessagesRef);
+				itemMessages.$loaded().then(function() {
+					itemMessages[id] = true;	
+					itemMessages.$save().then(function(ref) {
+						cb(null, true);
+					});
 				});
 			});
 		},
@@ -197,7 +164,6 @@ angular.module('lf.services.office', [])
 			var picture = {};
 			picture["image"] = picture_item.image;
 			picture["thumbnail"] = picture_item.thumb;
-			console.log(picture_item);
 			var new_obj = { 
 				"createdAt": Date.now(), 
 				"item": picture_item.item_id, 
@@ -205,13 +171,10 @@ angular.module('lf.services.office', [])
 				"updatedAt": Date.now(), 
 				"user":$rootScope.currentUser.id 
 			};
-			console.log(new_obj);
 			messagesRef.$add(new_obj).then(function(ref) {
 				var id = ref.key();
-				console.log("added record with id " + id);
 				messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
 				messagesRef.$save(messagesRef.$indexFor(id)).then(function(){
-					console.log("id saved");
 				});
 				var itemMessagesRef = firebase.database().ref().child("items").child("alert").child(picture_item.item_id).child("messages");
 
@@ -252,10 +215,8 @@ angular.module('lf.services.office', [])
 			})
 			.then(function(ref) {
 				var id = ref.key();
-				console.log("added record with id " + id);
 				messagesRef[messagesRef.$indexFor(id)].id = id; // returns location in the array
 				messagesRef.$save(messagesRef.$indexFor(id)).then(function(){
-					console.log("id saved");
 				});
 
 				var itemMessagesRef = firebase.database().ref().child("items").child("office").child(picture_item.item_id).child("messages");

@@ -114,35 +114,35 @@ angular.module('lf.services.item', [])
 			var alertRef = firebase.database().ref('items/alert').child(alert_id);
 
 			alertRef.once("value", function(snap){
-				var alert =  snap.val();
-				alert.$id = snap.key;
-				var userRef = firebase.database().ref().child("users").child(alert.createdBy);
-				var officeRef = firebase.database().ref().child("offices").child(alert.office);
+				var item =  snap.val();
+				item.$id = snap.key;
+				var userRef = firebase.database().ref().child("users").child(item.createdBy);
+				var officeRef = firebase.database().ref().child("offices").child(item.office);
 				var messagesRef = firebase.database().ref().child("items").child("alert").child(alert_id).child("messages");
 
 				var cover_exists = snap.child("cover").exists();
 				if(cover_exists){
-					var coverRef = firebase.database().ref().child("images").child(alert.cover);
+					var coverRef = firebase.database().ref().child("images").child(item.cover);
 				} else {
-					if (alert.images) {
-						coverRef = firebase.database().ref('images').child(Object.keys(alert.images)[0]);
+					if (item.images) {
+						coverRef = firebase.database().ref('images').child(Object.keys(item.images)[0]);
 						cover_exists = true;
 					}
 				}
 				async.parallel([
 					function(callback){
-						userRef.on("value", function(user_snap){
+						userRef.once('value', function(user_snap){
 							callback(null,user_snap.val());
 						});
 					},
 					function(callback){
-						officeRef.on("value", function(office_snap){
+						officeRef.once('value', function(office_snap){
 							callback(null,office_snap.val());
 						});
 					},
 					function(callback){
 						if(cover_exists){
-							coverRef.on("value", function(cover_snap){
+							coverRef.once('value', function(cover_snap){
 								callback(null,cover_snap.val());
 							});
 						}else{
@@ -150,7 +150,7 @@ angular.module('lf.services.item', [])
 						}
 					},
 					function(callback){
-						messagesRef.on("value",function(messages_snap){
+						messagesRef.once('value',function(messages_snap){
 							callback(null,messages_snap.numChildren());
 						});
 					}
@@ -159,11 +159,11 @@ angular.module('lf.services.item', [])
 					if(!!err){
 						cb(err,null);
 					}else{
-						alert.createdBy = results[0];
-						alert.office = results[1];
-						alert.cover = results[2];
-						alert.messages_length = results[3];
-						cb(null,alert);
+						item.createdBy = results[0];
+						item.office = results[1];
+						item.cover = results[2];
+						item.messages_length = results[3];
+						cb(null,item);
 					}
 				});
 			});
@@ -188,18 +188,18 @@ angular.module('lf.services.item', [])
 				}
 				async.parallel([
 					function(callback){
-						userRef.on("value", function(user_snap){
+						userRef.once("value", function(user_snap){
 							callback(null,user_snap.val());
 						});
 					},
 					function(callback){
-						officeRef.on("value", function(office_snap){
+						officeRef.once("value", function(office_snap){
 							callback(null,office_snap.val());
 						});
 					},
 					function(callback){
 						if(cover_exists){
-							coverRef.on("value", function(cover_snap){
+							coverRef.once("value", function(cover_snap){
 								callback(null,cover_snap.val());
 							});
 						}else{
@@ -207,7 +207,7 @@ angular.module('lf.services.item', [])
 						}
 					},
 					function(callback){
-						messagesRef.on("value",function(messages_snap){
+						messagesRef.once("value",function(messages_snap){
 							callback(null,messages_snap.numChildren());
 						});
 					}

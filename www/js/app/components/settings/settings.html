@@ -4,44 +4,45 @@
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 	</ion-nav-buttons>
 	<ion-content class="has-header">
-		<ul class="list">
-			<li class="item item-avatar settings">
-				<div class="profile_avatar" >
-					<img ng-src="{{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()"/>
-					<img ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar && !imageBase64" ng-click="showPopup()"/>
-					<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar && !imageBase64" /ng-click="showPopup()">
-					<i class="ion-edit" ng-click="showPopup()"></i>
+		<div class="list">
+				<div class="item item-avatar settings" ng-if="currentUser">
+					<div class="profile_avatar" >
+						<img ng-src="{{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()">
+						<img ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar && !imageBase64" ng-click="showPopup()">
+						<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar && !imageBase64" ng-click="showPopup()">
+						<i class="ion-edit" ng-click="showPopup()"></i>
+					</div>
 				</div>
-			  
-				<h2>{{currentUser.attributes.username}}</h2>
-				<p>{{currentUser.attributes.email}}</p>
-			</li>
-			
-			<li class="item item-toggle">
+
+				<div class="item item-input" ng-if="currentUser">
+					<span class="input-label">{{'username' | translate}}</span>
+					<input type="text" name="username" ng-model="currentUser.username">
+				</div>
+
+			<div class="item item-toggle">
 				{{'get_alerts' | translate}}
 				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-checked="settings.alerts" ng-model="settings.alerts">
+					<input type="checkbox" ng-model="settings.alerts">
 					<div class="track">
 						<div class="handle"></div>
 					</div>
 				</label>
-			</li>
+			</div>
 			
 			<label class="item item-input item-select">
 				<div class="input-label">
 					{{'language' | translate}}
 				</div>
-				<select ng-model="settings.language">
-					<option ng-repeat="language in languages" value="{{language.code}}" ng-selected="language.code == currentUser.language">
-						{{language.name}} 
-					</option>
+				<select ng-model="settings.language" 
+					ng-options="language.code as language.name for language in languages">
 				</select>
 			</label>
-		</ul>
+		</div> <!-- .list -->
 		
-		<button class="button button-block button-positive" ng-click="saveSettings(settings)">
+		<button class="button button-block button-positive" ng-click="saveSettings()">
 			Save
 		</button>
+
 	</ion-content>
 </ion-view>
 

@@ -19,15 +19,25 @@ angular.module('lf', [ 'ionic',
 
 .run(function($ionicPlatform, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
 	//Save Firebase reference and load it into the rootscope
+	$rootScope.settings = {
+		alerts: window.localStorage.getItem('settings.alerts') == "true"
+	};
+
 	firebase.initializeApp(constants.FIREBASE_CONFIG);
 	console.log('Database initialized');
 
-	//Register Ionic Push device token
-	$ionicPush.register().then(function(t) {
-		return $ionicPush.saveToken(t);
-	}).then(function(t) {
-		//save token to Firebase?
-	});
+	if (window.localStorage.getItem('settings.alerts') === undefined)
+		window.localStorage.setItem('settings.alerts', true);
+
+	if (window.localStorage.getItem('settings.alerts') === true) {
+		//Register Ionic Push device token
+		$ionicPush.register().then(function(t) {
+			return $ionicPush.saveToken(t);
+		}).then(function(t) {
+			window.localStorage.setItem('pushToken', t);
+			//save token to Firebase?
+		});
+	}
 
 	$rootScope.showLoading = function()  {
 		$ionicLoading.show({ template: 'Loading...', noBackdrop:true });
@@ -38,27 +48,6 @@ angular.module('lf', [ 'ionic',
 	};
 
 	$ionicPlatform.ready(function() {
-		if (window.localStorage.getItem('email') !== null &&
-			window.localStorage.getItem('password') !== null) {
-			var email = window.localStorage.getItem('email');
-			var password = window.localStorage.getItem('password');
-			firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(function(user) {
-				$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
-				$rootScope.currentUser.$loaded().then(function() {
-					$translate.use($rootScope.currentUser.language);
-				});
-			}).catch(function(error) {
-				var alertPopup = $ionicPopup.alert({
-					title: 'Sign Up ERROR' + error.code,
-					template: error.message
-				});
-				$rootScope.hideLoading();
-				alertPopup.then(function(res) {});
-				console.log('Login Failed!' + error);
-			});
-		}
-
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -75,7 +64,7 @@ angular.module('lf', [ 'ionic',
 
 		if(!!auth){
 			console.log(auth);
-			$rootScope.currentUser = $firebaseObject($rootScope.ref.child('users').child(auth.uid));
+			$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(auth.uid));
 			$rootScope.currentUser.$loaded().then(function () {
 				console.log($rootScope.currentUser.name);
 				console.log($rootScope.currentUser.language);
@@ -84,18 +73,20 @@ angular.module('lf', [ 'ionic',
 			});
 		}else{
 			// usuario no autetificado
-			if(typeof navigator.globalization !== "undefined") {
-				navigator.globalization.getPreferredLanguage(function(language) {
-					console.log(language);
-					$translate.use((language.value).split("-")[0]).then(function(data) {
-						console.log("SUCCESS -> " + data);
-					}, function(error) {
-						console.log("ERROR -> " + error);
-					});
-				}, null);
-			}else{
-				$translate.use("en");
-				amMoment.changeLocale("en");
+			if (window.localStorage.getItem('settings.language')) {
+				$rootScope.settings.language = window.localStorage.getItem('settings.language');
+				$translate.use($rootScope.settings.language);
+				amMoment.changeLocale($rootScope.settings.language);			
+		//	} else if (typeof navigator.globalization !== "undefined") {
+		//		navigator.globalization.getPreferredLanguage(function(language) {
+		//			$rootScope.settings.language = (language.value).split("-")[0];
+		//			$translate.use($rootScope.settings.language);
+		//			amMoment.changeLocale($rootScope.settings.language);
+		//		}, null);
+			} else {
+				$rootScope.settings.language = "eu";	
+				$translate.use($rootScope.settings.language);       			
+				amMoment.changeLocale($rootScope.settings.language);	
 			}
 		}
 
@@ -121,10 +112,11 @@ angular.module('lf', [ 'ionic',
 	});
 
 	function initAppInfo() {
-		$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
+		//$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
 		OfficeService.loadOffice(function(error,office){
 			$rootScope.office = office;
-			$ionicLoading.hide();
+			//$ionicLoading.hide();
+			navigator.splashscreen.hide();
 		});
 	}
 	
@@ -132,8 +124,8 @@ angular.module('lf', [ 'ionic',
 		$rootScope.currentLocation = pos.coords;
 	}, function(error) {
 		$rootScope.currentLocation = {
-			"latitude" : 42,
-			"longitude" : -2
+			"latitude" : constants.OFFICE_LAT,
+			"longitude" : constants.OFFICE_LON 
 		};
 	}, {
 		"enableHighAccuracy": false,
@@ -148,7 +140,6 @@ angular.module('lf', [ 'ionic',
 })
 
 .config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
-
 	$ionicCloudProvider.init({
 		"core": {
 			"app_id": constants.IONIC_APP_ID  
@@ -196,7 +187,7 @@ angular.module('lf', [ 'ionic',
 		url: "/found_items/messages/:item",
 		views: {
 			'menuContent': {
-				templateUrl: "js/app/components/message/office/officemessage.html",
+				templateUrl: "js/app/components/message/alert/alertmessage.html",
 				controller: 'OfficeMessageCtrl'
 			}
 		}

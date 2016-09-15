@@ -8,5 +8,6 @@ www/lib/
 www/js/app/constants.js
 *.swp
 npm-debug.log
-resources/
+resources/android/
+resources/ios/
 
