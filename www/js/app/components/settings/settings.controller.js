@@ -8,13 +8,13 @@ angular.module('lf')
 		$rootScope.showLoading();
 		$ionicHistory.clearCache();
 		window.localStorage.setItem('settings.alerts', $rootScope.settings.alerts);
-		if ($rootScope.currentUser) {
-			$rootScope.currentUser.language = $rootScope.settings.language;
+		if ($rootScope.data.currentuser) {
+			$rootScope.data.currentuser.language = $rootScope.settings.language;
 			if($scope.imageBase64){
-				$rootScope.currentUser.avatar = $scope.imageBase64;
+				$rootScope.data.currentuser.avatar = $scope.imageBase64;
 			}
 
-			$rootScope.currentUser.$save().then(function(ref){
+			$rootScope.data.currentuser.$save().then(function(ref){
 				$translate.use($rootScope.settings.language);
 				amMoment.changeLocale($rootScope.settings.language);
 				$rootScope.hideLoading();

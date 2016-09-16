@@ -1,7 +1,7 @@
 
 <ion-view title="{{item.name}}" hide-back-button="false">
+
 	<ion-content class="has-header">
-	
 		<div class="list card">
 			<div class="item item-avatar">
 				<img ng-src="{{item.createdBy.avatar}}">
@@ -11,6 +11,7 @@
 
 			<div class="item item-body">
 				<h2>{{item.name}}</h2>
+					<button class="button button-icon icon ng-class:favIcon;" style="float:right" ng-click="save()"></button>
 				<img class="full-image" ng-src="{{item.cover.image}}" >
 
 				<label class="item item-input item-stacked-label">
@@ -41,7 +42,6 @@
 			</div>
 
 		</div>
-
 	</ion-content>
 </ion-view>
 

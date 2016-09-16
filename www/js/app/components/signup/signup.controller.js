@@ -5,11 +5,12 @@ angular.module('lf')
 	$scope.newuser = {};
 	
 	$scope.signup = function(){
-		console.log("signup controller signup function");
+		console.log('signup enter');
 		$rootScope.showLoading();
 
 		Auth.$createUserWithEmailAndPassword($scope.newuser.email, $scope.newuser.password
 		).then(function(userData) {
+			console.log('signup success');
 			$scope.message = "User created with uid: " + userData.uid;
 
 			var new_userRef = firebase.database().ref("/users/"+userData.uid);
@@ -30,9 +31,11 @@ angular.module('lf')
 			});
 
 		}).catch(function(error) {
+			//TODO hideLoading() no logra ocultar el widget
+			$rootScope.hideLoading();
+			console.log('signup error');
 			$scope.error = error;
-			console.log(error);
 		});
-		
+
     }
 });

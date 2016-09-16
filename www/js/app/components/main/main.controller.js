@@ -25,7 +25,7 @@ angular.module('lf')
 	$scope.logout = function() {
 		firebase.auth().signOut().then(function() {
 			$ionicHistory.clearCache();
-			$rootScope.currentUser = null;
+			$rootScope.data.currentUser = null;
 			$state.go('app.foundItems');
 		});
 	};
@@ -80,11 +80,11 @@ angular.module('lf')
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(user) {
 			$rootScope.hideLoading();
-			$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
-			$rootScope.currentUser.$loaded().then(function() {
-				$translate.use($rootScope.currentUser.language);
-				amMoment.changeLocale($rootScope.currentUser.language);
-				$rootScope.settings.language = $rootScope.currentUser.language;
+			$rootScope.data.currentUser = $firebaseObject(firebase.database().ref('users').child(user.uid));
+			$rootScope.data.currentUser.$loaded().then(function() {
+				$translate.use($rootScope.data.currentUser.language);
+				amMoment.changeLocale($rootScope.data.currentUser.language);
+				$rootScope.settings.language = $rootScope.data.currentUser.language;
 			});
 			$scope.modal.hide();
 		}).catch(function(error) {

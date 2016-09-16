@@ -19,6 +19,7 @@ angular.module('lf', [ 'ionic',
 
 .run(function($ionicPlatform, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
 	//Save Firebase reference and load it into the rootscope
+	$rootScope.data = {};
 	$rootScope.settings = {
 		alerts: window.localStorage.getItem('settings.alerts') == "true"
 	};
@@ -64,12 +65,12 @@ angular.module('lf', [ 'ionic',
 
 		if(!!auth){
 			console.log(auth);
-			$rootScope.currentUser = $firebaseObject(firebase.database().ref('users').child(auth.uid));
-			$rootScope.currentUser.$loaded().then(function () {
-				console.log($rootScope.currentUser.name);
-				console.log($rootScope.currentUser.language);
-				$translate.use($rootScope.currentUser.language);
-				amMoment.changeLocale($rootScope.currentUser.language);
+			$rootScope.data.currentUser = $firebaseObject(firebase.database().ref('users').child(auth.uid));
+			$rootScope.data.currentUser.$loaded().then(function () {
+				console.log($rootScope.data.currentUser.name);
+				console.log($rootScope.data.currentUser.language);
+				$translate.use($rootScope.data.currentUser.language);
+				amMoment.changeLocale($rootScope.data.currentUser.language);
 			});
 		}else{
 			// usuario no autetificado
@@ -116,7 +117,8 @@ angular.module('lf', [ 'ionic',
 		OfficeService.loadOffice(function(error,office){
 			$rootScope.office = office;
 			//$ionicLoading.hide();
-			navigator.splashscreen.hide();
+			if (navigator.splashscreen)
+				navigator.splashscreen.hide();
 		});
 	}
 	

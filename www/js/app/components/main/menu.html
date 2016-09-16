@@ -14,10 +14,10 @@
 		</header>
 		<ion-content class="has-header">
 			<ion-list>
-				<ion-item nav-clear ng-if="currentUser">
-					<img class="avatar" ng-src="{{currentUser.avatar}}" ng-if="currentUser.avatar" />
-					<img class="avatar" ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!currentUser.avatar" />
-					<p>{{currentUser.username}}</p>
+				<ion-item nav-clear ng-if="data.currentUser">
+					<img class="avatar" ng-src="{{data.currentUser.avatar}}" ng-if="data.currentUser.avatar" />
+					<img class="avatar" ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!data.currentUser.avatar" />
+					<p>{{data.currentUser.username}}</p>
 				</ion-item>
 
 				<ion-item nav-clear menu-close href="#/app/found_items">
@@ -37,10 +37,10 @@
 					<i class="ion-gear-b"></i> {{"settings" | translate}}
 				</ion-item>
 
-				<ion-item nav-clear menu-close ng-click="logout()" ng-if="currentUser">
+				<ion-item nav-clear menu-close ng-click="logout()" ng-if="data.currentUser">
 					<i class="ion-log-out"></i> {{"logout" | translate}}
 				</ion-item>
-				<ion-item nav-clear menu-close ng-click="login()" ng-if="!currentUser">
+				<ion-item nav-clear menu-close ng-click="login()" ng-if="!data.currentUser">
 					<i class="ion-log-in"></i> {{"login" | translate}}
 				</ion-item>
 			</ion-list>

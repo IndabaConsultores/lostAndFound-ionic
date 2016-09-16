@@ -35,10 +35,10 @@
 		</div> <!-- list -->
 
 		<div class="content padding">
-			<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="currentUser">
+			<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="data.currentUser">
 				Send
 			</button>
-			<span ng-if="!currentUser">Necesitas ser usuario registrado para poder crear una nueva alerta</span>
+			<span ng-if="!data.currentUser">Necesitas ser usuario registrado para poder crear una nueva alerta</span>
 		</div>
 	</ion-content>
 </ion-view>

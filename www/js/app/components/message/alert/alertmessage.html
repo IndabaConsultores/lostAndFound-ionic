@@ -11,7 +11,7 @@
 	<ion-content class="has-header has-footer" has-bouncing="true">
 		<h2 ng-if="messages.length == 0">No hay mensajes</h2>
 		<div ng-repeat="message in messages | orderBy:'createDate'" class="message-wrapper">
-			<div ng-if="currentUser.$id !== message.user.$id">
+			<div ng-if="data.currentUser.$id !== message.user.$id">
 				<img class="profile-pic left" 
 					ng-src="{{message.user.avatar}}" />
 
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 
-			<div ng-if="currentUser.$id === message.user.$id">
+			<div ng-if="data.currentUser.$id === message.user.$id">
 				<img class="profile-pic right" 
 					ng-src="{{message.user.avatar}}"  />
 
@@ -49,7 +49,7 @@
 		</div>
 	</ion-content>
 
-	<form name="sendMessageForm" ng-submit="sendMessage()" novalidate ng-if="currentUser">
+	<form name="sendMessageForm" ng-submit="sendMessage()" novalidate ng-if="data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
 			<label class="item-input-wrapper">
 				<textarea ng-model="msg.body" value="" placeholder="Send a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
@@ -61,7 +61,7 @@
 			</div>
 		</ion-footer-bar>
 	</form>
-	<div ng-if="!currentUser">
+	<div ng-if="!data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer">
 			<span>Log in to post messages</span>
 		</ion-footer-bar>

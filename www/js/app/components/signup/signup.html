@@ -1,3 +1,4 @@
+
 <ion-view title="{{'sign_up' | translate}}" hide-back-button="true">
 	<ion-nav-buttons side="left">
 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
@@ -6,7 +7,6 @@
 		<h1>Sign Up</h1>
 		<form ua-signup ng-submit="signup()">
 			<ion-view title="Sign Up">
-				<ion-content>
 				<div class="list list-inset">
 					<label class="item item-input">
 						<span class="input-label">{{'username' | translate}}</span>
@@ -27,7 +27,6 @@
 						<i ng-show="loading" class="ion-loading-b"></i>
 					</button>
 				</div>
-				</ion-content>
 			</ion-view>
 			<div class="bar bar-footer bar-assertive" ng-show="error">
 				<div class="title">{{ error.message }}</div>
@@ -36,3 +35,4 @@
 
 	</ion-content>
 </ion-view>
+

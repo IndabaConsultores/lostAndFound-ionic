@@ -111,7 +111,7 @@ angular.module('lf')
 	};
 
 	$scope.createAlert = function(){
-		if($rootScope.currentUser){
+		if($rootScope.data.currentuser){
 			$rootScope.showLoading();
 
 			if(typeof $scope.imageBase64 == 'undefined'){
@@ -123,7 +123,7 @@ angular.module('lf')
 				var new_item = {
 					"type": "alert",
 					"createdAt": Date.now(),
-					"createdBy": $rootScope.currentUser.$id,
+					"createdBy": $rootScope.data.currentuser.$id,
 					"images": {},
 					"office": $rootScope.office.$id,
 					"name": $scope.newalert.name,

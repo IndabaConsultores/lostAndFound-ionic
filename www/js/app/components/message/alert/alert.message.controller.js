@@ -25,7 +25,7 @@ angular.module('lf')
 	};
 
 	$scope.sendMessage = function(){
-		if(!!$rootScope.currentUser){
+		if(!!$rootScope.data.currentuser){
 			$rootScope.showLoading();
 			OfficeService.postAlertMessage($scope.msg.body,$stateParams.item,function(error,data){
 				$scope.msg.body = "";
