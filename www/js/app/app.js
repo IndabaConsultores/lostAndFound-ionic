@@ -27,6 +27,13 @@ angular.module('lf', [ 'ionic',
 	firebase.initializeApp(constants.FIREBASE_CONFIG);
 	console.log('Database initialized');
 
+	/*	
+	var color1 = 'blue';
+	var color2 = 'cyan';
+	$rootScope.style = '.bar.bar-dark {	background-color:' + color1 + ';}';
+	$rootScope.style += '.item-divider { background-color:' + color2 + ';}';
+	*/
+
 	if (window.localStorage.getItem('settings.alerts') === undefined)
 		window.localStorage.setItem('settings.alerts', true);
 
