@@ -3,14 +3,25 @@ angular.module('lf.services.office', [])
 .factory('OfficeService', function ($rootScope,$firebaseObject,$firebaseArray,constants) {
 	var service = {
 
-		loadOffice: function (cb) {
+		loadOffice: function(cb) {
+			var officeRef = firebase.database().ref('offices').child(constants.OFFICE_ID);
+			officeRef.once('value').then(function(snapshot) {
+				var office = snapshot.val();
+				office.$id = snapshot.key;
+				cb(null, office);
+			}).catch(function(error) {
+				console.log(error);
+				cb(error, null);
+			});
+			/*
 			var my_office = $firebaseObject(firebase.database().ref('offices/' + constants.OFFICE_ID));
 			my_office.$loaded().then(function () {
 				cb(null,my_office);
 			}).catch(function(error) {
 				console.log(error);
 				cb(error, null);
-			});;
+			});
+			*/
 		},
 
 		getAlertMessageCount: function(item_id,cb){

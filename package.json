@@ -35,7 +35,8 @@
     "cordova-plugin-whitelist",
     "ionic-plugin-keyboard",
     "phonegap-plugin-push",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": []
 }

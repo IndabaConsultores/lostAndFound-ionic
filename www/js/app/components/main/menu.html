@@ -2,10 +2,10 @@
 <ion-side-menus>
 
 	<ion-side-menu-content>
-	  <ion-nav-bar class="bar-dark nav-title-slide-ios7">
-		<ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> {{"back" | translate}}</ion-nav-back-button>
-	  </ion-nav-bar>
-	  <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+		<ion-nav-bar class="bar-dark nav-title-slide-ios7">
+			<ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> {{"back" | translate}}</ion-nav-back-button>
+		</ion-nav-bar>
+		<ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
 	</ion-side-menu-content>
 
 	<ion-side-menu side="left">
@@ -45,7 +45,9 @@
 				</ion-item>
 			</ion-list>
 			
-			<div class="logo"><img src="img/logo.png"></div>
+			<div class="logo"><img src="{{office.logo}}"></div>
+			<div><span>{{office.phoneNumber}}</span></div>
+			<div><span>{{office.emailAddress}}</span></div>
 		</ion-content>
 
 		<ion-footer-bar align-title="left" class="bar-dark">

@@ -17,7 +17,10 @@ angular.module('lf', [ 'ionic',
   					 'lf.directives.map',
   					 'lf.services.camera'])
 
-.run(function($ionicPlatform, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
+.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
+
+	
+
 	//Save Firebase reference and load it into the rootscope
 	$rootScope.data = {};
 	$rootScope.settings = {
@@ -65,7 +68,17 @@ angular.module('lf', [ 'ionic',
 			// org.apache.cordova.statusbar required
 			StatusBar.styleDefault();
 		}
-		
+
+		if(navigator.connection && navigator.connection.type == Connection.NONE) {
+			navigator.splashscreen.hide();
+			$ionicPopup.alert({
+				title: 'No connection',
+				content: 'No connection to Internet, app will close'
+			}).then(function(res) {
+				ionic.Platform.exitApp();
+			});
+		}	
+
 		//Check user authentication
 		//var auth = $rootScope.ref.getAuth();
 		var auth = firebase.auth().user;
@@ -122,7 +135,17 @@ angular.module('lf', [ 'ionic',
 	function initAppInfo() {
 		//$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
 		OfficeService.loadOffice(function(error,office){
+			if (error) {
+				console.log('Error' + error);	
+			}
 			$rootScope.office = office;
+			$rootScope.office.logo = 'img/logo.png';
+			$rootScope.office.color1 = 'gray';
+			$rootScope.office.color2 = 'blue';
+			$rootScope.office.phoneNumber = '943123456';
+			$rootScope.office.emailAddress = 'lostandfound@indaba.es';
+			$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
+			$rootScope.style += '.item-divider { background-color:' + $rootScope.office.color2 + ';}';
 			//$ionicLoading.hide();
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
