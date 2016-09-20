@@ -1,5 +1,9 @@
+'use strict';
+
 angular.module('lf')
 .controller('LaunchAlertCtrl', function($state, $scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService,ImageService) {
+
+	$scope.newAlert = {location:{ latitude:0, longitude:0}};
 
 	function imageToDataUri(img, width, height) {
 		//CameraService
@@ -15,17 +19,21 @@ angular.module('lf')
 		});
 	};
 
-
-
 	$scope.initMap = function(){
-		$scope.map = L.map('map',{ tap:true }).setView([ $scope.coords.lat, $scope.coords.lng ], 14);
+		$scope.map = L.map('map',{ tap:true }).setView([ 
+			$scope.newAlert.location.latitude, 
+			$scope.newAlert.location.longitude
+		], 14);
 
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			attribution: 'Lost & Found',
 			maxZoom: 18
 		}).addTo($scope.map);
 
-		$scope.marker = L.marker([$scope.coords.lat, $scope.coords.lng]).addTo($scope.map);
+		$scope.marker = L.marker([ 
+			$scope.newAlert.location.latitude, 
+			$scope.newAlert.location.longitude
+		]).addTo($scope.map);
 		$scope.map.on('click', $scope.onMapClick);
 	};
 
@@ -49,12 +57,15 @@ angular.module('lf')
 			En caso de que podamos acceder la ubicacion del dispositivo
 			colocamos el marker en su lugar
 		*/
-		$scope.coords = {'lat':success.coords.latitude, 'lng': success.coords.longitude };
+		$scope.newAlert.location = {
+			'latitude':success.coords.latitude, 
+			'longitude': success.coords.longitude 
+		};
 		$scope.initMap();
 	},function(error){
 		// TODO no funciona, ya que office no tiene location
 		// $scope.coords = {'lat':$rootScope.office.location.latitude, 'lng': $rootScope.office.location.longitude };
-		$scope.coords = {'lat': 0, 'lng': 0};
+		$scope.newAlert.location = {'latitude': 0, 'longitude': 0 };
 		console.log(error);
 		$scope.initMap();
 	},{timeout:10000});
@@ -63,8 +74,6 @@ angular.module('lf')
 	function resizeImage() {
 		//$scope.imageThumb = CameraService.resizeImage(this, 64, 64);
 	}
-
-	$scope.newalert = {};
 
 	$scope.useCamera = function(){
 		/*
@@ -111,47 +120,30 @@ angular.module('lf')
 	};
 
 	$scope.createAlert = function(){
-		if($rootScope.data.currentuser){
+		if($rootScope.data.currentUser){
 			$rootScope.showLoading();
-
+			var images = [$scope.imageBase64];
 			if(typeof $scope.imageBase64 == 'undefined'){
 				$scope.imageBase64=null;
+				images = null;
 			}
 			if (!$scope.imageThumb) $scope.imageThumb=null;
-			ImageService.createImage($scope.imageBase64)
-			.then(function(fbImg) {
-				var new_item = {
-					"type": "alert",
-					"createdAt": Date.now(),
-					"createdBy": $rootScope.data.currentuser.$id,
-					"images": {},
-					"office": $rootScope.office.$id,
-					"name": $scope.newalert.name,
-					"description": $scope.newalert.description,
-					"location": {
-						"latitude": $scope.coords.lat,
-						"longitude": $scope.coords.lng
-					}
-				};
-				new_item.images[fbImg.$id] = true;
-				ItemService.newAlertItem(new_item, function(error,data){
-					ItemService.fetchAlerts(function(error,collection){
-						$rootScope.hideLoading();
-						$scope.newalert = {};
-						$scope.imageBase64 = null;
-						$rootScope.alert_collection = collection;
-						var alertPopup = $ionicPopup.alert({
-							title: 'New alert',
-							template: 'New alert created successfully'
-						});
-						alertPopup.then(function(res) {
-							$state.go('app.alerts');
-						});
-					});
-				});			
+			ItemService.createAlertItem($scope.newAlert, images)
+			.then(function(itemRef) {
+				$rootScope.hideLoading();
+				$scope.newalert = {};
+				$scope.imageBase64 = null;
+				var alertPopup = $ionicPopup.alert({
+					title: 'New alert',
+					template: 'New alert created successfully'
+				});
+				alertPopup.then(function(res) {
+					$state.go('app.alerts');
+				});
+			}).catch(function(error) {
+				console.log(JSON.stringify(error));
+				console.log(error);
 			});
-
-
 		} else {
 			var alertPopup = $ionicPopup.alert({
 				title: 'Access denied',
@@ -162,7 +154,8 @@ angular.module('lf')
 	};
 
 	$scope.$on('$destroy', function() {
-		$scope.modal.remove();
+		$scope.modal.hide();
 	});
 
 });
+

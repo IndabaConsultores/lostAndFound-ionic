@@ -14,19 +14,19 @@ angular.module('lf', [ 'ionic',
   					 'lf.services.category',
   					 'lf.services.item',
 					 'lf.services.image',
+					 'lf.services.message',
+					 'lf.services.user',
   					 'lf.directives.map',
   					 'lf.services.camera'])
 
 .run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
 
-	
-
-	//Save Firebase reference and load it into the rootscope
 	$rootScope.data = {};
 	$rootScope.settings = {
 		alerts: window.localStorage.getItem('settings.alerts') == "true"
 	};
 
+	//Save Firebase reference and load it into the rootscope
 	firebase.initializeApp(constants.FIREBASE_CONFIG);
 	console.log('Database initialized');
 
@@ -37,19 +37,6 @@ angular.module('lf', [ 'ionic',
 	$rootScope.style += '.item-divider { background-color:' + color2 + ';}';
 	*/
 
-	if (window.localStorage.getItem('settings.alerts') === undefined)
-		window.localStorage.setItem('settings.alerts', true);
-
-	if (window.localStorage.getItem('settings.alerts') === true) {
-		//Register Ionic Push device token
-		$ionicPush.register().then(function(t) {
-			return $ionicPush.saveToken(t);
-		}).then(function(t) {
-			window.localStorage.setItem('pushToken', t);
-			//save token to Firebase?
-		});
-	}
-
 	$rootScope.showLoading = function()  {
 		$ionicLoading.show({ template: 'Loading...', noBackdrop:true });
 	};
@@ -59,8 +46,7 @@ angular.module('lf', [ 'ionic',
 	};
 
 	$ionicPlatform.ready(function() {
-		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-		// for form inputs)
+		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard for form inputs)
 		if(window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
@@ -69,6 +55,7 @@ angular.module('lf', [ 'ionic',
 			StatusBar.styleDefault();
 		}
 
+		// Check for internet connection
 		if(navigator.connection && navigator.connection.type == Connection.NONE) {
 			navigator.splashscreen.hide();
 			$ionicPopup.alert({
@@ -77,14 +64,41 @@ angular.module('lf', [ 'ionic',
 			}).then(function(res) {
 				ionic.Platform.exitApp();
 			});
-		}	
+		}
+
+		// Check alert configuration and register device if necessary
+		if (!window.localStorage.getItem('settings.alerts')) {
+			window.localStorage.setItem('settings.alerts', true);
+		}
+
+		if (!!window.localStorage.getItem('settings.alerts')) {
+			//Register Ionic Push device token
+			$ionicPush.register().then(function(t) {
+				return $ionicPush.saveToken(t);
+			}).then(function(t) {
+				window.localStorage.setItem('pushToken', t);
+				//save token to Firebase?
+			});
+		}
+
+		// Set geolocation watcher
+		navigator.geolocation.watchPosition(function(pos) {
+			$rootScope.currentLocation = pos.coords;
+		}, function(error) {
+			$rootScope.currentLocation = {
+				"latitude" : constants.OFFICE_LAT,
+				"longitude" : constants.OFFICE_LON 
+			};
+		}, {
+			"enableHighAccuracy": false,
+			"timeout": 5000,
+			"maximumAge": Infinity
+		});	
 
 		//Check user authentication
-		//var auth = $rootScope.ref.getAuth();
 		var auth = firebase.auth().user;
 
 		if(!!auth){
-			console.log(auth);
 			$rootScope.data.currentUser = $firebaseObject(firebase.database().ref('users').child(auth.uid));
 			$rootScope.data.currentUser.$loaded().then(function () {
 				console.log($rootScope.data.currentUser.name);
@@ -129,41 +143,24 @@ angular.module('lf', [ 'ionic',
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 
-		initAppInfo();    
+		initAppInfo();
 	});
 
 	function initAppInfo() {
 		//$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
-		OfficeService.loadOffice(function(error,office){
-			if (error) {
-				console.log('Error' + error);	
-			}
+		OfficeService.getOffice().then(function(office){
 			$rootScope.office = office;
-			$rootScope.office.logo = 'img/logo.png';
-			$rootScope.office.color1 = 'gray';
-			$rootScope.office.color2 = 'blue';
-			$rootScope.office.phoneNumber = '943123456';
-			$rootScope.office.emailAddress = 'lostandfound@indaba.es';
-			$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
-			$rootScope.style += '.item-divider { background-color:' + $rootScope.office.color2 + ';}';
+			$rootScope.style = '.bar.bar-dark {	background-color:' + office.color1 + ';}';
+			$rootScope.style += '.item-divider { background-color:' + office.color2 + ';}';
 			//$ionicLoading.hide();
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
+		}).catch(function(error) {
+			console.log(error);
 		});
 	}
 	
-	navigator.geolocation.watchPosition(function(pos) {
-		$rootScope.currentLocation = pos.coords;
-	}, function(error) {
-		$rootScope.currentLocation = {
-			"latitude" : constants.OFFICE_LAT,
-			"longitude" : constants.OFFICE_LON 
-		};
-	}, {
-		"enableHighAccuracy": false,
-		"timeout": 5000,
-		"maximumAge": Infinity
-	});
+
 })
 
 .constant('angularMomentConfig', {
@@ -172,6 +169,27 @@ angular.module('lf', [ 'ionic',
 })
 
 .config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
+
+	function loadItems(ItemService) {
+		return ItemService.loaded().then(function(items){console.log('doneItem', items)});
+	}
+
+	function loadUsers(UserService) {
+		return UserService.loaded().then(function(users){console.log('doneUser', users)});
+	}
+	
+	function loadImages(ImageService) {
+		return ImageService.loaded().then(function(images){console.log('doneImage', images)});
+	}
+
+	function loadCategories(CategoryService) {
+		return CategoryService.loaded().then(function(cats){console.log('doneCat', cats)});
+	}
+
+	function loadMessages(MessageService) {
+		return MessageService.loaded().then(function(msgs){console.log('doneMsg', msgs)});
+	}
+
 	$ionicCloudProvider.init({
 		"core": {
 			"app_id": constants.IONIC_APP_ID  
@@ -195,7 +213,14 @@ angular.module('lf', [ 'ionic',
 		url: "/app",
 		abstract: true,
 		templateUrl: "js/app/components/main/menu.html",
-		controller: 'AppCtrl'
+		controller: 'AppCtrl',
+		resolve: {
+			'ItemData': loadItems,
+			'ImageData': loadImages,
+			'UserData': loadUsers,
+			'CategoryData': loadCategories,
+			'MessageData': loadMessages
+		}
 	})
 	.state('app.foundItems', {
 		url: "/found_items",
@@ -219,8 +244,8 @@ angular.module('lf', [ 'ionic',
 		url: "/found_items/messages/:item",
 		views: {
 			'menuContent': {
-				templateUrl: "js/app/components/message/alert/alertmessage.html",
-				controller: 'OfficeMessageCtrl'
+				templateUrl: "js/app/components/message/messages.html",
+				controller: 'MessageCtrl'
 			}
 		}
 	})
@@ -228,8 +253,8 @@ angular.module('lf', [ 'ionic',
 		url: "/alert_items/messages/:item",
 		views: {
 			'menuContent': {
-				templateUrl: "js/app/components/message/alert/alertmessage.html",
-				controller: "AlertMessageCtrl"
+				templateUrl: "js/app/components/message/messages.html",
+				controller: "MessageCtrl"
 			}
 		}
 	})

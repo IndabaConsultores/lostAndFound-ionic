@@ -1,26 +1,34 @@
 'use strict';
 
 angular.module('lf.services.image', [])
-.factory('ImageService', function ($firebaseObject) {
-	var service = {
-		createImage: function(imageBase64, callback) {
-			var imgRef = firebase.database().ref('images');	
-			var image = {
-				"image": imageBase64
-			};
-			var newImgRef = imgRef.push(image);
-			if (typeof callback === 'function') {
-				$firebaseObject(newImgRef).$loaded()
-				.then(function(image) {
-					callback(image);
-					return $firebaseObject(newImgRef).$loaded();;
-				});
-			} else {
-				return $firebaseObject(newImgRef).$loaded();
-			}
-		}
+.service('ImageService', function ($firebaseArray, constants) {
+
+	var _ref;
+	var _images;
+
+	this.loaded = function() {
+		_ref = firebase.database().ref('images');
+		_images = $firebaseArray(_ref);
+		return _images.$loaded();
 	};
 
-	return service;
+	this.getImage = function(imageId) {
+		var imageOrig = _images.$getRecord(imageId);
+		return JSON.parse(JSON.stringify(imageOrig));
+	};
+
+	this.createImage = function(imageBase64) {
+		var image = {};
+		image.image = imageBase64;
+		image.createDate = firebase.database.ServerValue.TIMESTAMP;
+		image.office = constants.OFFICE_ID;
+
+		return _images.$add(image);
+	};
+	
+	this.updateImage = function(image) {
+		return _images.$save(image);
+	};
+
 });	
 

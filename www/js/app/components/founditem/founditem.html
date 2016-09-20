@@ -1,3 +1,4 @@
+
 <ion-view title="{{item.name}}">
 	<ion-content class="has-header">
 
@@ -24,7 +25,9 @@
 				</p>
 				<p>
 					<a href="#" class="subdued">1 Like</a>
-					<a href="#/app/found_items/messages/{{item.$id}}" class="subdued">{{item.messages_length}} {{"comments" | translate}}</a>
+					<a href="#/app/found_items/messages/{{item.$id}}" class="subdued">
+						{{numMessages}} {{"comments" | translate}}
+					</a>
 				</p>
 			</div> <!-- item item-body -->
 

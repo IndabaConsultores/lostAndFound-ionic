@@ -1,39 +1,27 @@
+'use strict';
+
 angular.module('lf.services.category', [])
+.service('CategoryService', function ($rootScope, $firebaseArray, constants) {
 
+	var _ref;
+	var _categories;
+	
+	this.loaded = function() {
+		_ref = firebase.database().ref('categories');
+		_categories = $firebaseArray(_ref.orderByChild('office')
+			.equalTo(constants.OFFICE_ID));
+		return _categories.$loaded();
+	};
 
-    .factory('CategoryService', function ($rootScope,$firebaseArray) {
+	this.getCategory = function(catId) {
+		var catOrig = _categories.$getRecord(catId);
+		var catCopy = JSON.parse(JSON.stringify(catOrig));
+		return catCopy;
+	};
 
-        var service = {
+	this.getCategories = function() {
+		return _categories;
+	};
 
-            fetch: function(cb) {
+});
 
-                var categories = $firebaseArray($rootScope.ref.child('categories'));
-                categories.$loaded().then(function () {
-                    cb(null,categories);
-                });
-            	
-
-/*
-                var Category = Parse.Object.extend("Category"),
-                    CategoryCollection = Parse.Collection.extend({
-                        model: Category,
-                        query: (new Parse.Query(Category)).equalTo("office", $rootScope.office)
-                    });
-                var category_collection = new CategoryCollection();
-
-
-                category_collection.fetch({
-                  success: function(collection) {
-                    cb(null,collection);
-                  },
-                  error: function(collection, error) {
-                    cb(error,null);
-                  }
-                });
-*/
-
-            },
-                        
-        }
-        return  service;
-    });

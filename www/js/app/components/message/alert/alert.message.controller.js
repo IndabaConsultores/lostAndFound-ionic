@@ -1,6 +1,6 @@
 
 angular.module('lf')
-.controller('AlertMessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,$ionicModal,OfficeService,CameraService){
+.controller('AlertMessageCtrl', function($scope,$rootScope,$ionicScrollDelegate,$stateParams,$ionicModal,OfficeService,CameraService, MessageService){
 	$scope.msg = {};
 
 	$scope.showPopup = function() {
@@ -15,19 +15,16 @@ angular.module('lf')
 
 	$scope.getMessages = function(){
 		$rootScope.showLoading();
-		OfficeService.getAlertMessages($stateParams.item,function(error,data){
+		MessageService.getMessages($stateParams.item, 'alert').then(function(messages) {
 			$rootScope.hideLoading();
-			if(error)
-				alert("error" + error.code);
-			$scope.messages = data;
-			$ionicScrollDelegate.scrollBottom(true);
+			$scope.messages = messages;
 		});
 	};
 
 	$scope.sendMessage = function(){
 		if(!!$rootScope.data.currentuser){
 			$rootScope.showLoading();
-			OfficeService.postAlertMessage($scope.msg.body,$stateParams.item,function(error,data){
+			ItemService.addMessage($scope.msg.body,$stateParams.item,function(error,data){
 				$scope.msg.body = "";
 				$rootScope.hideLoading();
 				if(error)

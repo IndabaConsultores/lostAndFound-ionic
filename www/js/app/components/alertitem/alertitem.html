@@ -1,6 +1,5 @@
 
 <ion-view title="{{item.name}}" hide-back-button="false">
-
 	<ion-content class="has-header">
 		<div class="list card">
 			<div class="item item-avatar">
@@ -12,7 +11,7 @@
 			<div class="item item-body">
 				<h2>{{item.name}}</h2>
 					<button class="button button-icon icon ng-class:favIcon;" style="float:right" ng-click="save()"></button>
-				<img class="full-image" ng-src="{{item.cover.image}}" >
+				<img class="full-image" ng-src="{{item.cover}}" >
 
 				<label class="item item-input item-stacked-label">
 					<!-- <map on-create="mapCreated(map)"></map> -->
@@ -26,7 +25,9 @@
 				</p>
 				<p>
 					<a href="#" class="subdued">1 Like</a>
-					<a href="#/app/alert_items/messages/{{item.$id}}" class="subdued">{{item.messages_length}} {{"comments" | translate}}</a>
+					<a href="#/app/alert_items/messages/{{item.$id}}" class="subdued">
+						{{numMessages}} {{"comments" | translate}}
+					</a>
 				</p>
 			</div>
 

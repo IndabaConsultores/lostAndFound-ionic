@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('lf')
 .controller('AlertsCtrl', function($ionicPopover, $ionicPopup, $scope, $rootScope, ItemService){
@@ -53,20 +54,14 @@ angular.module('lf')
 		}
 		$scope.popover.hide();
 	};
-	$rootScope.showLoading();
-	ItemService.fetchAlerts(function(error, items) {
-		$rootScope.hideLoading();
-		$scope.items = items;
-		$scope.$apply();
-	});
 
 	$scope.doRefresh = function() {
-		ItemService.fetchAlerts(function(error,collection){
-			$scope.items = collection;
-			//Stop the ion-refresher from spinning
-			$scope.$broadcast('scroll.refreshComplete');
-		});
+		$scope.items = ItemService.getAlertItems();
+		//Stop the ion-refresher from spinning
+		$scope.$broadcast('scroll.refreshComplete');
 	};
+
+	$scope.doRefresh();
 
 });
 
