@@ -1,36 +1,33 @@
+'use strict';
+
 angular.module('lf.services.camera', [])
-.factory('CameraService', ['$q', function($q) {
-  return {
-      
-      getPicture: function(options) {
-          console.log(options);
-          var q = $q.defer();
+.service('CameraService', function() {
+	this.getPicture = function(options) {
+		var promise = new Promise(function(resolve, reject) {
+			navigator.camera.getPicture(function(result) {
+				// Do any magic you need
+				resolve(result);
+			}, function(err) {
+				reject(err);
+			}, options);
+		});
+		return promise;
+	};
 
-          navigator.camera.getPicture(function(result) {
-            // Do any magic you need
-            q.resolve(result);
-          }, function(err) {
-            q.reject(err);
-          }, options);
+	this.resizePicture = function(img, width, height){
+		// create an off-screen canvas
+		var canvas = document.createElement('canvas'),
+			ctx = canvas.getContext('2d');
 
-        return q.promise;
-      },
+		// set its dimension to target size
+		canvas.width = width;
+		canvas.height = height;
 
-      resizePicture: function(img, width, height){
-          // create an off-screen canvas
-          var canvas = document.createElement('canvas'),
-              ctx = canvas.getContext('2d');
+		// draw source image into the off-screen canvas:
+		ctx.drawImage(img, 0, 0, width, height);
 
-          // set its dimension to target size
-          canvas.width = width;
-          canvas.height = height;
+		// encode image to data-uri with base64 version of compressed image
+		return canvas.toDataURL('image/jpeg', 0.8);
+	};
+});
 
-          // draw source image into the off-screen canvas:
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // encode image to data-uri with base64 version of compressed image
-          return canvas.toDataURL('image/jpeg', 0.8);
-      }
-
-  }
-}]);

@@ -15,11 +15,10 @@ angular.module('lf')
 	}
 
 	if(!!$scope.item.location){
-		if ($scope.map) {
-			console.log('Map removed');
-			$scope.map.remove();
+		if (!$scope.map) {
+			$scope.map = L.map('alertmap',{ tap:true });
 		}
-		$scope.map = L.map('alertmap',{ tap:true }).setView([
+		$scope.map.setView([
 			$scope.item.location.latitude,
 			 $scope.item.location.longitude
 		], 14);
@@ -33,11 +32,6 @@ angular.module('lf')
 		]).addTo($scope.map);
 	}
 	$rootScope.hideLoading();
-
-	$scope.$on('destroy', function() {
-		console.log('destroy scope');
-		$scope.map.remove();
-	});
 
 });
 

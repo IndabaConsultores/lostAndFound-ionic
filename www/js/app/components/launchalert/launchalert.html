@@ -38,7 +38,10 @@
 			<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="data.currentUser">
 				Send
 			</button>
-			<span ng-if="!data.currentUser">Necesitas ser usuario registrado para poder crear una nueva alerta</span>
+			<div ng-if="!data.currentUser">
+				<span>Necesitas ser usuario registrado para poder crear una nueva alerta.</span>
+				<a ng-click="loginModal.show()">Log In</a>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

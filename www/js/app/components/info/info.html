@@ -19,11 +19,14 @@
 			<div class="item item-text-wrap">
 				<p>Email: {{office.emailAddress}}</p>
 				<br />
-				<p>Tel: {{office.phoneAddress}}</p>
+				<p>Tel: {{office.phoneNumber}}</p>
 				<br />
 			</div>
 		</div>  
-
+		<div class="logo">
+			<img ng-src={{office.icon}}>
+			<p>{{office.name}}</p>
+		</div>
 	</ion-content>
 </ion-view>
 

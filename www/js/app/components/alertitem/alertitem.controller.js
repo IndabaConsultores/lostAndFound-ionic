@@ -52,13 +52,22 @@ angular.module('lf')
 	}
 
 	if(!!$scope.item.location){
-		$scope.map = L.map('alertmap',{ tap:true }).setView([$scope.item.location.latitude, $scope.item.location.longitude], 14);
+		if (!$scope.map) {
+			$scope.map = L.map('alertmap',{ tap:true });
+		}
+		$scope.map.setView([
+			$scope.item.location.latitude, 
+			$scope.item.location.longitude
+		], 14);
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		  attribution: 'Lost & Found',
 		  maxZoom: 18
 		}).addTo($scope.map);
 
-		$scope.marker = L.marker([$scope.item.location.latitude, $scope.item.location.longitude]).addTo($scope.map);
+		$scope.marker = L.marker([
+			$scope.item.location.latitude, 
+			$scope.item.location.longitude
+		]).addTo($scope.map);
 	}
         
 	$rootScope.hideLoading();

@@ -10,7 +10,7 @@
 
 			<div class="item item-body">
 				<h2>{{item.name}}</h2>
-					<button class="button button-icon icon ng-class:favIcon;" style="float:right" ng-click="save()"></button>
+				<button class="button button-icon icon ng-class:favIcon;" style="float:right" ng-click="save()" ng-if="data.currentUser"></button>
 				<img class="full-image" ng-src="{{item.cover}}" >
 
 				<label class="item item-input item-stacked-label">

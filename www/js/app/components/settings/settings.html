@@ -5,18 +5,18 @@
 	</ion-nav-buttons>
 	<ion-content class="has-header">
 		<div class="list">
-				<div class="item item-avatar settings" ng-if="data.currentuser">
+				<div class="item item-avatar settings" ng-if="data.currentUser">
 					<div class="profile_avatar" >
 						<img ng-src="{{imageBase64}}" ng-if="imageBase64" ng-click="showPopup()">
-						<img ng-src="{{data.currentuser.avatar}}" ng-if="data.currentuser.avatar && !imageBase64" ng-click="showPopup()">
-						<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!data.currentuser.avatar && !imageBase64" ng-click="showPopup()">
+						<img ng-src="{{data.currentUser.avatar}}" ng-if="data.currentUser.avatar && !imageBase64" ng-click="showPopup()">
+						<img ng-src="http://www.femto.it/wp-content/uploads/2014/04/default-user-avatar.png" ng-if="!data.currentUser.avatar && !imageBase64" ng-click="showPopup()">
 						<i class="ion-edit" ng-click="showPopup()"></i>
 					</div>
 				</div>
 
-				<div class="item item-input" ng-if="data.currentuser">
+				<div class="item item-input" ng-if="data.currentUser">
 					<span class="input-label">{{'username' | translate}}</span>
-					<input type="text" name="username" ng-model="data.currentuser.username">
+					<input type="text" name="username" ng-model="data.currentUser.username">
 				</div>
 
 			<div class="item item-toggle">

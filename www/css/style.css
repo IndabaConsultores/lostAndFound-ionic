@@ -1,7 +1,7 @@
 /* Empty. Add your own CSS if you like */
 ion-list i{ font-size:1.4em; color: lightgrey; }
 
-.logo { text-align: center; margin-top: 50px; }
+.logo { text-align: center; margin-top: 50px; margin-bottom: 50px; }
 
 .button-facebook{background-color: #3b5998; color:white;}
 .button-twitter{background-color: #00aced; color:white;}

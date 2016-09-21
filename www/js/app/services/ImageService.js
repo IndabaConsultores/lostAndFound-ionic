@@ -17,9 +17,7 @@ angular.module('lf.services.image', [])
 		return JSON.parse(JSON.stringify(imageOrig));
 	};
 
-	this.createImage = function(imageBase64) {
-		var image = {};
-		image.image = imageBase64;
+	this.createImage = function(image) {
 		image.createDate = firebase.database.ServerValue.TIMESTAMP;
 		image.office = constants.OFFICE_ID;
 

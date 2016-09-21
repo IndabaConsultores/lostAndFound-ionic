@@ -20,7 +20,7 @@ angular.module('lf')
 	$ionicModal.fromTemplateUrl('js/app/components/main/login.html', {
 		scope: $scope
 	}).then(function(modal) {
-		$scope.modal = modal;
+		$scope.loginModal = modal;
 	});
 
 	$scope.logout = function() {
@@ -33,16 +33,16 @@ angular.module('lf')
 
 	// Triggered in the login modal to close it
 	$scope.closeLogin = function() {
-		$scope.modal.hide();
+		$scope.loginModal.hide();
 	};
 
 	// Open the login modal
 	$scope.login = function() {
-		$scope.modal.show();
+		$scope.loginModal.show();
 	};
 
 	$scope.signup = function(){
-		$scope.modal.hide();
+		$scope.loginModal.hide();
 		$state.go('app.signup');
 	};
 
@@ -87,7 +87,7 @@ angular.module('lf')
 				amMoment.changeLocale($rootScope.data.currentUser.language);
 				$rootScope.settings.language = $rootScope.data.currentUser.language;
 			});
-			$scope.modal.hide();
+			$scope.loginModal.hide();
 		}).catch(function(error) {
 			var alertPopup = $ionicPopup.alert({
 				title: 'Sign Up ERROR' + error.code,

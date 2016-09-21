@@ -1,11 +1,7 @@
 
 <ion-view title="{{'messages' | translate}}">
-	<ion-nav-buttons side="left">
-		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-	</ion-nav-buttons>
-
-	<ion-nav-buttons side="right">
-		<button ng-click="showPopup()" class="button button-icon icon ion-paperclip"></button>
+	<ion-nav-buttons side="right" >
+		<button ng-hide="!data.currentUser" ng-click="showPopup()" class="button button-icon icon ion-paperclip"></button>
 	</ion-nav-buttons>
 
 	<ion-content class="has-header has-footer" has-bouncing="true">
@@ -17,7 +13,7 @@
 
 				<div class="chat-bubble left">
 
-					<img ng-src="{{message.picture.thumbnail}}" ng-if="!!message.picture.thumbnail"  ng-click="showPicture(message.picture.image)" />
+					<img ng-src="{{message.picture.thumbnail}}" ng-if="!!message.picture.thumbnail"  ng-click="showPicture(message)" />
 					<div class="message" ng-bind-html="message.body|nl2br" autolinker>
 					</div>
 
@@ -34,7 +30,7 @@
 					ng-src="{{user.avatar}}"  />
 
 				<div class="chat-bubble right">
-					<img ng-src="{{message.picture.thumbnail}}" ng-if="message.picture.thumbnail"   ng-click="showPicture(message.picture.image)" />
+					<img ng-src="{{message.picture.thumbnail}}" ng-if="message.picture.thumbnail"   ng-click="showPicture(message)" />
 					<div class="message" ng-bind-html="message.body|nl2br" autolinker>
 					</div>
 
@@ -51,6 +47,7 @@
 
 	<form name="sendMessageForm" ng-submit="sendMessage()" novalidate ng-if="data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
+			<img ng-src="{{msg.picture.thumbnail}}" ng-if="msg.picture.thumbnail">
 			<label class="item-input-wrapper">
 				<textarea ng-model="msg.body" value="" placeholder="Send a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
 		   </label>
@@ -63,7 +60,8 @@
 	</form>
 	<div ng-if="!data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer">
-			<span>Log in to post messages</span>
+			<a ng-click="loginModal.show()">Log in</a>
+			<span>&nbsp;to post messages</span>
 		</ion-footer-bar>
 	</div>
 </ion-view>

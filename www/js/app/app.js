@@ -30,13 +30,6 @@ angular.module('lf', [ 'ionic',
 	firebase.initializeApp(constants.FIREBASE_CONFIG);
 	console.log('Database initialized');
 
-	/*	
-	var color1 = 'blue';
-	var color2 = 'cyan';
-	$rootScope.style = '.bar.bar-dark {	background-color:' + color1 + ';}';
-	$rootScope.style += '.item-divider { background-color:' + color2 + ';}';
-	*/
-
 	$rootScope.showLoading = function()  {
 		$ionicLoading.show({ template: 'Loading...', noBackdrop:true });
 	};
@@ -151,7 +144,7 @@ angular.module('lf', [ 'ionic',
 		OfficeService.getOffice().then(function(office){
 			$rootScope.office = office;
 			$rootScope.style = '.bar.bar-dark {	background-color:' + office.color1 + ';}';
-			$rootScope.style += '.item-divider { background-color:' + office.color2 + ';}';
+			$rootScope.style += 'ion-content { background-color:' + office.color2 + ';}';
 			//$ionicLoading.hide();
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
@@ -160,7 +153,6 @@ angular.module('lf', [ 'ionic',
 		});
 	}
 	
-
 })
 
 .constant('angularMomentConfig', {
@@ -169,7 +161,6 @@ angular.module('lf', [ 'ionic',
 })
 
 .config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
-
 	function loadItems(ItemService) {
 		return ItemService.loaded().then(function(items){console.log('doneItem', items)});
 	}
@@ -232,6 +223,7 @@ angular.module('lf', [ 'ionic',
 		}
 	})
 	.state('app.item', {
+		cache: false,
 		url: "/found_items/:itemId",
 		views: {
 			'menuContent': {
@@ -268,6 +260,7 @@ angular.module('lf', [ 'ionic',
 		}
 	})
 	.state('app.alertitem', {
+		cache: false,
 		url: "/alerts/:item",
 			views: {
 				'menuContent': {

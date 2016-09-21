@@ -8,7 +8,7 @@
 	<ion-content class="has-header">
 		<ion-refresher on-refresh="doRefresh()"></ion-refresher>
 		<div class="list">
-			<div class="item" ng-if="bycategory.length < 1">
+			<div class="item item-divider" ng-if="categories.length < 1">
 				<h2>Empty list</h2>
 			</div>
 
@@ -17,6 +17,9 @@
 					{{ category.name }}
 				</div>
 				<a class="item item-thumbnail-left" ng-repeat="item in category.items" href="#/app/found_items/{{item.$id}}">
+					<div class="item" ng-if="category.items.length < 1">
+						<h2>Empty list</h2>
+					</div>
 					<img ng-src="{{item.cover.image}}">
 					<h2>{{ item.name }}</h2>
 					<p am-time-ago="item.createdAt"></p>

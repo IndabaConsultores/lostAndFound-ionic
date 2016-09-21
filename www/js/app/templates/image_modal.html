@@ -1,0 +1,13 @@
+
+<ion-modal-view class="modal">
+	<ion-header-bar class="bar bar-header bar-positive">
+		<h1 class="title">{{image.title}}</h1>
+		<button class="button button-clear button-primary" ng-click="modal.hide()">
+			Close
+		</button>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<img class="full-image" ng-src="{{image.image}}"></img>
+	</ion-content>
+</ion-modal-view> 
+

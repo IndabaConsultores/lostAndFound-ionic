@@ -131,7 +131,7 @@ angular.module('lf')
 			ItemService.createAlertItem($scope.newAlert, images)
 			.then(function(itemRef) {
 				$rootScope.hideLoading();
-				$scope.newalert = {};
+				$scope.newAlert = {};
 				$scope.imageBase64 = null;
 				var alertPopup = $ionicPopup.alert({
 					title: 'New alert',
@@ -141,7 +141,6 @@ angular.module('lf')
 					$state.go('app.alerts');
 				});
 			}).catch(function(error) {
-				console.log(JSON.stringify(error));
 				console.log(error);
 			});
 		} else {

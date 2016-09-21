@@ -20,13 +20,15 @@ angular.module('lf.services.message', [])
 	};
 
 	this.getMessagesByCompositeItemId = function(itemId) {
-		return $firebaseArray(_ref.orderByChild('item').equalTo(itemId)).$loaded();
+		var itemArray = $firebaseArray(_ref.orderByChild('item').equalTo(itemId));
+		console.log('Messages: ', itemArray);
+		return itemArray.$loaded();
 	};
 
 	this.createMessage = function(message) {
 		message.createDate = firebase.database.ServerValue.TIMESTAMP,
 		message.user =  $rootScope.data.currentUser.$id
-		return _messages.$add(message)
+		return _messages.$add(message);
 	};
 
 });
