@@ -3,7 +3,7 @@
 angular.module('lf')
 .controller('LaunchAlertCtrl', function($state, $scope,$rootScope,$ionicPopup,$ionicModal,CameraService,ItemService,ImageService) {
 
-	$scope.newAlert = {location:{ latitude:0, longitude:0}};
+	$scope.newAlert = {location:$rootScope.currentLocation};
 
 	function imageToDataUri(img, width, height) {
 		//CameraService
@@ -48,37 +48,7 @@ angular.module('lf')
 		$scope.map = map;
 	};
 
-	//$scope.coords = {'lat':$rootScope.office.get('location')._latitude, 'lng': $rootScope.office.get('location')._longitude };
-	//$scope.initMap();
-
-
-	navigator.geolocation.getCurrentPosition(function(success){
-		/*
-			En caso de que podamos acceder la ubicacion del dispositivo
-			colocamos el marker en su lugar
-		*/
-		$scope.newAlert.location = {
-			'latitude':success.coords.latitude, 
-			'longitude': success.coords.longitude 
-		};
-		$scope.initMap();
-	},function(error){
-		// TODO no funciona, ya que office no tiene location
-		// $scope.coords = {'lat':$rootScope.office.location.latitude, 'lng': $rootScope.office.location.longitude };
-		$scope.newAlert.location = {'latitude': 0, 'longitude': 0 };
-		console.log(error);
-		$scope.initMap();
-	},{timeout:10000});
-
-
-	function resizeImage() {
-		//$scope.imageThumb = CameraService.resizeImage(this, 64, 64);
-	}
-
 	$scope.useCamera = function(){
-		/*
-			Usar camara para sacar foto
-		*/
 		var options = {
 		  quality: 50,
 		  destinationType: navigator.camera.DestinationType.DATA_URL
@@ -88,9 +58,7 @@ angular.module('lf')
 		.then(function(imageURI) {
 			$scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
 			var img = new Image;
-				img.onload = resizeImage;
-				img.src = $scope.imageBase64;
-			
+			img.src = $scope.imageBase64;
 			$scope.modal.hide();
 		}, function(err) {
 			alert(err);
@@ -98,9 +66,6 @@ angular.module('lf')
 	};
 
 	$scope.usePicture = function(){
-		/*
-			Usar foto de la camara
-		*/
 		var options = {
 			quality: 50,
 			destinationType: navigator.camera.DestinationType.DATA_URL,
@@ -127,7 +92,6 @@ angular.module('lf')
 				$scope.imageBase64=null;
 				images = null;
 			}
-			if (!$scope.imageThumb) $scope.imageThumb=null;
 			ItemService.createAlertItem($scope.newAlert, images)
 			.then(function(itemRef) {
 				var user = $rootScope.data.currentUser;
@@ -159,6 +123,8 @@ angular.module('lf')
 	$scope.$on('$destroy', function() {
 		$scope.modal.hide();
 	});
+
+	$scope.initMap();
 
 });
 
