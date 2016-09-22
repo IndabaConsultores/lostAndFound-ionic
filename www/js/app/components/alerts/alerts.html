@@ -4,7 +4,7 @@
 		<button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
 	</ion-nav-buttons>
 	<ion-nav-buttons side="right">
-		<button class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+		<button ng-show="data.currentUser" class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
 	</ion-nav-buttons>
 	<ion-content class="has-header">
 		<ion-refresher on-refresh="doRefresh()"></ion-refresher>
@@ -13,8 +13,8 @@
 				<h2>Empty list</h2>
 			</div>
 			<a class="item item-thumbnail-left item-icon-right" collection-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" >
-				<img ng-if="item.cover.image" ng-src="{{item.cover.image}}">
-				<img ng-if="!item.cover.image" ng-src="/img/no-image.png">
+				<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">
+				<img class="fit-thumbnail" ng-if="!item.cover.image" ng-src="img/no-image.png">
 				<h2>{{item.name}}</h2>
 				<p am-time-ago="item.createDate"></p>
 				<p>{{item.distance}} m away</p>
@@ -23,12 +23,12 @@
 		</div>
 	</ion-content>
 	<script id="popover.html" type="text/ng-template">
-		<ion-popover-view style="height: 120px; width: 150px">
+		<ion-popover-view style="height: 112px; width: 150px">
 			<ion-content>
-				<div class="list">
-					<span class="item" ng-click="showAllItems()">All items</span>
-					<span class="item" ng-click="showFavItems()">Favorite items</span>
-				</div>
+				<ul class="list">
+					<li class="item" ng-click="showAllItems()">All items</span>
+					<li class="item" ng-click="showFavItems()">Favorite items</span>
+				</ul>
 			</ion-content>
 		</ion-popover-view>
 	</script>

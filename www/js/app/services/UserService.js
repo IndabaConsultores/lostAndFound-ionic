@@ -15,11 +15,21 @@ angular.module('lf.services.user', [])
 	this.getUser = function(userId) {
 		var userOrig = _users.$getRecord(userId);
 		return JSON.parse(JSON.stringify(userOrig));
-	}
+	};
 
 	this.saveUser = function(user) {
 		return _users.$save(user);
-	}
+	};
+
+	this.removeFavorite = function(itemId) {
+		for (var i=0;i<_users.length;i++) {
+			var user = _users[i];
+			if (user.favorites) {
+				user.favorites[itemId] = null;
+				_users.$save(user);
+			}
+		}
+	};
 
 });
 

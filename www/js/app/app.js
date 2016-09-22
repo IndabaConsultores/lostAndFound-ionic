@@ -4,10 +4,11 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-angular.module('lf', [ 'ionic',
-  					 'ionic.cloud',
+angular.module('lf', ['ionic',
+					 'ionic.cloud',
   					 'pascalprecht.translate',
   					 'angularMoment',
+					 'ngAnimate',
   					 'nl2br',
   					 'firebase',
   					 'lf.services.office', 
@@ -19,7 +20,7 @@ angular.module('lf', [ 'ionic',
   					 'lf.directives.map',
   					 'lf.services.camera'])
 
-.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, OfficeService, CategoryService, ItemService, amMoment, constants) {
+.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
 
 	$rootScope.data = {};
 	$rootScope.settings = {
@@ -140,14 +141,24 @@ angular.module('lf', [ 'ionic',
 	});
 
 	function initAppInfo() {
-		//$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
-		OfficeService.getOffice().then(function(office){
-			$rootScope.office = office;
-			$rootScope.style = '.bar.bar-dark {	background-color:' + office.color1 + ';}';
-			$rootScope.style += 'ion-content { background-color:' + office.color2 + ';}';
-			//$ionicLoading.hide();
+		if (!navigator.splashscreen)
+			$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
+
+		var promises = [];
+		promises.push(OfficeService.getOffice());
+		promises.push(ItemService.loaded());
+		promises.push(ImageService.loaded());
+		promises.push(MessageService.loaded());
+		promises.push(UserService.loaded());
+		promises.push(CategoryService.loaded());
+		Promise.all(promises).then(function(results){
+			$rootScope.office = results[0];
+			$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
+			$rootScope.style += 'ion-content { background-color:' + $rootScope.office.color2 + ';}';
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
+			else
+				$ionicLoading.hide();
 		}).catch(function(error) {
 			console.log(error);
 		});

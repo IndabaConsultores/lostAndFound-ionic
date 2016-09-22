@@ -1,16 +1,20 @@
 
 <ion-view title="{{item.name}}" hide-back-button="false">
+	<ion-nav-buttons side="right">
+		<button ng-show="data.currentUser.$id==item.createdBy.$id" class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+	</ion-nav-buttons>
+
 	<ion-content class="has-header">
 		<div class="list card">
-			<div class="item item-avatar">
+			<div class="item item-avatar item-icon-right">
 				<img ng-src="{{item.createdBy.avatar}}">
 				<h2>{{item.createdBy.username}}</h2>
 				<p>{{item.createDate | amDateFormat: 'MMMM D, YYYY' }}</p>
+				<i class="icon ng-class:favIcon;" ng-click="save()" ng-if="data.currentUser"></i>
 			</div>
 
 			<div class="item item-body">
 				<h2>{{item.name}}</h2>
-				<button class="button button-icon icon ng-class:favIcon;" style="float:right" ng-click="save()" ng-if="data.currentUser"></button>
 				<img class="full-image" ng-src="{{item.cover}}" >
 
 				<label class="item item-input item-stacked-label">
@@ -41,8 +45,17 @@
 					{{"share" | translate}}
 				</a>
 			</div>
-
 		</div>
 	</ion-content>
+	<script id="popover.html" type="text/ng-template">
+		<ion-popover-view style="height: 58px; width: 150px">
+			<ion-content>
+				<div class="list">
+					<span class="item" ng-click="deleteItem()">Delete alert</span>
+				</div>
+			</ion-content>
+		</ion-popover-view>
+	</script>
+
 </ion-view>
 

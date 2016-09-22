@@ -89,5 +89,17 @@ angular.module('lf')
 
 	$scope.doRefresh();
 
+	$rootScope.$on('alert-deleted', function(event, item) {
+		for (var i=0;i<$scope.items.length;i++) {
+			if ($scope.items[i].$id == item.$id) {
+				return $scope.items.splice(i, 1);
+			}
+		}
+	});
+
+	$rootScope.$on('alert-added', function(event) {
+		$scope.doRefresh();
+	});
+
 });
 

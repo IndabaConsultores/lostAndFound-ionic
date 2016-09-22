@@ -1,6 +1,7 @@
+'use strict';
 
 angular.module('lf')
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicHistory, $ionicPush, $translate, $ionicModal, amMoment, CameraService){
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicHistory, $ionicPush, $ionicModal, $translate, $timeout, amMoment, CameraService){
 
 	//TODO cargar el lenguaje adecuado. Esperar a que el usuario este logueado
 
@@ -42,6 +43,11 @@ angular.module('lf')
 			var token = window.localStorage.removeItem('pushToken');
 			$ionicPush.unregister();
 		}
+		
+		$scope.showMessage = true;
+		$timeout(function() {
+			$scope.showMessage = false;
+		}, 2000);
 	};
 
 	$scope.showPopup = function() {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lf')
-.controller('AlertItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService,$firebaseObject){
+.controller('AlertItemCtrl', function($rootScope, $scope, $state, $stateParams, $ionicPopup, $ionicPopover, $firebaseObject, ItemService){
 
 	function itemFavorited() {
 		var itemKey = $stateParams.item;
@@ -16,6 +16,24 @@ angular.module('lf')
 
 	$scope.favIcon = itemFavorited() ? 'ion-star' : 'ion-ios-star-outline';
 
+	$ionicPopover.fromTemplateUrl('popover.html', {scope: $scope})
+	.then(function(popover) {
+		$scope.popover = popover;
+	});
+
+	$scope.openPopover = function($event) {
+		$scope.popover.show($event);
+	};
+
+	$scope.closePopover = function() {
+		$scope.popover.hide();
+	};
+	
+	$scope.$on('destroy', function() {
+		$scope.popover.remove();
+	});
+
+
 	$scope.save = function() {
 		var user = $rootScope.data.currentUser;
 		var itemKey = $stateParams.item;
@@ -29,7 +47,35 @@ angular.module('lf')
 			$scope.favIcon = 'ion-star';
 		}
 		user.$save();
-	}
+	};
+
+	$scope.deleteItem = function() {
+		if ($rootScope.data.currentUser.$id != $scope.item.createdBy.$id) {
+			$ionicPopup.show({
+				template: 'Please log in to use this function',
+				scope: $scope,
+				buttons: [
+					{ text: 'OK' }
+				]
+			});
+		} else {
+			$ionicPopup.confirm({
+				title: 'Delete item',
+				template: 'Are you sure you want to delete the alert?'
+			}).then(function(confirm) {
+				if (!!confirm) {
+					var item = $scope.item;
+					$scope.popover.hide();
+					ItemService.deleteAlertItem(item).then(function(ref) {
+						$rootScope.$broadcast('alert-deleted', item);
+						$state.go('app.alerts');
+					}).catch(function(error) {
+						console.log(error);
+					});
+				}
+			});
+		}
+	};
 
     $rootScope.showLoading();
 

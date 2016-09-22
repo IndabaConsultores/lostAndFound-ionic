@@ -103,6 +103,7 @@ angular.module('lf')
 				$rootScope.hideLoading();
 				$scope.newAlert = {location: $rootScope.currentLocation};
 				$scope.imageBase64 = null;
+				$rootScope.$emit('alert-added');
 				var alertPopup = $ionicPopup.alert({
 					title: 'New alert',
 					template: 'New alert created successfully'

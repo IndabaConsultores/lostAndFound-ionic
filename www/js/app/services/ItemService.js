@@ -162,5 +162,11 @@ angular.module('lf.services.item', [])
 		});
 	};
 
+	this.deleteAlertItem = function(item) {
+		var index = _alertItems.$indexFor(item.$id);
+		UserService.removeFavorite(item.$id);
+		return _alertItems.$remove(index);
+	};
+
 });
 
