@@ -101,7 +101,7 @@ angular.module('lf')
 				user.favorites[itemRef.key] = true;
 				user.$save();
 				$rootScope.hideLoading();
-				$scope.newAlert = {};
+				$scope.newAlert = {location: $rootScope.currentLocation};
 				$scope.imageBase64 = null;
 				var alertPopup = $ionicPopup.alert({
 					title: 'New alert',
