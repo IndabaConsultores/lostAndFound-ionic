@@ -1,8 +1,34 @@
 'use strict';
 
 angular.module('lf')
-.controller('AlertsCtrl', function($ionicPopover, $ionicPopup, $scope, $rootScope, ItemService){
+.controller('AlertsCtrl', function($rootScope, $ionicPopover, $ionicPopup, $scope, ItemService){
 
+	$scope.favIcon = function(item) {
+		var itemKey = item.$id;
+		var user = $rootScope.data.currentUser;
+		if (user) {
+			if (user.favorites && user.favorites.hasOwnProperty(itemKey)) 
+				return 'ion-star';
+		}
+		return 'ion-ios-star-outline';
+	};
+	
+	$scope.swapFav = function(item, event) {
+		event.preventDefault();
+		var user = $rootScope.data.currentUser;
+		var itemKey = item.$id;
+		if (!user.favorites) {
+			user.favorites = {};
+		}
+		if (user.favorites.hasOwnProperty(itemKey)) {
+			user.favorites[itemKey] = null;
+		} else {
+			if (!user.favorites) user.favorites = {};
+			user.favorites[itemKey] = true;
+		}
+		user.$save();
+	};
+	
 	$ionicPopover.fromTemplateUrl('popover.html', {scope: $scope})
 	.then(function(popover) {
 		$scope.popover = popover;

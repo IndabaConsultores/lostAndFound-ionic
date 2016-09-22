@@ -130,6 +130,10 @@ angular.module('lf')
 			if (!$scope.imageThumb) $scope.imageThumb=null;
 			ItemService.createAlertItem($scope.newAlert, images)
 			.then(function(itemRef) {
+				var user = $rootScope.data.currentUser;
+				if (!user.favorites) user.favorites = {};
+				user.favorites[itemRef.key] = true;
+				user.$save();
 				$rootScope.hideLoading();
 				$scope.newAlert = {};
 				$scope.imageBase64 = null;
