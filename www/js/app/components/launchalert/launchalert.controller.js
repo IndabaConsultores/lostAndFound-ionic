@@ -38,10 +38,12 @@ angular.module('lf')
 	};
 
 	$scope.onMapClick = function(e) {
-		//alert("You clicked the map at " + e.latlng);
 		$scope.map.removeLayer($scope.marker);
 		$scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
-		$scope.coords = e.latlng;
+		$scope.newAlert.location = {
+			latitude: e.latlng.lat,
+			longitude: e.latlng.lng
+		};
 	};
 
 	$scope.mapCreated = function(map) {
