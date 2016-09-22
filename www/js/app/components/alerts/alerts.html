@@ -16,7 +16,7 @@
 				<img ng-if="item.cover.image" ng-src="{{item.cover.image}}">
 				<img ng-if="!item.cover.image" ng-src="/img/no-image.png">
 				<h2>{{item.name}}</h2>
-				<p am-time-ago="item.createdAt"></p>
+				<p am-time-ago="item.createDate"></p>
 				<p>{{item.distance}} m away</p>
 				<i ng-if="data.currentUser" class="icon ng-class:favIcon(item)" ng-click="swapFav(item, $event)"></i>
 			</a>
