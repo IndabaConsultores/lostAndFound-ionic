@@ -102,7 +102,9 @@ angular.module('lf.services.item', [])
 			}
 			if (item.images) {
 				var coverId = Object.keys(item.images)[0];
-				item.cover = ImageService.getImage(coverId);
+				var image = ImageService.getImage(coverId);
+				item.cover = image.image;
+				console.log(item.cover);
 			}
 			items.push(item);
 		}

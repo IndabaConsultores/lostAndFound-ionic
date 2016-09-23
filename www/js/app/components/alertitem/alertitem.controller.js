@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lf')
-.controller('AlertItemCtrl', function($rootScope, $scope, $state, $stateParams, $ionicPopup, $ionicPopover, $firebaseObject, ItemService){
+.controller('AlertItemCtrl', function($rootScope, $scope, $state, $stateParams, $ionicPopup, $ionicPopover, $ionicModal, $firebaseObject, ItemService){
 
 	function itemFavorited() {
 		var itemKey = $stateParams.item;
@@ -117,6 +117,24 @@ angular.module('lf')
 	}
         
 	$rootScope.hideLoading();
+
+	$scope.showPicture = function(){
+		console.log('showPictureItem');
+		if ($scope.item.cover) {
+			var modalScope = $scope.$new();
+			modalScope.image = {
+				title: $scope.item.name,
+				image: $scope.item.cover
+			};
+			$ionicModal.fromTemplateUrl('js/app/templates/image_modal.html', {
+				scope: modalScope,
+				animation: 'slide-in-up'
+			}).then(function(modal) {
+				$scope.modal = modal;
+				$scope.modal.show();
+			});
+		}
+	};
 
 });
 

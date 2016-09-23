@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('lf')
-.controller('FoundItemCtrl', function($scope,$stateParams,$rootScope,$ionicPopup,ItemService,OfficeService,$firebaseArray,$firebaseObject){
+.controller('FoundItemCtrl', function($scope, $stateParams, $rootScope, $ionicPopup, $ionicModal, ItemService, OfficeService, $firebaseArray, $firebaseObject){
 
 	$rootScope.showLoading();
 	$scope.item = ItemService.getOfficeItem($stateParams.itemId);
 	if ($scope.item.images) {
-		$scope.item.cover = $scope.item.images[0];
+		$scope.item.cover = $scope.item.images[0].image;
 	}
 	if ($scope.item.messages) {
 		$scope.numMessages = Object.keys($scope.item.messages).length;
@@ -32,6 +32,23 @@ angular.module('lf')
 		]).addTo($scope.map);
 	}
 	$rootScope.hideLoading();
+
+	$scope.showPicture = function(){
+		if ($scope.item.cover) {
+			var modalScope = $scope.$new();
+			modalScope.image = {
+				title: $scope.item.name,
+				image: $scope.item.cover
+			};
+			$ionicModal.fromTemplateUrl('js/app/templates/image_modal.html', {
+				scope: modalScope,
+				animation: 'slide-in-up'
+			}).then(function(modal) {
+				$scope.modal = modal;
+				$scope.modal.show();
+			});
+		}
+	};
 
 });
 

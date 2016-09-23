@@ -7,7 +7,10 @@
 		</button>
 	</ion-header-bar>
 	<ion-content class="padding">
-		<img class="full-image" ng-src="{{image.image}}"></img>
+		<ion-scroll overflow-scroll="false" zooming="true" direction="xy" min-zoom="1" scrollbar-x="false" scrollbar-y="false">   
+			<img ng-src="{{image.image}}"></img>
+		</ion-scroll>
 	</ion-content>
+
 </ion-modal-view> 
 

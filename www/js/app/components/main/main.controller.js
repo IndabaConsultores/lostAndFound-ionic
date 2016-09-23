@@ -112,6 +112,7 @@ angular.module('lf')
 			$state.go('app.alertitem', {'item':itemId});;
 		} else {
 			//TODO manage push notification when app is open
+			//Guardar notificacion en lista de notificaciones??
 			console.log(data.message.title + ': ' + data.message.text);
 		}
 	});

@@ -12,6 +12,7 @@ angular.module('lf')
 			var cat = CategoryService.getCategory(catId);
 			cat.items = ItemService.getOfficeItemsByCat(catId);
 			$scope.categories.push(cat);
+			console.log(cat);
 		}
 		//notifica al ion-refresher para que pare de girar
 		$scope.$broadcast('scroll.refreshComplete');

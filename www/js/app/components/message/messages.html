@@ -15,7 +15,7 @@
 
 				<div class="chat-bubble left">
 
-					<img ng-src="{{message.picture.thumbnail}}" ng-if="!!message.picture.thumbnail"  ng-click="showPicture(message)" />
+					<img class="fit-thumbnail" ng-src="{{message.picture.thumbnail}}" ng-if="!!message.picture.thumbnail"  ng-click="showPicture(message)" />
 					<div class="message" ng-bind-html="message.body|nl2br" autolinker>
 					</div>
 
@@ -32,7 +32,7 @@
 					ng-src="{{user.avatar}}"  />
 
 				<div class="chat-bubble right">
-					<img ng-src="{{message.picture.thumbnail}}" ng-if="message.picture.thumbnail"   ng-click="showPicture(message)" />
+					<img class="fit-thumbnail" ng-src="{{message.picture.thumbnail}}" ng-if="message.picture.thumbnail"   ng-click="showPicture(message)" />
 					<div class="message" ng-bind-html="message.body|nl2br" autolinker>
 					</div>
 
@@ -49,7 +49,7 @@
 
 	<form name="sendMessageForm" ng-submit="sendMessage()" novalidate ng-if="data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
-			<img ng-src="{{msg.picture.thumbnail}}" ng-if="msg.picture.thumbnail">
+			<img class="fit-thumbnail" ng-src="{{msg.picture.thumbnail}}" ng-if="msg.picture.thumbnail">
 			<label class="item-input-wrapper">
 				<textarea ng-model="msg.body" value="" placeholder="{{'send_comment' | translate}}" required minlength="1" maxlength="1500" msd-elastic></textarea>
 		   </label>

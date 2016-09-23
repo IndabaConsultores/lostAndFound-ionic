@@ -25,7 +25,7 @@ ion-list i{ font-size:1.4em; color: lightgrey; }
 	margin-top: 15px;
 }
 
-.full-image {
+.item-image {
 	display: block;
 	margin: auto;
 	padding-top: 10px;
