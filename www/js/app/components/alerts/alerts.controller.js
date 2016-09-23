@@ -28,6 +28,18 @@ angular.module('lf')
 		}
 		user.$save();
 	};
+
+	$scope.distanceObject = function(dist) {
+		var obj = {};
+		if (dist < 1000) {
+			obj.distance = dist;
+			obj.unit = 'm';
+		} else {
+			obj.distance = Math.round(dist/10)/100;
+			obj.unit = 'km';
+		}
+		return obj;
+	};
 	
 	$ionicPopover.fromTemplateUrl('popover.html', {scope: $scope})
 	.then(function(popover) {

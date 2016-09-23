@@ -21,7 +21,6 @@ angular.module('lf.services.message', [])
 
 	this.getMessagesByCompositeItemId = function(itemId) {
 		var itemArray = $firebaseArray(_ref.orderByChild('item').equalTo(itemId));
-		console.log('Messages: ', itemArray);
 		return itemArray.$loaded();
 	};
 

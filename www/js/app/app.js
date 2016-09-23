@@ -20,11 +20,16 @@ angular.module('lf', ['ionic',
   					 'lf.directives.map',
   					 'lf.services.camera'])
 
-.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
+.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $filter, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
 
+	//Initialize global data
 	$rootScope.data = {};
 	$rootScope.settings = {
 		alerts: window.localStorage.getItem('settings.alerts') == "true"
+	};
+	$rootScope.currentLocation = {
+		"latitude" : constants.OFFICE_LAT,
+		"longitude" : constants.OFFICE_LON 
 	};
 
 	//Save Firebase reference and load it into the rootscope
@@ -32,7 +37,7 @@ angular.module('lf', ['ionic',
 	console.log('Database initialized');
 
 	$rootScope.showLoading = function()  {
-		$ionicLoading.show({ template: 'Loading...', noBackdrop:true });
+		$ionicLoading.show({ template: $filter('translate')('loading'), noBackdrop:true });
 	};
 
 	$rootScope.hideLoading = function()  {
@@ -173,23 +178,23 @@ angular.module('lf', ['ionic',
 
 .config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
 	function loadItems(ItemService) {
-		return ItemService.loaded().then(function(items){console.log('doneItem', items)});
+		return ItemService.loaded();
 	}
 
 	function loadUsers(UserService) {
-		return UserService.loaded().then(function(users){console.log('doneUser', users)});
+		return UserService.loaded();
 	}
 	
 	function loadImages(ImageService) {
-		return ImageService.loaded().then(function(images){console.log('doneImage', images)});
+		return ImageService.loaded();
 	}
 
 	function loadCategories(CategoryService) {
-		return CategoryService.loaded().then(function(cats){console.log('doneCat', cats)});
+		return CategoryService.loaded();
 	}
 
 	function loadMessages(MessageService) {
-		return MessageService.loaded().then(function(msgs){console.log('doneMsg', msgs)});
+		return MessageService.loaded();
 	}
 
 	$ionicCloudProvider.init({

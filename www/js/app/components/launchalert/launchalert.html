@@ -17,30 +17,27 @@
 			<div class="item item-input item-stacked-label">
 				<span class="input-label">{{"picture" | translate}}</span>
 				<button class="button button-stable" ng-click="showPopup()">
-					<i class="ion-images"></i>
+					<i ng-hide="imageBase64" class="ion-images"></i>
+					<img class="fit-thumbnail image-preview" ng-src="{{imageBase64}}" ng-if="imageBase64" />
 				</button>
 			</div>
 
-			<label class="item item-input item-stacked-label">
-				<!-- <map on-create="mapCreated(map)"></map> -->
+			<label class="item item-input item-stacked-label padding">
 				<div data-tap-disabled="true">
 					<div id="map" style="height:180px;"></div>
 				</div>
 			</label>
 
-			<label class="item item-input item-stacked-label">
-				<img ng-src="{{imageBase64}}"
-					width="150" height="150" ng-if="imageBase64" />
-			</label>
+
 		</div> <!-- list -->
 
 		<div class="content padding">
 			<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="data.currentUser">
-				Send
+				{{'send' | translate}}
 			</button>
 			<div ng-if="!data.currentUser">
-				<span>Necesitas ser usuario registrado para poder crear una nueva alerta.</span>
-				<a ng-click="loginModal.show()">Log In</a>
+				<a ng-click="loginModal.show()">{{'login' | translate}}</a>
+				<span>&nbsp;{{'to_launchalert' | translate}}</span>
 			</div>
 		</div>
 	</ion-content>

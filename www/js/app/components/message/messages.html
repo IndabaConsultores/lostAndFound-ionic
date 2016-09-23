@@ -5,7 +5,9 @@
 	</ion-nav-buttons>
 
 	<ion-content class="has-header has-footer" has-bouncing="true">
-		<h2 ng-if="messages.length == 0">No hay mensajes</h2>
+		<div class="no-comments" ng-if="messages.length == 0">
+			<h2>{{'no_comments' | translate}}</h2>
+		</div>
 		<div ng-repeat="message in messages | orderBy:'createDate'" ng-init="user=getUser(message)" class="message-wrapper">
 			<div ng-if="user.$id !== data.currentUser.$id">
 				<img class="profile-pic left" 
@@ -49,7 +51,7 @@
 		<ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
 			<img ng-src="{{msg.picture.thumbnail}}" ng-if="msg.picture.thumbnail">
 			<label class="item-input-wrapper">
-				<textarea ng-model="msg.body" value="" placeholder="Send a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
+				<textarea ng-model="msg.body" value="" placeholder="{{'send_comment' | translate}}" required minlength="1" maxlength="1500" msd-elastic></textarea>
 		   </label>
 			<div class="footer-btn-wrap">
 				<button class="button button-icon icon ion-android-send footer-btn" type="submit"
@@ -60,8 +62,8 @@
 	</form>
 	<div ng-if="!data.currentUser">
 		<ion-footer-bar class="bar-stable item-input-inset message-footer">
-			<a ng-click="loginModal.show()">Log in</a>
-			<span>&nbsp;to post messages</span>
+			<a ng-click="loginModal.show()">{{'login' | translate}}</a>
+			<span>&nbsp;{{'to_post' | translate}}</span>
 		</ion-footer-bar>
 	</div>
 </ion-view>

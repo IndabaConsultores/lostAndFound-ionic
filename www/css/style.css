@@ -3,15 +3,26 @@ ion-list i{ font-size:1.4em; color: lightgrey; }
 
 .logo { text-align: center; margin-top: 30px; margin-bottom: 30px; }
 
-.button-facebook{background-color: #3b5998; color:white;}
-.button-twitter{background-color: #00aced; color:white;}
+.no-comments { text-align: center; padding-top: 50px; opacity: 0.5; }
+
+.button-facebook{ background-color: #3b5998; color:white; }
+.button-twitter{ background-color: #00aced; color:white; }
 
 .avatar{ width:60px;}
 
 .white-space-normal, .white-space-normal p{ white-space: normal; }
 
+.overflow-scroll { overflow-y: auto; }
+
 .fit-thumbnail {
 	object-fit: contain;
+}
+
+.image-preview {
+	max-height: 100px;
+	max-width: 80%;
+	border: 1px solid lightgrey;
+	margin-top: 15px;
 }
 
 .full-image {

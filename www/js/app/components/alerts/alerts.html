@@ -12,12 +12,12 @@
 			<div class="item" ng-if="items.length < 1 || noFavorites()">
 				<h2>Empty list</h2>
 			</div>
-			<a class="item item-thumbnail-left item-icon-right" collection-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" >
+			<a class="item item-thumbnail-left item-icon-right" ng-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" ng-init="distance_object=distanceObject(item.distance)">
 				<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">
 				<img class="fit-thumbnail" ng-if="!item.cover.image" ng-src="img/no-image.png">
 				<h2>{{item.name}}</h2>
 				<p am-time-ago="item.createDate"></p>
-				<p>{{item.distance}} m away</p>
+				<p>{{'distance_away'| translate:distance_object}}</p>
 				<i ng-if="data.currentUser" class="icon ng-class:favIcon(item)" ng-click="swapFav(item, $event)"></i>
 			</a>
 		</div>
