@@ -19,6 +19,7 @@ angular.module('lf.services.image', [])
 
 	this.createImage = function(image) {
 		image.createDate = firebase.database.ServerValue.TIMESTAMP;
+		image.modifiedDate = firebase.database.ServerValue.TIMESTAMP;
 		image.office = constants.OFFICE_ID;
 
 		return _images.$add(image);

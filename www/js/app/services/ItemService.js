@@ -113,6 +113,7 @@ angular.module('lf.services.item', [])
 	this.createAlertItem = function(item, images) {
 		item.type = 'alert';
 		item.createDate = firebase.database.ServerValue.TIMESTAMP;
+		item.modifiedDate = firebase.database.ServerValue.TIMESTAMP;
 		item.office = constants.OFFICE_ID;
 		item.createdBy = $rootScope.data.currentUser.$id;
 		return _alertItems.$add(item).then(function(itemRef) {
