@@ -69,6 +69,31 @@ angular.module('lf')
 		var email = $scope.loginData.username;
 		var password = $scope.loginData.password;
 		window.localStorage.setItem('rememberMe', $scope.loginData.rememberMe);
+
+		var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+		var error = [];
+		if (email == undefined || !regexp.test(email)) {
+			error.push('invalid email');
+		}
+		if (password == undefined || password.length < 6) {
+			error.push('password length must be 6 or more');
+		}
+
+		if (error.length > 0) {
+			var template = '<ul>';
+			for (var i=0; i<error.length; i++) {
+				template += '<li>' + error[i] + '</li>';
+			}
+			template += '</ul>';
+			$rootScope.hideLoading();
+			
+			var alertPopup = $ionicPopup.alert({
+				title: 'Sign up error',
+				template: template
+			});
+			return;
+		}
 		
 		if ($scope.loginData.rememberMe) {
 			window.localStorage.setItem('email', email);
@@ -90,7 +115,7 @@ angular.module('lf')
 			$scope.loginModal.hide();
 		}).catch(function(error) {
 			var alertPopup = $ionicPopup.alert({
-				title: 'Sign Up ERROR' + error.code,
+				title: 'Log in error' + error.code,
 				template: error.message
 			});
 			$rootScope.hideLoading();
