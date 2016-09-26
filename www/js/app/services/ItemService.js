@@ -165,6 +165,8 @@ angular.module('lf.services.item', [])
 	this.deleteAlertItem = function(item) {
 		var index = _alertItems.$indexFor(item.$id);
 		UserService.removeFavorite(item.$id);
+		ImageService.removeImages(item.images);
+		MessageService.removeMessages(item.messages);
 		return _alertItems.$remove(index);
 	};
 

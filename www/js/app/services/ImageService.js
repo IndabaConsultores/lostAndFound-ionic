@@ -28,5 +28,13 @@ angular.module('lf.services.image', [])
 		return _images.$save(image);
 	};
 
+	this.removeImages = function(imagesArray) {
+		for (var i=0; i<imagesArray.length; i++) {
+			var key = imagesArray[i].$id;
+			var index = _images.$indexFor(key);
+			_images.$remove(index);
+		}
+	};
+
 });	
 

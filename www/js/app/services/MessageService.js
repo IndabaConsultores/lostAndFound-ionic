@@ -30,5 +30,12 @@ angular.module('lf.services.message', [])
 		return _messages.$add(message);
 	};
 
+	this.removeMessages = function(messageKeys) {
+		for (var key in messageKeys) {
+			var index = _messages.$indexFor(key);
+			_messages.$remove(index);
+		}
+	};
+
 });
 
