@@ -18,7 +18,7 @@ angular.module('lf.services.office', [])
 			});
 			setTimeout(function() {
 				reject(new Error('loadOffice timed out'));
-			}, 10000);
+			}, 100000);
 		});
 		return promise;
 	};
