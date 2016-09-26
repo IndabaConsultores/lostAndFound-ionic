@@ -28,6 +28,7 @@ angular.module('lf.services.message', [])
 		message.createDate = firebase.database.ServerValue.TIMESTAMP;
 		message.modifiedDate = firebase.database.ServerValue.TIMESTAMP;
 		message.user = $rootScope.data.currentUser.$id;
+		message.office = constants.OFFICE_ID;
 		return _messages.$add(message);
 	};
 
