@@ -128,6 +128,14 @@ angular.module('lf')
 		});
 	};
 
+	$rootScope.isCastellano = function() {
+		if ($rootScope.data.currentUser) {
+			return $rootScope.data.currentUser.language == 'es';
+		} else {
+			return $rootScope.settings.language == 'es';
+		}
+	};
+
 	$scope.$on('cloud:push:notification', function(event, data) {
 		//console.log('DATA: ' + JSON.stringify(data));
 		var closed = data.message.app.closed;

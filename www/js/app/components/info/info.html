@@ -9,7 +9,8 @@
 				{{'description' | translate}}
 			</div>
 			<div class="item item-text-wrap">
-				<p>{{office.description}}</p>
+				<p ng-if="isCastellano()">{{office.description.es}}</p>
+				<p ng-if="!isCastellano()">{{office.description.eu}}</p>
 				<br />
 			</div>
 
@@ -21,6 +22,9 @@
 				<br />
 				<p>Tel: {{office.phoneNumber}}</p>
 				<br />
+				<p>Web: <a href="#" ng-click="openUrl(office.url)">{{office.url}}</a></p>
+				<br />
+
 			</div>
 			<div class="item" data-tap-disabled="true">
 				<div id="officemap" style="height:180px;"></div>
@@ -28,7 +32,8 @@
 		</div>  
 		<div class="logo">
 			<img class="office-logo-big" ng-src={{office.icon}}>
-			<p>{{office.name}}</p>
+			<p ng-if="!isCastellano()">{{office.title.eu}}</p>
+			<p ng-if="isCastellano()">{{office.title.es}}</p>
 		</div>
 	</ion-content>
 </ion-view>

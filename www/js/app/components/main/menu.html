@@ -12,7 +12,8 @@
 
 	<ion-side-menu side="left">
 		<header class="bar bar-header bar-dark">
-			<h1 class="title">{{office.name}}</h1>
+			<h1 ng-if="!isCastellano()" class="title">{{office.title.eu}}</h1>
+			<h1 ng-if="isCastellano()" class="title">{{office.title.es}}</h1>
 		</header>
 		<ion-content class="has-header">
 			<ion-list>
