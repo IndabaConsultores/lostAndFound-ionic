@@ -104,7 +104,6 @@ angular.module('lf.services.item', [])
 				var coverId = Object.keys(item.images)[0];
 				var image = ImageService.getImage(coverId);
 				item.cover = image.image;
-				console.log(item.cover);
 			}
 			items.push(item);
 		}
@@ -120,7 +119,6 @@ angular.module('lf.services.item', [])
 			item = _alertItems.$getRecord(itemRef.key);
 			var promises = [];
 			if (images) {
-				console.log(images.length);
 				for (var i=0; i<images.length; i++) {
 					var image = {};
 					image.image = images[i];
