@@ -89,6 +89,27 @@ angular.module('lf')
 	$scope.createAlert = function(){
 		if($rootScope.data.currentUser){
 			$rootScope.showLoading();
+
+			var error = [];
+			if ($scope.newAlert.name == undefined) {
+				error.push('Alert name can\'t be empty');
+			}
+
+			if (error.length > 0) {
+				var template = '<ul>';
+				for (var i=0; i<error.length; i++) {
+					template += '<li>' + error[i] + '</li>';
+				}
+				template += '</ul>';
+				$rootScope.hideLoading();
+				
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error',
+					template: template
+				});
+				return;
+			}
+
 			var images = [$scope.imageBase64];
 			if(typeof $scope.imageBase64 == 'undefined'){
 				$scope.imageBase64=null;
