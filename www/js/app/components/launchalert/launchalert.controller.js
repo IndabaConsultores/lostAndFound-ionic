@@ -78,8 +78,7 @@ angular.module('lf')
 		.then(function(imageURI) {
 			$scope.imageBase64 = "data:image/jpeg;base64," + imageURI;
 			var img = new Image;
-				img.onload = resizeImage;
-				img.src = $scope.imageBase64;
+			img.src = $scope.imageBase64;
 			$scope.modal.hide();
 		}, function(err) {
 			alert(err);
