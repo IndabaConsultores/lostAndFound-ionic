@@ -13,10 +13,11 @@ angular.module('lf')
 	$scope.msg = {picture:{}};
 
 	$scope.sendMessage = function() {
-		ItemService.addMessage(item, $scope.msg).then(function(msgKey) {
-			//$scope.doRefresh();
-			$scope.msg = {picture:{}};
-		});
+		if ($scope.msg) {
+			ItemService.addMessage(item, $scope.msg).then(function(msgKey) {
+				$scope.msg = {picture:{}};
+			});
+		}
 	};
 
 	$scope.getUser = function(message) {
@@ -105,7 +106,6 @@ angular.module('lf')
 			alert(err);
 		});
 	};
-
 
 });
 

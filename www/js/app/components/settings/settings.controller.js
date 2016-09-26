@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lf')
-.controller('SettingsCtrl', function($scope, $rootScope, $ionicHistory, $ionicPush, $ionicModal, $translate, $timeout, amMoment, CameraService){
+.controller('SettingsCtrl', function($scope, $rootScope, $ionicHistory, $ionicPush, $ionicModal, $ionicPopup, $translate, $timeout, amMoment, CameraService){
 
 	//TODO cargar el lenguaje adecuado. Esperar a que el usuario este logueado
 
@@ -10,6 +10,14 @@ angular.module('lf')
 		$ionicHistory.clearCache();
 		window.localStorage.setItem('settings.alerts', $rootScope.settings.alerts);
 		if ($rootScope.data.currentUser) {
+			if ($rootScope.data.currentUser.username.length < 1) {
+				$rootScope.hideLoading();
+				var alertPopup = $ionicPopup.alert({
+					title: 'Error',
+					template: 'Username can\'t be empty'
+				});
+				return;
+			}
 			$rootScope.data.currentUser.language = $rootScope.settings.language;
 			if($scope.imageBase64){
 				$rootScope.data.currentUser.avatar = $scope.imageBase64;
