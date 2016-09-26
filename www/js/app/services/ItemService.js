@@ -122,7 +122,7 @@ angular.module('lf.services.item', [])
 				for (var i=0; i<images.length; i++) {
 					var image = {};
 					image.image = images[i];
-					image.item = 'alert' + itemRef.key;
+					image.item = 'alert/' + itemRef.key;
 					promises.push(ImageService.createImage(image));
 				}
 			}
