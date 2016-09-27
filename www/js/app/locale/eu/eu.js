@@ -39,7 +39,9 @@ angular.module('lf')
 		contact: "Kontaktua",
 		description: "Deskripzioa",
 		loading: "Kargatzen...",
-		distance_away: "{{distance}} {{unit}}-ra"
+		distance_away: "{{distance}} {{unit}}-ra",
+		uncategorized: "Klasifikatu gabekoak",
+		no_items: "Objeturik gabe"
 	});
 		
 });

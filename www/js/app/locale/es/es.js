@@ -39,7 +39,9 @@ angular.module('lf')
 		contact: "Contacto",
 		description: "Descripcion",
 		loading: "Cargando...",
-		distance_away: "A {{distance}} {{unit}}"
+		distance_away: "A {{distance}} {{unit}}",
+		uncategorized: "Sin clasificar",
+		no_items: "No hay objetos"
 	});
 		
 });

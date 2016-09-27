@@ -94,18 +94,40 @@ angular.module('lf.services.item', [])
 	this.getOfficeItemsByCat = function(catId) {
 		var items = [];
 		var cat = CategoryService.getCategory(catId);
-		for (var itemId in cat.items.office) {
-			var itemOrig = _officeItems.$getRecord(itemId);
-			var item = JSON.parse(JSON.stringify(itemOrig));
-			if (item.createdBy) {
-				item.createdBy = UserService.getUser(item.createdBy);
+		if (cat.items) {
+			for (var itemId in cat.items.office) {
+				var itemOrig = _officeItems.$getRecord(itemId);
+				var item = JSON.parse(JSON.stringify(itemOrig));
+				if (item.createdBy) {
+					item.createdBy = UserService.getUser(item.createdBy);
+				}
+				if (item.images) {
+					var coverId = Object.keys(item.images)[0];
+					var image = ImageService.getImage(coverId);
+					item.cover = image.image;
+				}
+				items.push(item);
 			}
-			if (item.images) {
-				var coverId = Object.keys(item.images)[0];
-				var image = ImageService.getImage(coverId);
-				item.cover = image.image;
+		}
+		return items;
+	};
+
+	this.getOfficeItemsUncategorized = function() {
+		var items = [];
+		for (var i=0; i<_officeItems.length; i++) {
+			var itemOrig = _officeItems[i];
+			if (!itemOrig.category) {
+				var item = JSON.parse(JSON.stringify(itemOrig));
+				if (item.createdBy) {
+					item.createdBy = UserService.getUser(item.createdBy);
+				}
+				if (item.images) {
+					var coverId = Object.keys(item.images)[0];
+					var image = ImageService.getImage(coverId);
+					item.cover = image.image;
+				}
+				items.push(item);
 			}
-			items.push(item);
 		}
 		return items;
 	};

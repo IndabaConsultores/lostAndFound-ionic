@@ -39,7 +39,9 @@ angular.module('lf')
 		contact: "Contact",
 		description: "Description",
 		loading: "Loading...",
-		distance_away: "{{distance}} {{unit}} away"
+		distance_away: "{{distance}} {{unit}} away",
+		uncategorized: "Uncategorized",
+		no_items: "No items"
 	});
 		
 });

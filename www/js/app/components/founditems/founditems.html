@@ -13,13 +13,16 @@
 			</div>
 
 			<container ng-repeat="category in categories">
-				<div class="item item-divider">
-					{{ category.name }}
+				<div ng-if="category.name" class="item item-divider">
+					<span class="category">{{ category.name }}</span>
+				</div>
+				<div ng-if="!category.name" class="item item-divider">
+					<span class="category">{{ 'uncategorized' | translate }}</span>
+				</div>
+				<div class="item" ng-if="category.items.length < 1">
+					<h2>{{ 'no_items' | translate }}</h2>
 				</div>
 				<a class="item item-thumbnail-left" ng-repeat="item in category.items" href="#/app/found_items/{{item.$id}}">
-					<div class="item" ng-if="category.items.length < 1">
-						<h2>Empty list</h2>
-					</div>
 					<img class="fit-thumbnail" ng-if="item.cover" ng-src="{{item.cover}}">
 					<img class="fit-thumbnail" ng-if="!item.cover" ng-src="img/no-image.png">
 					<h2>{{ item.name }}</h2>

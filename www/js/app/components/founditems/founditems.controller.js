@@ -1,6 +1,6 @@
 
 angular.module('lf')
-.controller('FoundItemsCtrl', function($scope, $rootScope, ItemService, OfficeService, CategoryService){
+.controller('FoundItemsCtrl', function($scope, $rootScope, $translate, ItemService, OfficeService, CategoryService){
 	
 	$scope.categories = [];
 
@@ -13,6 +13,9 @@ angular.module('lf')
 			cat.items = ItemService.getOfficeItemsByCat(catId);
 			$scope.categories.push(cat);
 		}
+		var noCat = {};
+		noCat.items = ItemService.getOfficeItemsUncategorized();
+		$scope.categories.push(noCat);
 		//notifica al ion-refresher para que pare de girar
 		$scope.$broadcast('scroll.refreshComplete');
 	};
