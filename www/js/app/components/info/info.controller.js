@@ -2,24 +2,26 @@
 
 angular.module('lf')
 .controller('InfoCtrl', function($rootScope, $scope, constants){
-	if (!$scope.map) {
-		$scope.map = L.map('officemap',{ tap:true });
+
+	if ($rootScope.office && $rootScope.office.location) {
+		if (!$scope.map) {
+			$scope.map = L.map('officemap',{ tap:true });
+		}
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			attribution: 'Lost & Found',
+			maxZoom: 18
+		}).addTo($scope.map);
+
+		$scope.map.setView([
+			$rootScope.office.location.latitude,
+			$rootScope.office.location.longitude
+		], 14);
+		$scope.marker = L.marker([
+			$rootScope.office.location.latitude,
+			$rootScope.office.location.longitude
+		]).addTo($scope.map);
 	}
-	$scope.map.setView([
-		constants.OFFICE_LAT, 
-		constants.OFFICE_LON
-	], 14);
-
-	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-		attribution: 'Lost & Found',
-		maxZoom: 18
-	}).addTo($scope.map);
-
-	$scope.marker = L.marker([
-		constants.OFFICE_LAT, 
-		constants.OFFICE_LON
-	]).addTo($scope.map);
-	
 
 	$scope.openUrl = function(url) {
 		if (!url.startsWith('http'))

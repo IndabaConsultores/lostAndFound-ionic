@@ -9,11 +9,9 @@ angular.module('lf.services.office', [])
 			officeRef.once('value').then(function(snapshot) {
 				var office = snapshot.val();
 				office.$id = snapshot.key;
-				//office.logo = 'img/logo.png';
-				//office.color1 = 'gray';
-				//office.color2 = 'blue';
-				//office.phoneNumber = '943123456';
-				//office.emailAddress = 'lostandfound@indaba.es';
+				$rootScope.office = office;
+				$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
+				$rootScope.style += 'ion-content { background-color:' + $rootScope.office.color2 + ';}';
 				resolve(office);
 			});
 			setTimeout(function() {

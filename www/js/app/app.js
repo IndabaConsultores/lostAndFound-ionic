@@ -28,8 +28,8 @@ angular.module('lf', ['ionic',
 		alerts: window.localStorage.getItem('settings.alerts') == "true"
 	};
 	$rootScope.currentLocation = {
-		"latitude" : constants.OFFICE_LAT,
-		"longitude" : constants.OFFICE_LON 
+		"latitude" : 0,
+		"longitude" : 0
 	};
 
 	//Save Firebase reference and load it into the rootscope
@@ -84,10 +84,14 @@ angular.module('lf', ['ionic',
 		navigator.geolocation.watchPosition(function(pos) {
 			$rootScope.currentLocation = pos.coords;
 		}, function(error) {
-			$rootScope.currentLocation = {
-				"latitude" : constants.OFFICE_LAT,
-				"longitude" : constants.OFFICE_LON 
-			};
+			if ($rootScope.office && $rootScope.office.location) {
+				$rootScope.currentLocation = $rootScope.office.location;
+			} else {
+				$rootScope.currentLocation = {
+					"latitude" : 0,
+					"longitude" : 0
+				};
+			}
 		}, {
 			"enableHighAccuracy": false,
 			"timeout": 5000,
@@ -157,9 +161,6 @@ angular.module('lf', ['ionic',
 		promises.push(UserService.loaded());
 		promises.push(CategoryService.loaded());
 		Promise.all(promises).then(function(results){
-			$rootScope.office = results[0];
-			$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
-			$rootScope.style += 'ion-content { background-color:' + $rootScope.office.color2 + ';}';
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
 			else
