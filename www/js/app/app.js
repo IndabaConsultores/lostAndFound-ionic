@@ -11,6 +11,7 @@ angular.module('lf', ['ionic',
 					 'ngAnimate',
   					 'nl2br',
   					 'firebase',
+					 'jett.ionic.filter.bar',
   					 'lf.services.office', 
   					 'lf.services.category',
   					 'lf.services.item',
@@ -335,5 +336,30 @@ angular.module('lf', ['ionic',
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/app/found_items');
+})
+
+.filter('category-items', function() {
+	return function(categories, filterText) {
+		var out = [];
+		for (var i=0; i<categories.length; i++) {
+			var category = categories[i];
+			if (category.name && category.name.toUpperCase().includes(filterText.toUpperCase())) {
+				out.push(category)
+			} else if (category.items && category.items.length > 0) {
+				var outCategory = JSON.parse(JSON.stringify(category));
+				outCategory.items = [];
+				for (var j=0; j<category.items.length; j++) {
+					var item = category.items[j];
+					if (item.name.toUpperCase().includes(filterText.toUpperCase())) {
+						outCategory.items.push(item);
+					} else if (item.description && item.description.toUpperCase().includes(filterText.toUpperCase())) {
+						outCategory.items.push(item);
+					}
+				}
+				out.push(outCategory);
+			}
+		}
+		return out.length > 0 ? out : null;
+	}
 });
 

@@ -16,3 +16,10 @@ Install `bower` and its dependencies
 $ npm install -g bower
 $ bower install --save
 ```
+
+Install `gulp` and run it
+
+```bash
+$ npm install -g gulp
+$ gulp
+```

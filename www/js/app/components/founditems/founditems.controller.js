@@ -1,6 +1,17 @@
 
 angular.module('lf')
-.controller('FoundItemsCtrl', function($scope, $rootScope, $translate, ItemService, OfficeService, CategoryService){
+.controller('FoundItemsCtrl', function($rootScope, $scope, $translate, $filter, ItemService, OfficeService, CategoryService, $ionicFilterBar){
+
+	$scope.showSearchBar = function() {
+		$scope.hideSearchBar = $ionicFilterBar
+			.show({
+				items: $scope.categories,
+				update: function(newItems) {
+					$scope.categories = newItems;
+				},
+				filter: $filter('category-items')
+			});
+	};
 	
 	$scope.categories = [];
 
