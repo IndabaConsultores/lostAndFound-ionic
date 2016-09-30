@@ -17,7 +17,6 @@ angular.module('lf', ['ionic',
 					 'lf.services.image',
 					 'lf.services.message',
 					 'lf.services.user',
-  					 'lf.directives.map',
   					 'lf.services.camera'])
 
 .run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $filter, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
@@ -82,7 +81,10 @@ angular.module('lf', ['ionic',
 
 		// Set geolocation watcher
 		navigator.geolocation.watchPosition(function(pos) {
-			$rootScope.currentLocation = pos.coords;
+			$rootScope.currentLocation = {
+				latitude: pos.coords.latitude,
+				longitude: pos.coords.longitude
+			};
 		}, function(error) {
 			if ($rootScope.office && $rootScope.office.location) {
 				$rootScope.currentLocation = $rootScope.office.location;

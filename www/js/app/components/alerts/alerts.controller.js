@@ -55,7 +55,9 @@ angular.module('lf')
 	};
 	
 	$scope.$on('destroy', function() {
-		$scope.popover.remove();
+		if ($scope.popover) {
+			$scope.popover.remove();
+		}
 	});
 
 	$scope.noFavorites = function() {

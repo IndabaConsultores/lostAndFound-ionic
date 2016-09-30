@@ -99,7 +99,9 @@ angular.module('lf')
 	};
 
 	$scope.$on('$destroy', function() {
-		$scope.modal.remove();
+		if ($scope.modal) {
+			$scope.modal.remove();
+		}
 	});
 	
 });

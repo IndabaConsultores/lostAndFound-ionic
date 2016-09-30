@@ -144,7 +144,9 @@ angular.module('lf')
 	};
 
 	$scope.$on('$destroy', function() {
-		$scope.modal.hide();
+		if ($scope.modal) {
+			$scope.modal.hide();
+		}
 	});
 
 	$scope.initMap();
