@@ -14,23 +14,25 @@ angular.module('lf')
 		$scope.numMessages = 0;
 	}
 
-	if(!!$scope.item.location){
-		if (!$scope.map) {
-			$scope.map = L.map('alertmap',{ tap:true });
-		}
-		$scope.map.setView([
-			$scope.item.location.latitude,
-			 $scope.item.location.longitude
-		], 14);
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			attribution: 'Lost & Found',
-			maxZoom: 18
-		}).addTo($scope.map);
-		$scope.marker = L.marker([
-			$scope.item.location.latitude, 
-			$scope.item.location.longitude
-		]).addTo($scope.map);
+	if(!$scope.item.location){
+		$scope.item.location = $rootScope.office.location;
 	}
+	if (!$scope.map) {
+		$scope.map = L.map('alertmap',{ tap:true });
+	}
+	$scope.map.setView([
+		$scope.item.location.latitude,
+		 $scope.item.location.longitude
+	], 14);
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		attribution: 'Lost & Found',
+		maxZoom: 18
+	}).addTo($scope.map);
+	$scope.marker = L.marker([
+		$scope.item.location.latitude, 
+		$scope.item.location.longitude
+	]).addTo($scope.map);
+
 	$rootScope.hideLoading();
 
 	$scope.showPicture = function(){

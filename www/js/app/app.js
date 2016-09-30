@@ -79,27 +79,6 @@ angular.module('lf', ['ionic',
 			});
 		}
 
-		// Set geolocation watcher
-		navigator.geolocation.watchPosition(function(pos) {
-			$rootScope.currentLocation = {
-				latitude: pos.coords.latitude,
-				longitude: pos.coords.longitude
-			};
-		}, function(error) {
-			if ($rootScope.office && $rootScope.office.location) {
-				$rootScope.currentLocation = $rootScope.office.location;
-			} else {
-				$rootScope.currentLocation = {
-					"latitude" : 0,
-					"longitude" : 0
-				};
-			}
-		}, {
-			"enableHighAccuracy": false,
-			"timeout": 5000,
-			"maximumAge": Infinity
-		});	
-
 		//Check user authentication
 		var auth = firebase.auth().user;
 
@@ -151,6 +130,29 @@ angular.module('lf', ['ionic',
 		initAppInfo();
 	});
 
+	function startLocationWatch() {
+		// Set geolocation watcher
+		navigator.geolocation.watchPosition(function(pos) {
+			$rootScope.currentLocation = {
+				latitude: pos.coords.latitude,
+				longitude: pos.coords.longitude
+			};
+		}, function(error) {
+			if ($rootScope.office && $rootScope.office.location) {
+				$rootScope.currentLocation = $rootScope.office.location;
+			} else {
+				$rootScope.currentLocation = {
+					"latitude" : 0,
+					"longitude" : 0
+				};
+			}
+		}, {
+			"enableHighAccuracy": false,
+			"timeout": 5000,
+			"maximumAge": 1000*60*30
+		});	
+	}
+
 	function initAppInfo() {
 		if (!navigator.splashscreen)
 			$ionicLoading.show({ template: 'Iniciando aplicacion...', noBackdrop:true });
@@ -163,6 +165,7 @@ angular.module('lf', ['ionic',
 		promises.push(UserService.loaded());
 		promises.push(CategoryService.loaded());
 		Promise.all(promises).then(function(results){
+			startLocationWatch();
 			if (navigator.splashscreen)
 				navigator.splashscreen.hide();
 			else
@@ -199,6 +202,10 @@ angular.module('lf', ['ionic',
 	function loadMessages(MessageService) {
 		return MessageService.loaded();
 	}
+	
+	function loadOffice(OfficeService) {
+		return OfficeService.getOffice();
+	}
 
 	$ionicCloudProvider.init({
 		"core": {
@@ -229,7 +236,8 @@ angular.module('lf', ['ionic',
 			'ImageData': loadImages,
 			'UserData': loadUsers,
 			'CategoryData': loadCategories,
-			'MessageData': loadMessages
+			'MessageData': loadMessages,
+			'Office': loadOffice
 		}
 	})
 	.state('app.foundItems', {

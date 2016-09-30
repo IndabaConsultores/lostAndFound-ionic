@@ -37,6 +37,19 @@ angular.module('lf')
 		$scope.map.on('click', $scope.onMapClick);
 	};
 
+	$scope.$watch('currentLocation', function() {
+		$scope.newAlert.location = $rootScope.currentLocation;
+		$scope.map.setView([ 
+			$scope.newAlert.location.latitude, 
+			$scope.newAlert.location.longitude
+		], 14);
+
+		$scope.marker.setLatLng([ 
+			$scope.newAlert.location.latitude, 
+			$scope.newAlert.location.longitude
+		]);
+	});
+
 	$scope.onMapClick = function(e) {
 		$scope.map.removeLayer($scope.marker);
 		$scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
