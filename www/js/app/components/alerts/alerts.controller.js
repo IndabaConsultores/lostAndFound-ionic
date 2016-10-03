@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('lf')
-.controller('AlertsCtrl', function($rootScope, $ionicPopover, $ionicPopup, $scope, ItemService){
+.controller('AlertsCtrl', function($rootScope, $scope, $filter, $ionicPopover, $ionicPopup, $ionicFilterBar, ItemService){
+
+	$scope.showSearchBar = function() {
+		$scope.hideSearchBar = $ionicFilterBar
+			.show({
+				items: $scope.items,
+				update: function(newItems) {
+					$scope.items = newItems;
+				}
+			});
+	};
 
 	$scope.favIcon = function(item) {
 		var itemKey = item.$id;
@@ -41,25 +51,6 @@ angular.module('lf')
 		return obj;
 	};
 	
-	$ionicPopover.fromTemplateUrl('popover.html', {scope: $scope})
-	.then(function(popover) {
-		$scope.popover = popover;
-	});
-
-	$scope.openPopover = function($event) {
-		$scope.popover.show($event);
-	};
-
-	$scope.closePopover = function() {
-		$scope.popover.hide();
-	};
-	
-	$scope.$on('destroy', function() {
-		if ($scope.popover) {
-			$scope.popover.remove();
-		}
-	});
-
 	$scope.noFavorites = function() {
 		return !!$scope.showFavorites && $rootScope.data.currentUser && (!$rootScope.data.currentUser.favorites || $rootScope.data.currentUser.favorites.length == 0);
 	};
@@ -77,7 +68,6 @@ angular.module('lf')
 
 	$scope.showAllItems = function() {
 		$scope.showFavorites = false;
-		$scope.popover.hide();
 	};
 
 	$scope.showFavItems = function() {
@@ -92,7 +82,6 @@ angular.module('lf')
 				]
 			});
 		}
-		$scope.popover.hide();
 	};
 
 	$scope.doRefresh = function() {

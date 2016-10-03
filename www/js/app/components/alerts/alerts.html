@@ -4,33 +4,36 @@
 		<button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
 	</ion-nav-buttons>
 	<ion-nav-buttons side="right">
-		<button ng-show="data.currentUser" class="button button-icon icon ion-more" ng-click="openPopover($event)"></button>
+		<button class="button button-icon icon ion-search" ng-click="showSearchBar()"></button>
 	</ion-nav-buttons>
-	<ion-content class="has-header">
-		<ion-refresher on-refresh="doRefresh()"></ion-refresher>
-		<div class="list">
-			<div class="item" ng-if="items.length < 1 || noFavorites()">
-				<h2>Empty list</h2>
+		
+	<ion-tabs class="tabs-dark tabs-striped">
+		<ion-tab title="All" icon-on="ion-ios-list" icon-off="ion-ios-list-outline" on-select="showAllItems()" > 
+			<div ng-include="'list.html'"></div>
+		</ion-tab>
+		<ion-tab ng-if="data.currentUser" title="Favorites" icon-on="ion-ios-star" icon-off="ion-ios-star-outline" on-select="showFavItems()">
+			<div ng-include="'list.html'"></div>
+		</ion-tab>
+	</ion-tabs>
+
+	<script id="list.html" type="text/ng-template">
+		<ion-content class="has-header">
+			<ion-refresher on-refresh="doRefresh()"></ion-refresher>
+			<div class="list">
+				<div class="item" ng-if="items.length < 1 || noFavorites()">
+					<h2>Empty list</h2>
+				</div>
+				<a class="item item-thumbnail-left item-icon-right" ng-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" ng-init="distance_object=distanceObject(item.distance)">
+					<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">
+					<img class="fit-thumbnail" ng-if="!item.cover.image" ng-src="img/no-image.png">
+					<h2>{{item.name}}</h2>
+					<p am-time-ago="item.createDate"></p>
+					<p>{{'distance_away'| translate:distance_object}}</p>
+					<i ng-if="data.currentUser" class="icon ng-class:favIcon(item)" ng-click="swapFav(item, $event)"></i>
+				</a>
 			</div>
-			<a class="item item-thumbnail-left item-icon-right" ng-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" ng-init="distance_object=distanceObject(item.distance)">
-				<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">
-				<img class="fit-thumbnail" ng-if="!item.cover.image" ng-src="img/no-image.png">
-				<h2>{{item.name}}</h2>
-				<p am-time-ago="item.createDate"></p>
-				<p>{{'distance_away'| translate:distance_object}}</p>
-				<i ng-if="data.currentUser" class="icon ng-class:favIcon(item)" ng-click="swapFav(item, $event)"></i>
-			</a>
-		</div>
-	</ion-content>
-	<script id="popover.html" type="text/ng-template">
-		<ion-popover-view style="height: 112px; width: 150px">
-			<ion-content>
-				<ul class="list">
-					<li class="item" ng-click="showAllItems()">All items</span>
-					<li class="item" ng-click="showFavItems()">Favorite items</span>
-				</ul>
-			</ion-content>
-		</ion-popover-view>
+		</ion-content>
 	</script>
+
 </ion-view>
 

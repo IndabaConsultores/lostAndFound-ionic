@@ -10,7 +10,7 @@ angular.module('lf.services.office', [])
 				var office = snapshot.val();
 				office.$id = snapshot.key;
 				$rootScope.office = office;
-				$rootScope.style = '.bar.bar-dark {	background-color:' + $rootScope.office.color1 + ';}';
+				$rootScope.style = '.bar.bar-dark, .tabs { background-color:' + $rootScope.office.color1 + '!important;}';
 				$rootScope.style += 'ion-content { background-color:' + $rootScope.office.color2 + ';}';
 				resolve(office);
 			});
