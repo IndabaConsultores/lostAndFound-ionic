@@ -324,11 +324,20 @@ angular.module('lf', ['ionic',
 		}
 	})
 	.state('app.signup', {
-		url: "/signup",
+		url: '/signup',
 		views: {
-			'menuContent' :{
+			'menuContent': {
 				templateUrl: "js/app/components/signup/signup.html",
 				controller: 'SignUpCtrl'
+			}
+		}
+	})
+	.state('app.notifications', {
+		url: '/notifications',
+		views: {
+			'menuContent': {
+				templateUrl: 'js/app/components/notifications/notifications.html',
+				controller: 'NotifyCtrl'
 			}
 		}
 	});

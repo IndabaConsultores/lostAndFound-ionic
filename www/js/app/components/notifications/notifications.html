@@ -1,0 +1,27 @@
+
+<ion-view title="{{ 'notifications' | translate }}" hide-back-button="true" >
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<button class="button button-clear" ng-click="clearNotifications()">
+			{{ 'clear' | translate}}
+		</button>
+	</ion-nav-buttons>
+	<ion-content>
+		<ion-list class="list">
+			<ion-item ng-style="notification.style" ng-repeat="notification in notifications" class="item" ng-click="openNotification(notification, $index)">
+				<h2>{{notification.title}}</h2>
+				<p>{{notification.body}}</p>
+				<ion-option-button class="button-assertive" 
+					ng-click="notifications.splice($index, 1)" >
+					{{ 'delete' | translate }}
+				</ion-option-button>
+			</ion-item>
+			<ion-item ng-if="notifications.length == 0" class="item">
+				<h2>{{ 'no_notifications' | translate }}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
+

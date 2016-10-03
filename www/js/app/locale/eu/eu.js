@@ -41,7 +41,8 @@ angular.module('lf')
 		loading: "Kargatzen...",
 		distance_away: "{{distance}} {{unit}}-ra",
 		uncategorized: "Klasifikatu gabekoak",
-		no_items: "Objeturik gabe"
+		no_items: "Objeturik gabe",
+		notifications: "Notifikazioak"
 	});
 		
 });

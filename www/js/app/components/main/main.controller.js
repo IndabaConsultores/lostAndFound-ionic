@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('lf')
-
 .controller('AppCtrl', function($scope,$state,$ionicHistory,$rootScope,$ionicPopup,$firebaseObject,$ionicModal,$timeout,$translate, amMoment) {
 	if (!window.localStorage.getItem('rememberMe')) {
 		window.localStorage.setItem('rememberMe', false);	
@@ -136,18 +135,30 @@ angular.module('lf')
 		}
 	};
 
+	$scope.notificationCount = 0;
+
 	$scope.$on('cloud:push:notification', function(event, data) {
-		//console.log('DATA: ' + JSON.stringify(data));
 		var closed = data.message.app.closed;
 		var asleep = data.message.app.asleep;
 		var itemId = data.message.payload.itemId;
 		if (closed || asleep) {
-			$state.go('app.alertitem', {'item':itemId});;
+			$state.go('app.alertitem', {'item':itemId});
 		} else {
-			//TODO manage push notification when app is open
-			//Guardar notificacion en lista de notificaciones??
-			console.log(data.message.title + ': ' + data.message.text);
+			if (navigator.notification) {
+				navigator.notification.beep(1);
+			}
+			var notification = {};
+			notification.isNew = true;
+			notification.title = data.message.title;
+			notification.body = data.message.text;
+			notification.open = function() { 
+				$state.go('app.alertitem', {'item': itemId});
+			};
+			$rootScope.data.notificationCount++;
+			$rootScope.$broadcast('new-notification', notification);
 		}
 	});
+
+	$rootScope.data.notificationCount = 0;
 });
 
