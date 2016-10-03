@@ -1,4 +1,23 @@
 /* Empty. Add your own CSS if you like */
+
+/* Fix Ionic Filter Bar CSS */
+.filter-bar .filter-bar-wrapper .item-input-inset .item-input-wrapper .filter-bar-clear:before {
+	color: #444 !important; }
+.platform-android .filter-bar-wrapper .item-input-inset .item-input-wrapper {
+	background-color: #f4f4f4 !important;
+}
+.platform-android .filter-bar .filter-bar-dark .item-input-wrapper input[type="search"] {
+	color: #444 !important; }
+.platform-android .filter-bar .filter-bar-dark .item-input-wrapper input[type="search"]::-moz-placeholder {
+	color: #aaaaaa !important; }
+.platform-android .filter-bar .filter-bar-dark .item-input-wrapper input[type="search"]:-ms-input-placeholder {
+	color: #aaaaaa !important; }
+.platform-android .filter-bar .filter-bar-dark .item-input-wrapper input[type="search"]::-webkit-input-placeholder {
+	color: #aaaaaa !important; }
+.platform-android .filter-bar .filter-bar-dark .item-input-wrapper .filter-bar-clear:before {
+	color: #444; !important }
+/*----*/
+
 ion-list i{ font-size:1.4em; color: lightgrey; }
 
 .logo { text-align: center; margin-top: 30px; margin-bottom: 30px; }
@@ -205,7 +224,7 @@ img.profile-pic.right {
 }
 
 input, textarea, .item-input, .item-input-wrapper {
-	background-color: #f4f4f4 !important;
+	background-color: #f4f4f4;
 }
 
 .bold {
