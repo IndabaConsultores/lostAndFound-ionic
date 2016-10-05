@@ -234,8 +234,9 @@ img.profile-pic.right {
 	top: -3px;
 }
 
-input, textarea, .item-input, .item-input-wrapper {
-	background-color: #f4f4f4;
+.form input, .form textarea,
+.form .item-input, .form .item-input-wrapper {
+	background-color: #f4f4f4 !important;
 }
 
 .bold {
