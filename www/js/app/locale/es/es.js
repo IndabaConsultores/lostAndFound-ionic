@@ -15,6 +15,7 @@ angular.module('lf')
 		back: "Atras",
 		item_name: "Nombre",
 		item_description: "Descripcion",
+		delete_alert: "Eliminar alerta",
 		picture: "Imagen",
 		camera: "Camara",
 		use_picture: "Usar Imagen",
@@ -44,6 +45,7 @@ angular.module('lf')
 		no_items: "No hay objetos",
 		notifications: "Notificaciones",
 		no_notifications: "No hay notificaciones nuevas",
+		clear: "Limpiar",
 		alertsmap: "Mapa de alertas"
 	});
 		

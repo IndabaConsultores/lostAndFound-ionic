@@ -15,6 +15,7 @@ angular.module('lf')
 		back: "Itzuli",
 		item_name: "Izena",
 		item_description: "Deskribapena",
+		delete_alert: "Alerta ezabatu",
 		picture: "Irudia",
 		camera: "Kamera",
 		use_picture: "Erabili Irudia",
@@ -44,6 +45,7 @@ angular.module('lf')
 		no_items: "Objeturik gabe",
 		notifications: "Notifikazioak",
 		no_notifications: "Ez daude notifikazio berririk",
+		clear: "Garbitu",
 		alertsmap: "Alerta mapa"
 	});
 		

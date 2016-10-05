@@ -21,7 +21,7 @@
 			<ion-refresher on-refresh="doRefresh()"></ion-refresher>
 			<div class="list">
 				<div class="item" ng-if="items.length < 1 || noFavorites()">
-					<h2>Empty list</h2>
+					<h2>{{'no_items' | translate}}</h2>
 				</div>
 				<a class="item item-thumbnail-left item-icon-right" ng-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" ng-init="distance_object=distanceObject(item.distance)">
 					<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">

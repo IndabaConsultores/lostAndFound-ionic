@@ -5,9 +5,6 @@ angular.module('lf')
 
 	$rootScope.showLoading();
 	$scope.item = ItemService.getOfficeItem($stateParams.itemId);
-	if ($scope.item.images) {
-		$scope.item.cover = $scope.item.images[0].image;
-	}
 	if ($scope.item.messages) {
 		$scope.numMessages = Object.keys($scope.item.messages).length;
 	} else {

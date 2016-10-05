@@ -15,6 +15,7 @@ angular.module('lf')
 		back: "Back",
 		item_name: "Item Name",
 		item_description: "Item Description",
+		delete_alert: "Delete alert",
 		picture: "Picture",
 		camera: "Camera",
 		use_picture: "Use Picture",
@@ -44,6 +45,7 @@ angular.module('lf')
 		no_items: "No items",
 		notifications: "Notifications",
 		no_notifications: "No new notifications",
+		clear: "Clear",
 		alertsmap: "Alerts Map"
 	});
 		
