@@ -331,6 +331,15 @@ angular.module('lf', ['ionic',
 				controller: 'SignUpCtrl'
 			}
 		}
+	})
+	.state('app.alertsmap', {
+		url: "/alertsmap",
+		views: {
+			'menuContent' :{
+				templateUrl: "js/app/components/alertsmap/alertsmap.html",
+				controller: 'AlertsMapCtrl'
+			}
+		}
 	});
 
 	// if none of the above states are matched, use this as the fallback
