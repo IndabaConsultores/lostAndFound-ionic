@@ -42,7 +42,9 @@ angular.module('lf')
 		distance_away: "{{distance}} {{unit}}-ra",
 		uncategorized: "Klasifikatu gabekoak",
 		no_items: "Objeturik gabe",
-		notifications: "Notifikazioak"
+		notifications: "Notifikazioak",
+		no_notifications: "Ez daude notifikazio berririk",
+		alertsmap: "Alerta mapa"
 	});
 		
 });

@@ -42,7 +42,9 @@ angular.module('lf')
 		distance_away: "{{distance}} {{unit}} away",
 		uncategorized: "Uncategorized",
 		no_items: "No items",
-		notifications: "Notifications"
+		notifications: "Notifications",
+		no_notifications: "No new notifications",
+		alertsmap: "Alerts Map"
 	});
 		
 });

@@ -9,7 +9,8 @@ angular.module('lf')
 				update: function(newItems) {
 					$scope.categories = newItems;
 				},
-				filter: $filter('category-items')
+				filter: $filter('category-items'),
+				cancelText: 'Utzi'
 			});
 	};
 	

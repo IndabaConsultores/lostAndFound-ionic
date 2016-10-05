@@ -183,7 +183,7 @@ angular.module('lf', ['ionic',
 	timezone: 'Europe/Madrid' // optional
 })
 
-.config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, constants) {
+.config(function($ionicCloudProvider, $stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider, constants) {
 	function loadItems(ItemService) {
 		return ItemService.loaded();
 	}
@@ -354,6 +354,8 @@ angular.module('lf', ['ionic',
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/app/found_items');
+	
+	$ionicFilterBarConfigProvider.placeholder('Bilatu');
 })
 
 .filter('category-items', function() {

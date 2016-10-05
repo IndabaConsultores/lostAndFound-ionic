@@ -9,7 +9,8 @@ angular.module('lf')
 				items: $scope.items,
 				update: function(newItems) {
 					$scope.items = newItems;
-				}
+				},
+				cancelText: 'Utzi'
 			});
 	};
 
