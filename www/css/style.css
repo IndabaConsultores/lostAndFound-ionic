@@ -22,6 +22,15 @@
 ion-list i{ font-size:1.4em !important; color: lightgrey; }
 /*----*/
 
+/* Leaflet popup fix */
+.leaflet-popup-content {
+	width: auto !important;
+}
+.popup-img {
+	object-fit:contain;
+	padding-right:10px;
+}
+
 .logo { text-align: center; margin-top: 30px; margin-bottom: 30px; }
 
 .no-comments { text-align: center; padding-top: 50px; opacity: 0.5; }
