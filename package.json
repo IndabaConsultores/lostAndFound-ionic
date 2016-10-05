@@ -27,7 +27,8 @@
     "ionic-plugin-keyboard",
     "phonegap-plugin-push",
     "cordova-plugin-splashscreen",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    "cordova-plugin-dialogs"
   ],
   "cordovaPlatforms": [
     "android"

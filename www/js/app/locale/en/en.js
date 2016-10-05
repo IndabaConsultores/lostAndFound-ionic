@@ -41,7 +41,8 @@ angular.module('lf')
 		loading: "Loading...",
 		distance_away: "{{distance}} {{unit}} away",
 		uncategorized: "Uncategorized",
-		no_items: "No items"
+		no_items: "No items",
+		notifications: "Notifications"
 	});
 		
 });

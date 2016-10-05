@@ -18,7 +18,9 @@
 	color: #444; !important }
 /*----*/
 
-ion-list i{ font-size:1.4em; color: lightgrey; }
+/* Fix icons in side-menu */
+ion-list i{ font-size:1.4em !important; color: lightgrey; }
+/*----*/
 
 .logo { text-align: center; margin-top: 30px; margin-bottom: 30px; }
 

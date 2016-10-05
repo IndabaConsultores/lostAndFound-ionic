@@ -23,28 +23,37 @@
 					<p>{{data.currentUser.username}}</p>
 				</ion-item>
 
-				<ion-item nav-clear menu-close href="#/app/found_items">
-					<i class="ion-pricetags"></i> {{"found_items" | translate}}
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/found_items">
+					<i class="icon ion-pricetags"></i> {{"found_items" | translate}}
 				</ion-item>
-				<ion-item nav-clear menu-close href="#/app/alerts">
-					<i class="ion-alert"></i> {{"alerts" | translate}}
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/alerts">
+					<i class="icon ion-alert"></i> {{"alerts" | translate}}
 				</ion-item>
-				<ion-item nav-clear menu-close href="#/app/launch_alert">
-					<i class="ion-speakerphone"></i> {{"launch_alert" | translate}}!
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/launch_alert">
+					<i class="icon ion-speakerphone"></i> {{"launch_alert" | translate}}!
 				</ion-item>
-				<ion-item nav-clear menu-close href="#/app/info">
-					<i class="ion-help"></i> {{"info" | translate}}
-				</ion-item>
-
-				<ion-item nav-clear menu-close href="#/app/settings">
-					<i class="ion-gear-b"></i> {{"settings" | translate}}
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/info">
+					<i class="icon ion-help"></i> {{"info" | translate}}
 				</ion-item>
 
-				<ion-item nav-clear menu-close ng-click="logout()" ng-if="data.currentUser">
-					<i class="ion-log-out"></i> {{"logout" | translate}}
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/notifications" ng-click="data.notificationCount=0">
+					<i class="icon ion-android-notifications"></i>
+					{{"notifications" | translate}}
+					<span ng-if="data.notificationCount > 0" class="badge badge-assertive">
+						{{data.notificationCount}}
+					</span>
 				</ion-item>
-				<ion-item nav-clear menu-close ng-click="login()" ng-if="!data.currentUser">
-					<i class="ion-log-in"></i> {{"login" | translate}}
+
+				<ion-item class="item-icon-left" nav-clear menu-close href="#/app/settings">
+					<i class="icon ion-gear-b"></i>
+					{{"settings" | translate}}
+				</ion-item>
+
+				<ion-item class="item-icon-left" nav-clear menu-close ng-click="logout()" ng-if="data.currentUser">
+					<i class="icon ion-log-out"></i> {{"logout" | translate}}
+				</ion-item>
+				<ion-item class="item-icon-left" nav-clear menu-close ng-click="login()" ng-if="!data.currentUser">
+					<i class="icon ion-log-in"></i> {{"login" | translate}}
 				</ion-item>
 			</ion-list>
 			
