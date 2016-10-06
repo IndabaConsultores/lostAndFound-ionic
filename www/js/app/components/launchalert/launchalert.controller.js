@@ -5,10 +5,6 @@ angular.module('lf')
 
 	$scope.newAlert = {location:$rootScope.currentLocation};
 
-	function imageToDataUri(img, width, height) {
-		//CameraService
-	}
-
 	$scope.showPopup = function() {
 		$ionicModal.fromTemplateUrl('js/app/templates/use_camera.html', {
 			scope: $scope,
@@ -18,50 +14,64 @@ angular.module('lf')
 			$scope.modal.show();
 		});
 	};
+	
+	$scope.openModal = function(type) {
+		$scope.newAlert.type = type;
+		var p = new Promise(function(resolve, reject) {
+			if (!$scope.formModal) {
+				$ionicModal.fromTemplateUrl('createalert.html', {
+					scope: $scope,
+					animation: 'slide-in-up'
+				}).then(function(modal) {
+					$scope.formModal = modal;
+					resolve();
+				});
+			} else {
+				resolve();
+			}
+		});
+		p.then(function() {
+			$scope.formModal.show();
+			if (!$scope.map) {
+				$scope.map = L.map('map',{ tap:true }).setView([ 
+					$scope.newAlert.location.latitude, 
+					$scope.newAlert.location.longitude
+				], 14);
+				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+					attribution: 'Lost & Found',
+					maxZoom: 18
+				}).addTo($scope.map);
 
-	$scope.initMap = function(){
-		$scope.map = L.map('map',{ tap:true }).setView([ 
-			$scope.newAlert.location.latitude, 
-			$scope.newAlert.location.longitude
-		], 14);
+				$scope.marker = L.marker([ 
+					$scope.newAlert.location.latitude, 
+					$scope.newAlert.location.longitude
+				]).addTo($scope.map);
+				$scope.map.on('click', onMapClick);
+				$scope.$watch('currentLocation', function() {
+					$scope.newAlert.location = $rootScope.currentLocation;
+					$scope.map.setView([ 
+						$scope.newAlert.location.latitude, 
+						$scope.newAlert.location.longitude
+					], 14);
 
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			attribution: 'Lost & Found',
-			maxZoom: 18
-		}).addTo($scope.map);
-
-		$scope.marker = L.marker([ 
-			$scope.newAlert.location.latitude, 
-			$scope.newAlert.location.longitude
-		]).addTo($scope.map);
-		$scope.map.on('click', $scope.onMapClick);
+					$scope.marker.setLatLng([ 
+						$scope.newAlert.location.latitude, 
+						$scope.newAlert.location.longitude
+					]);
+				});
+			}
+		});
 	};
 
-	$scope.$watch('currentLocation', function() {
-		$scope.newAlert.location = $rootScope.currentLocation;
-		$scope.map.setView([ 
-			$scope.newAlert.location.latitude, 
-			$scope.newAlert.location.longitude
-		], 14);
 
-		$scope.marker.setLatLng([ 
-			$scope.newAlert.location.latitude, 
-			$scope.newAlert.location.longitude
-		]);
-	});
-
-	$scope.onMapClick = function(e) {
+	function onMapClick(e) {
 		$scope.map.removeLayer($scope.marker);
 		$scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
 		$scope.newAlert.location = {
 			latitude: e.latlng.lat,
 			longitude: e.latlng.lng
 		};
-	};
-
-	$scope.mapCreated = function(map) {
-		$scope.map = map;
-	};
+	}
 
 	$scope.useCamera = function(){
 		var options = {
@@ -143,6 +153,7 @@ angular.module('lf')
 				});
 				alertPopup.then(function(res) {
 					$state.go('app.alerts');
+					$scope.formModal.hide();
 				});
 			}).catch(function(error) {
 				console.log(error);
@@ -160,9 +171,10 @@ angular.module('lf')
 		if ($scope.modal) {
 			$scope.modal.hide();
 		}
+		if ($scope.formModal) {
+			$scope.formModal.remove();
+		}
 	});
-
-	$scope.initMap();
 
 });
 
