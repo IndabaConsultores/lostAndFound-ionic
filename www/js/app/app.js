@@ -20,7 +20,7 @@ angular.module('lf', ['ionic',
 					 'lf.services.user',
   					 'lf.services.camera'])
 
-.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $rootScope, $translate, $filter, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
+.run(function($ionicPlatform, $ionicPopup, $ionicLoading, $ionicPush, $ionicHistory, $ionicSideMenuDelegate, $rootScope, $translate, $filter, $firebaseObject, amMoment, constants, OfficeService, CategoryService, ItemService, UserService, MessageService, ImageService) {
 
 	//Initialize global data
 	$rootScope.data = {};
@@ -130,6 +130,15 @@ angular.module('lf', ['ionic',
 
 		initAppInfo();
 	});
+	
+	$ionicPlatform.registerBackButtonAction(function(e) {
+		var view = $ionicHistory.backView();
+		if (view) {
+			$ionicHistory.goBack();
+		} else {
+			$ionicSideMenuDelegate.toggleLeft();
+		}
+	}, 101);
 
 	function startLocationWatch() {
 		// Set geolocation watcher
