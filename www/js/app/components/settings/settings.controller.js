@@ -99,6 +99,13 @@ angular.module('lf')
 	};
 
 	$scope.$on('$destroy', function() {
+		console.log('reset');
+		$rootScope.settings.alerts = window.localStorage.getItem('settings.alerts') == 'true';
+		if ($rootScope.currentUser) {
+			$rootScope.settings.language = $rootScope.currentUser.language;
+		} else {
+			$rootScope.settings.language = window.localStorage.getItem('settings.language');
+		}
 		if ($scope.modal) {
 			$scope.modal.remove();
 		}

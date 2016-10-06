@@ -316,6 +316,7 @@ angular.module('lf', ['ionic',
 		}
 	})
 	.state('app.settings', {
+		cache: false,
 		url: '/settings',
 		views: {
 			'menuContent': {
