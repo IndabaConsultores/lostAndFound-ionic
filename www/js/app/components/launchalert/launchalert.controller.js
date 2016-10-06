@@ -32,24 +32,24 @@ angular.module('lf')
 		});
 		p.then(function() {
 			$scope.formModal.show();
-			if (!$scope.map) {
-				$scope.map = L.map('map',{ tap:true }).setView([ 
+			if (!$scope.launchMap) {
+				$scope.launchMap = L.map('map',{ tap:true }).setView([ 
 					$scope.newAlert.location.latitude, 
 					$scope.newAlert.location.longitude
 				], 14);
 				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 					attribution: 'Lost & Found',
 					maxZoom: 18
-				}).addTo($scope.map);
+				}).addTo($scope.launchMap);
 
 				$scope.marker = L.marker([ 
 					$scope.newAlert.location.latitude, 
 					$scope.newAlert.location.longitude
-				]).addTo($scope.map);
-				$scope.map.on('click', onMapClick);
+				]).addTo($scope.launchMap);
+				$scope.launchMap.on('click', onMapClick);
 				$scope.$watch('currentLocation', function() {
 					$scope.newAlert.location = $rootScope.currentLocation;
-					$scope.map.setView([ 
+					$scope.launchMap.setView([ 
 						$scope.newAlert.location.latitude, 
 						$scope.newAlert.location.longitude
 					], 14);
@@ -65,8 +65,8 @@ angular.module('lf')
 
 
 	function onMapClick(e) {
-		$scope.map.removeLayer($scope.marker);
-		$scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.map);
+		$scope.launchMap.removeLayer($scope.marker);
+		$scope.marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo($scope.launchMap);
 		$scope.newAlert.location = {
 			latitude: e.latlng.lat,
 			longitude: e.latlng.lng
