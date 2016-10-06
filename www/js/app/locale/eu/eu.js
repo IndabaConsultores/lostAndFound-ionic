@@ -4,6 +4,8 @@ angular.module('lf')
 	$translateProvider.translations('eu', {
 		found_items: "Aurkitutakoak",
 		alerts: "Alertak",
+		all: "Guztiak",
+		favorites: "Faboritoak",
 		launch_alert: "Alerta Berria",
 		choose_type: "Aukeratu alerta mota",
 		lost: "Galdutakoa",
@@ -20,6 +22,8 @@ angular.module('lf')
 		item_name: "Izena",
 		item_description: "Deskribapena",
 		delete_alert: "Alerta ezabatu",
+		confirm_delete_message: "Ziur zaude alerta ezabatu nahi duzula?",
+		yes: "Bai",
 		picture: "Irudia",
 		camera: "Kamera",
 		use_picture: "Erabili Irudia",

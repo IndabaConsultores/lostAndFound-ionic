@@ -4,6 +4,8 @@ angular.module('lf')
 	$translateProvider.translations('es', {
 		found_items: "Encontrados",
 		alerts: "Alertas",
+		all: "Todos",
+		favorites: "Favoritos",
 		launch_alert: "Crear Alerta",
 		choose_type: "Escoge el tipo de alerta",
 		lost: "Perdido",
@@ -20,6 +22,8 @@ angular.module('lf')
 		item_name: "Nombre",
 		item_description: "Descripcion",
 		delete_alert: "Eliminar alerta",
+		confirm_delete_message: "&iquest;Est&aacute; seguro de que quiere eliminar la alerta?",
+		yes: "S&iacute;",
 		picture: "Imagen",
 		camera: "Camara",
 		use_picture: "Usar Imagen",

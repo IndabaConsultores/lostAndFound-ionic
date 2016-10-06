@@ -56,25 +56,22 @@ angular.module('lf')
 		return !!$scope.showFavorites && $rootScope.data.currentUser && (!$rootScope.data.currentUser.favorites || $rootScope.data.currentUser.favorites.length == 0);
 	};
 
-	$scope.isFavorite = function(item) {
-		if ($scope.showFavorites) {
+	$scope.alertFilter = function(item) {
+		var filter = $scope.alertFilter;
+		if (filter == 'favorites') {
 			if ($rootScope.data.currentUser && $rootScope.data.currentUser.favorites)
 				return $rootScope.data.currentUser.favorites.hasOwnProperty(item.$id);
 			else
 				return false;
+		} else if (filter == 'alert' || filter == 'alert') {
+			return item.type == filter;
 		} else {
 			return true;
 		}
 	};
 
-	$scope.showAllItems = function() {
-		$scope.showFavorites = false;
-	};
-
-	$scope.showFavItems = function() {
-		if ($rootScope.data.currentUser) {
-			$scope.showFavorites = true;
-		} else {
+	$scope.useFilter = function(filter) {
+		if (filter == 'favorites' && !$rootScope.data.currentUser) {
 			$ionicPopup.show({
 				template: 'Please log in to use this function',
 				scope: $scope,
@@ -82,9 +79,10 @@ angular.module('lf')
 					{ text: 'OK' }
 				]
 			});
+		} else {
+			$scope.alertFilter = filter;
 		}
 	};
-
 	$scope.doRefresh = function() {
 		$scope.items = ItemService.getAlertItems();
 		//Stop the ion-refresher from spinning

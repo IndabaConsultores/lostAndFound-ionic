@@ -4,6 +4,8 @@ angular.module('lf')
 	$translateProvider.translations('en', {
 		found_items: "Found Items",
 		alerts: "Alerts",
+		all: "All",
+		favorites: "Favorites",
 		launch_alert: "Launch Alert",
 		choose_type: "Choose alert type",
 		lost: "Lost",
@@ -20,6 +22,8 @@ angular.module('lf')
 		item_name: "Item Name",
 		item_description: "Item Description",
 		delete_alert: "Delete alert",
+		confirm_delete_message: "Are you sure you want to delete the alert?",
+		yes: "Yes",
 		picture: "Picture",
 		camera: "Camera",
 		use_picture: "Use Picture",
