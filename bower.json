@@ -1,18 +1,19 @@
 {
-	"name": "lostandfound",
-	"private": "true",
-	"devDependencies": {
-		"ionic": "driftyco/ionic-bower#1.3.1"
-	},
-	"dependencies": {
-		"angular-leaflet-directive": "~0.7.11",
-		"angular-moment": "~0.10.0",
-		"angular-nl2br": "~1.0.3",
-		"angular-translate": "~2.9.0",
-		"firebase": "^3.3.2",
-		"angularfire": "^2.0.2"
-	},
-	"resolutions": {
-		"angular": "^1.3.0"
-	}
+  "name": "lostandfound",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.1"
+  },
+  "dependencies": {
+    "angular-leaflet-directive": "~0.7.11",
+    "angular-moment": "~0.10.0",
+    "angular-nl2br": "~1.0.3",
+    "angular-translate": "~2.9.0",
+    "firebase": "^3.3.2",
+    "angularfire": "^2.0.2",
+    "ionic-filter-bar": "^1.1.1"
+  },
+  "resolutions": {
+    "angular": "^1.3.0"
+  }
 }
