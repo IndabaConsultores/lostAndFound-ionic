@@ -353,6 +353,7 @@ angular.module('lf', ['ionic',
 		}
 	})
 	.state('app.alertsmap', {
+		cache: false,
 		url: "/alertsmap",
 		views: {
 			'menuContent' :{

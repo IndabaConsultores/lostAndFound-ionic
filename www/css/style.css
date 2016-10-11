@@ -80,6 +80,7 @@ ion-list i{ font-size:1.4em !important; color: lightgrey; }
 	max-width: 90%;
 }
 
+/* ng-hide/ng-show transition animation */
 .ng-hide-add, .ng-hide-remove {
 	display: block !important;
 }
@@ -92,6 +93,7 @@ ion-list i{ font-size:1.4em !important; color: lightgrey; }
 .cssFade.ng-hide {
 	opacity: 0;
 }
+/*---*/
 
 .scroll {
 	height: 100%;

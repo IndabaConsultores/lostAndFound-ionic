@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('lf')
-.controller('AlertItemCtrl', function($rootScope, $scope, $state, $stateParams, $ionicPopup, $ionicPopover, $ionicModal, $firebaseObject, ItemService){
+.controller('AlertItemCtrl', function($rootScope, $scope, $filter, $state, $stateParams, $ionicPopup, $ionicPopover, $ionicModal, $firebaseObject, ItemService){
 
 	function itemFavorited() {
 		var itemKey = $stateParams.item;
@@ -62,8 +62,10 @@ angular.module('lf')
 			});
 		} else {
 			$ionicPopup.confirm({
-				title: 'Delete item',
-				template: 'Are you sure you want to delete the alert?'
+				title: $filter('translate')('delete_alert'),
+				template: $filter('translate')('confirm_delete_message'),
+				cancelText: $filter('translate')('cancel'),
+				okText: $filter('translate')('yes')
 			}).then(function(confirm) {
 				if (!!confirm) {
 					var item = $scope.item;

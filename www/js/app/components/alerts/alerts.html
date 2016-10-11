@@ -7,11 +7,22 @@
 		<button class="button button-icon icon ion-search" ng-click="showSearchBar()"></button>
 	</ion-nav-buttons>
 		
-	<ion-tabs class="tabs-dark tabs-striped">
-		<ion-tab title="All" icon-on="ion-ios-list" icon-off="ion-ios-list-outline" on-select="showAllItems()" > 
+	<ion-tabs class="tabs-dark tabs-icon-top">
+		<ion-tab title="{{'all' | translate}}" icon-on="ion-ios-list"
+		 icon-off="ion-ios-list-outline" on-select="useFilter('all')" > 
 			<div ng-include="'list.html'"></div>
 		</ion-tab>
-		<ion-tab ng-if="data.currentUser" title="Favorites" icon-on="ion-ios-star" icon-off="ion-ios-star-outline" on-select="showFavItems()">
+		<ion-tab title="{{'lost' | translate}}" icon-on="ion-ios-help"
+		 icon-off="ion-ios-help-outline" on-select="useFilter('lost')" > 
+			<div ng-include="'list.html'"></div>
+		</ion-tab>
+		<ion-tab title="{{'found' | translate}}" icon-on="ion-ios-search-strong" 
+		 icon-off="ion-ios-search" on-select="useFilter('found')" > 
+			<div ng-include="'list.html'"></div>
+		</ion-tab>
+		<ion-tab ng-if="data.currentUser" title="{{'favorites' | translate}}"
+		 icon-on="ion-ios-star" icon-off="ion-ios-star-outline"
+		 on-select="useFilter('favorites')">
 			<div ng-include="'list.html'"></div>
 		</ion-tab>
 	</ion-tabs>
@@ -23,7 +34,10 @@
 				<div class="item" ng-if="items.length < 1 || noFavorites()">
 					<h2>{{'no_items' | translate}}</h2>
 				</div>
-				<a class="item item-thumbnail-left item-icon-right" ng-repeat="item in items | orderBy:'distance' | filter:isFavorite" href="#/app/alerts/{{item.$id}}" ng-init="distance_object=distanceObject(item.distance)">
+				<a class="item item-thumbnail-left item-icon-right"
+				href="#/app/alerts/{{item.$id}}" 
+				ng-repeat="item in items | orderBy:'distance' | filter:alertFilter" 
+				ng-init="distance_object=distanceObject(item.distance)">
 					<img class="fit-thumbnail" ng-if="item.cover.image" ng-src="{{item.cover.image}}">
 					<img class="fit-thumbnail" ng-if="!item.cover.image" ng-src="img/no-image.png">
 					<h2>{{item.name}}</h2>
