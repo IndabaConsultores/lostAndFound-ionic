@@ -10,7 +10,9 @@ angular.module('lf')
 	} else {
 		$scope.numMessages = 0;
 	}
-
+	if ($scope.item.images.length > 0) {
+		$scope.item.cover = $scope.item.images[0].image;
+	}
 	if(!$scope.item.location){
 		$scope.item.location = $rootScope.office.location;
 	}

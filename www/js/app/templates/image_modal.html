@@ -6,11 +6,10 @@
 			Close
 		</button>
 	</ion-header-bar>
-	<ion-content class="padding">
-		<ion-scroll overflow-scroll="false" zooming="true" direction="xy" min-zoom="1" scrollbar-x="false" scrollbar-y="false">   
+	<ion-content class="padding" scroll="false">
+		<ion-scroll overflow-scroll="false" zooming="true" direction="xy" delegate-handle="zoom-pane" class="zoom-pane" min-zoom="1" scrollbar-x="false" scrollbar-y="false">   
 			<img ng-src="{{image.image}}"></img>
 		</ion-scroll>
 	</ion-content>
-
 </ion-modal-view> 
 

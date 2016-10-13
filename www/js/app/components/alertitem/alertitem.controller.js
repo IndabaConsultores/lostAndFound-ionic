@@ -123,7 +123,6 @@ angular.module('lf')
 	$rootScope.hideLoading();
 
 	$scope.showPicture = function(){
-		console.log('showPictureItem');
 		if ($scope.item.cover) {
 			var modalScope = $scope.$new();
 			modalScope.image = {
