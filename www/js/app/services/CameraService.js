@@ -4,9 +4,23 @@ angular.module('lf.services.camera', [])
 .service('CameraService', function() {
 	this.getPicture = function(options) {
 		var promise = new Promise(function(resolve, reject) {
-			navigator.camera.getPicture(function(result) {
-				// Do any magic you need
-				resolve(result);
+			navigator.camera.getPicture(function(imageURI) {
+				var img = new Image();
+				img.src = 'data:image/jpeg;base64,' + imageURI; 
+				var canvas = document.createElement('canvas');
+				if (img.naturalWidth > img.naturalHeight) {
+					canvas.width = 320;
+					canvas.height = 320 * img.naturalHeight/img.naturalWidth;
+				} else {
+					canvas.width = 320 * img.naturalWidth/img.naturalHeight;
+					canvas.height = 320;
+				}
+				var ctx = canvas.getContext('2d');
+				var scaleFactor = canvas.width/img.naturalWidth;
+				ctx.scale(scaleFactor, scaleFactor);
+				ctx.drawImage(img, 0, 0);
+				var res = canvas.toDataURL('image/jpeg', 0.8);
+				resolve(res.split('data:image/jpeg;base64,')[1]);
 			}, function(err) {
 				reject(err);
 			}, options);
