@@ -34,40 +34,42 @@
 				</div>
 			</ion-header-bar>
 			<ion-content class="has-header">
-				<div class="list form">
-					<label class="item item-input item-stacked-label">
-						<span class="input-label">{{"item_name" | translate}}</span>
-						<input type="text" placeholder="{{'item_name' | translate}}" ng-model="newAlert.name">
-					</label>
-					
-					<label class="item item-input item-stacked-label">
-						<span class="input-label">{{"item_description" | translate}}</span>
-						<textarea placeholder="{{'item_description' | translate}}" ng-model="newAlert.description"></textarea>
-					</label>
+				<ion-scroll direction="y">
+					<div class="list form">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">{{"item_name" | translate}}</span>
+							<input type="text" placeholder="{{'item_name' | translate}}" ng-model="newAlert.name">
+						</label>
+						
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">{{"item_description" | translate}}</span>
+							<textarea placeholder="{{'item_description' | translate}}" ng-model="newAlert.description"></textarea>
+						</label>
 
-					<div class="item item-input item-stacked-label">
-						<span class="input-label">{{"picture" | translate}}</span>
-						<button class="button button-stable" ng-click="showPopup()">
-							<i ng-hide="imageBase64" class="ion-images"></i>
-							<img class="fit-thumbnail image-preview" ng-src="{{imageBase64}}" ng-if="imageBase64" />
-						</button>
-					</div>
-
-					<label class="item item-input item-stacked-label padding">
-						<div data-tap-disabled="true">
-							<div id="map" style="height:180px;"></div>
+						<div class="item item-input item-stacked-label">
+							<span class="input-label">{{"picture" | translate}}</span>
+							<button class="button button-stable" ng-click="showPopup()">
+								<i ng-hide="imageBase64" class="ion-images"></i>
+								<img class="fit-thumbnail image-preview" ng-src="{{imageBase64}}" ng-if="imageBase64" />
+							</button>
 						</div>
-					</label>
-				</div> <!-- list -->
-				<div class="content padding">
-					<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="data.currentUser">
-						{{'send' | translate}}
-					</button>
-					<div ng-if="!data.currentUser">
-						<a ng-click="loginModal.show()">{{'login' | translate}}</a>
-						<span>&nbsp;{{'to_launchalert' | translate}}</span>
-					</div>
-				</div>
+
+						<label class="item item-input item-stacked-label padding">
+							<div data-tap-disabled="true">
+								<div id="map" style="height:180px;"></div>
+							</div>
+						</label>
+						<div class="content padding">
+							<button class="button button-block button-positive" ng-click="createAlert()"  ng-if="data.currentUser">
+								{{'send' | translate}}
+							</button>
+							<div ng-if="!data.currentUser">
+								<a ng-click="loginModal.show()">{{'login' | translate}}</a>
+								<span>&nbsp;{{'to_launchalert' | translate}}</span>
+							</div>
+						</div>
+					</div> <!-- list -->
+				</ion-scroll>
 			</ion-content>
 		</ion-modal-view>
 	</script>
