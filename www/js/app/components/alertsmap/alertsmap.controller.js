@@ -4,7 +4,7 @@ angular.module('lf')
 .controller('AlertsMapCtrl', function($rootScope, $scope, ItemService) {
 
 	var alerts = ItemService.getAlertItems();
-	var markers = {};
+	var markers = L.markerClusterGroup();
 	
 	var lostIcon = L.icon({
 		iconUrl: 'img/lost-icon.png',
@@ -41,7 +41,7 @@ angular.module('lf')
 		popupHTML += '<h4>'+item.description+'</h4>';
 		popupHTML += '</div></div>';
 		popupHTML += '</a>';
-		markers[item.$id] = L.marker([
+		markers.addLayer(L.marker([
 			item.location.latitude,
 			item.location.longitude
 		], {
@@ -49,8 +49,9 @@ angular.module('lf')
 		}).bindPopup(popupHTML).on('click', function(e) {
 			//TODO Si dos alertas estan en el mismo lugar?
 			this.openPopup();
-		}).addTo($scope.alertsMap);
+		}));
 	}
+	$scope.alertsMap.addLayer(markers);
 	$scope.alertsMap.setView([
 		$rootScope.currentLocation.latitude,
 		$rootScope.currentLocation.longitude
