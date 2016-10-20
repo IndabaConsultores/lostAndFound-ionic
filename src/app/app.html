@@ -1,0 +1,34 @@
+
+<ion-menu [content]="content">
+	<ion-header>
+		<ion-toolbar color="dark">
+			<ion-title>{{(office | async)?.title.es}}</ion-title>
+		</ion-toolbar>
+	</ion-header>
+
+	<ion-content>
+		<ion-list>
+			<button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+				<ion-icon item-left [name]="p.icon"></ion-icon>
+				<h2>{{p.title | translate}}</h2>
+			</button>
+		</ion-list>
+	</ion-content>
+	<ion-footer>
+		<ion-card *ngIf="innerHeight > 500" class="logo">
+			<div *ngIf="(office | async)">
+				<img class="office-logo-small" [src]="(office | async)?.icon">
+			</div>
+			<div>Tel: {{(office | async)?.phoneNumber}}</div>
+			<div>E-Mail: {{(office | async)?.emailAddress}}</div>
+		</ion-card>
+		<ion-toolbar color="dark">
+			<ion-title>
+				<span class="foot-title">Lost &amp; Found</span>
+			</ion-title>
+		</ion-toolbar>
+	</ion-footer>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+

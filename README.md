@@ -21,6 +21,21 @@ $ ionic -v
 ```
 
 ## Using this project
+Fill the constants file with your data:
+```javascript
+//Firebase database configuration
+export const FirebaseConfig = {
+	apiKey: "<API-KEY>",
+	authDomain: "<APP-NAME>.firebaseapp.com",
+	databaseURL: "https://<APP-NAME>.firebaseio.com",
+	storageBucket: "<APP-NAME>.appspot.com"
+}
+
+@Injectable()
+export class Constants {
+	OFFICE_ID = <OFFICE_ID>; //Id number of the Office entity in Firebase
+}
+```
 
 Install the dependencies with `npm` and preview it with the `ionic` CLI:
 

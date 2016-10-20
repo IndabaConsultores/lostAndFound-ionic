@@ -1,0 +1,46 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<button ion-button start menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			{{ 'found_items.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingIcon="arrow-dropdown"
+			refreshingSpinner="circles">
+		</ion-refresher-content>
+	</ion-refresher>
+	<div *ngIf="categories">
+		<ion-item-divider color="dark" *ngIf="categories.length < 1">
+			<h2>{{ 'found_items.no_items' | translate }}</h2>
+		</ion-item-divider>
+
+		<ion-item-group *ngFor="let category of categories">
+			<ion-item-divider color="dark" *ngIf="category.name">
+				<span class="category">{{ category.name }}</span>
+			</ion-item-divider>
+			<ion-item-divider color="dark" *ngIf="!category.name">
+				<span class="category">{{ 'found_items.uncategorized' | translate }}</span>
+			</ion-item-divider>
+			<ion-item *ngIf="items[category.$key].length < 1">
+				<h2>{{ 'found_items.no_items' | translate }}</h2>
+			</ion-item>
+			<button ion-item *ngFor="let item of items[category.$key]">
+				<ion-thumbnail item-left>
+					<div *ngIf="(covers[item.$key] | async)">
+						<img class="fit-thumbnail" [src]="(covers[item.$key] | async)?.image">
+					</div>
+				</ion-thumbnail>
+				<h2>{{ item.name }}</h2>
+				<p>{{ item.createDate | amTimeAgo }}</p>
+			</button>
+		</ion-item-group>
+	</div> <!-- list -->
+</ion-content>
+
