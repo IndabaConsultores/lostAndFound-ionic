@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { NavController, LoadingController } from 'ionic-angular';
 
-import { Constants } from '../../app/app.constants';
 import { CategoryService } from '../../services/category.service';
 import { ItemService } from '../../services/item.service';
 import { ImageService } from '../../services/image.service';
 
 import { Category } from '../../models/category';
+import { Item } from '../../models/item';
 import { Image } from '../../models/image';
+
+import { OfficeItemDetailPage } from '../office-item-detail/office-item-detail';
 
 @Component({
 	selector: 'office-item-list',
 	templateUrl: 'office-item-list.html'
 })
-export class OfficeItemListPage implements OnInit {
+export class OfficeItemListPage {
 
 	categories: Category[];
 	items: Object;
@@ -26,7 +28,6 @@ export class OfficeItemListPage implements OnInit {
 		public navCtrl: NavController,
 		public loadingCtrl: LoadingController,
 		public translate: TranslateService,
-		public constants: Constants,
 		public catService: CategoryService,
 		public itemService: ItemService,
 		public imageService: ImageService
@@ -44,10 +45,6 @@ export class OfficeItemListPage implements OnInit {
 			this.doRefresh();
 			loader.dismiss();
 		});
-	}
-
-	ngOnInit(): void {
-		//this.doRefresh();
 	}
 
 	doRefresh(refresher?: any): void {
@@ -81,6 +78,12 @@ export class OfficeItemListPage implements OnInit {
 					&& itemCount === itemsLength) {
 				if (refresher) refresher.complete();
 			}
+		});
+	}
+
+	itemTapped(event: any, item: Item): void {
+		this.navCtrl.push(OfficeItemDetailPage, {
+			item: item
 		});
 	}
 

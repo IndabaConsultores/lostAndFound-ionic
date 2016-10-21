@@ -13,7 +13,10 @@ import { CategoryService } from '../services/category.service';
 import { ItemService } from '../services/item.service';
 import { ImageService } from '../services/image.service';
 
-import { OfficeItemListPage} from '../pages/office-item-list/office-item-list';
+import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
+import { OfficeItemDetailPage } from '../pages/office-item-detail/office-item-detail';
+import { ImageDetailPage } from '../pages/image-detail/image-detail';
+import { LeafletMapComponent } from '../pages/leaflet-map/leaflet-map';
 
 export function translateLoaderFactory(http: Http) {
 	return new TranslateStaticLoader(http, 'assets/i18n', '.json');
@@ -22,7 +25,10 @@ export function translateLoaderFactory(http: Http) {
 @NgModule({
   declarations: [
     MyApp,
-    OfficeItemListPage
+    OfficeItemListPage,
+		OfficeItemDetailPage,
+		ImageDetailPage,
+		LeafletMapComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -38,7 +44,9 @@ export function translateLoaderFactory(http: Http) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    OfficeItemListPage
+    OfficeItemListPage,
+		OfficeItemDetailPage,
+		ImageDetailPage
   ],
   providers: [
 		Constants,

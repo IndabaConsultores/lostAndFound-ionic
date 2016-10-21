@@ -29,9 +29,13 @@
 				<span class="category">{{ 'found_items.uncategorized' | translate }}</span>
 			</ion-item-divider>
 			<ion-item *ngIf="items[category.$key].length < 1">
+				<ion-thumbnail item-left>
+					<img class="fit-thumbnail" src="assets/img/empty-list.png">
+				</ion-thumbnail>
 				<h2>{{ 'found_items.no_items' | translate }}</h2>
 			</ion-item>
-			<button ion-item *ngFor="let item of items[category.$key]">
+			<button ion-item *ngFor="let item of items[category.$key]"
+				(click)="itemTapped($event, item)">
 				<ion-thumbnail item-left>
 					<div *ngIf="(covers[item.$key] | async)">
 						<img class="fit-thumbnail" [src]="(covers[item.$key] | async)?.image">

@@ -1,0 +1,11 @@
+<ion-header>
+	<ion-navbar color="dark">
+	</ion-navbar>
+</ion-header>
+<ion-content padding>
+	<!-- TODO zoom does not work -->
+	<ion-scroll zoom="true" class="zoom-pane">
+			<img [src]="(image | async)?.image">
+	</ion-scroll>
+</ion-content>
+

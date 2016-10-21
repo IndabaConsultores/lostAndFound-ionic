@@ -1,0 +1,57 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<ion-title>
+			{{item.name}}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content has-header>
+	<ion-card>
+		<ion-list>
+			<ion-list-header>
+				<ion-avatar item-left>
+					<img [src]="(office | async)?.icon">
+				</ion-avatar>
+				<h2>{{(office | async)?.title.eu}}</h2>
+				<p>{{item.createDate | amDateFormat: 'MMMM D, YYYY' }}</p>
+			</ion-list-header>
+
+			<ion-item text-wrap>
+				<ion-slides pager>
+					<ion-slide *ngFor="let image of images">
+						<img class="item-image" [src]="(image | async)?.image"
+							(click)="showPicture($event, image)">
+					</ion-slide>
+				</ion-slides>
+
+				<ion-item padding>
+					<leaflet-map [location]="(office | async)?.location"
+						[markers]="[(office | async)?.location]"></leaflet-map>
+				</ion-item>
+
+				<ion-item>
+					<p>
+						{{item.description}}
+					</p>
+				</ion-item>
+				<ion-item>
+					<p>
+						{{ "item_detail.num_comments" | translate : {num: numMessages} }}
+					</p>
+				</ion-item>
+			</ion-item>
+
+			<ion-item>
+				<ion-segment>
+					<ion-segment-button value="comment"
+						(click)="goToComments($event, item)">
+						<ion-icon name="chatboxes"></ion-icon>
+						{{"item_detail.comment" | translate}}
+					</ion-segment-button>
+				</ion-segment>
+			</ion-item>
+		</ion-list>
+	</ion-card>
+</ion-content>
+

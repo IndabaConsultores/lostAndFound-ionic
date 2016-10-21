@@ -3,6 +3,9 @@
 		"title": "Aurkitutakoak",
 		"no_items": "Objeturik gabe",
 		"uncategorized": "Klasifikatu gabekoak"
+	}, "item_detail": {
+		"num_comments": "{{num}} iruzkin",
+		"comment": "Iruzkinak"
 	}
 }
 

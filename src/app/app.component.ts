@@ -12,6 +12,8 @@ import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import moment from 'moment';
 import 'moment/src/locale/eu';
 
+declare var navigator: any;
+
 @Component({
 	templateUrl: 'app.html'
 })
@@ -36,6 +38,7 @@ export class MyApp implements OnInit {
 			translate.setDefaultLang('eu');
 			translate.use('eu');
 			moment.locale('eu');
+			if (navigator.splashscreen) navigator.splashscreen.hide();
 		});
 	}
 

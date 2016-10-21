@@ -1,7 +1,7 @@
 export class Item {
 	$key: string;
-	createDate: number;
-	modifiedDate: number;
+	createDate: Date;
+	modifiedDate: Date;
 	createdBy: string;
 	office: number;
 	name: string;
