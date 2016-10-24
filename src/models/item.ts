@@ -10,5 +10,6 @@ export class Item {
 	category: any;
 	images: any;
 	messages: any;
+	type: string;
 }
 

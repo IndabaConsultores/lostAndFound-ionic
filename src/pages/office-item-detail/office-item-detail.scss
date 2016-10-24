@@ -1,10 +1,12 @@
-.item-image {
-	display: block;
-	margin: auto;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	max-height: 200px !important;
-	width: auto;
-	max-width: 100%;
+office-item-detail {
+	.item-image {
+		display: block;
+		margin: auto;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		max-height: 200px !important;
+		width: auto;
+		max-width: 100%;
+	}
 }
 

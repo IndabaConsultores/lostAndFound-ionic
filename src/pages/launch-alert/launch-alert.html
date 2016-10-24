@@ -1,0 +1,47 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<button ion-button start menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			{{ 'launch_alert.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<form (ngSubmit)="launchAlert()">
+		<ion-list inset no-lines>
+			<ion-item>
+				<ion-label floating>{{ 'launch_alert.name' | translate }}</ion-label>
+				<ion-input type="text" [(ngModel)]="item.name" name="name" required></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label floating>{{ 'launch_alert.description' | translate }}</ion-label>
+				<ion-textarea type="textarea" rows="4" [(ngModel)]="item.description" name="description"></ion-textarea>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked>{{ 'launch_alert.image' | translate }}</ion-label>
+				<div item-content class="image-preview" *ngIf="image">
+					<img [src]="image">
+				</div>
+				<image-selector item-right (onImageTaken)="setImage($event)"></image-selector>
+			</ion-item>
+			<ion-item *ngIf="currentLocation">
+				<leaflet-map [(location)]="currentLocation" enableTap="true"></leaflet-map>
+			</ion-item>
+		</ion-list>
+		<div padding *ngIf="!loggedIn()">
+			<button type="button" ion-button small color="secondary" clear (click)="goToLogin()">
+				{{ 'launch_alert.login' | translate }}
+			</button>
+			<span class="align-mid">
+				{{ 'launch_alert.login_text' | translate }}
+			</span>
+		</div>
+		<button ion-button type="submit" block [disabled]="!loggedIn()">
+			{{ 'launch_alert.submit' | translate }}
+		</button>
+	</form>
+</ion-content>
+

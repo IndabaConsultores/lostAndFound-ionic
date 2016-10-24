@@ -28,6 +28,9 @@
 						<img class="fit-thumbnail" [src]="(covers[item.$key] | async)?.image">
 					</div>
 				</ion-thumbnail>
+				<ion-badge item-left [color]="item.type === 'lost' ? 'danger' : 'secondary'">
+					{{item.type === 'lost' ? 'L' : 'F'}}
+				</ion-badge>
 				<h2>{{ item.name }}</h2>
 				<p>{{ item.createDate | amTimeAgo }}</p>
 			</button>

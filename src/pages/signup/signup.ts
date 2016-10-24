@@ -36,5 +36,6 @@ export class SignUpPage {
 			this.error = error.code;
 		});
 	}
+
 }
 

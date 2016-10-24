@@ -12,7 +12,6 @@ export class AuthService {
 		public af: AngularFire
 	) {
 		af.auth.subscribe((authData) => {
-			console.log('Auth change: ', authData);
 			this.currentUser = authData;
 		});
 	}

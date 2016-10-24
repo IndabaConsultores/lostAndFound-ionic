@@ -34,9 +34,7 @@ export class OfficeItemListPage {
 	) {
 		this.items = {};
 		this.covers = {};
-		var loader = this.loadingCtrl.create({
-			content: 'Loading'
-		});
+		var loader = this.loadingCtrl.create();
 		loader.present();
 		Promise.all([
 			catService.hasLoaded(),

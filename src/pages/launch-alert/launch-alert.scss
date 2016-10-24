@@ -1,0 +1,15 @@
+launch-alert {
+	leaflet-map {
+		white-space: normal;
+	}
+	.image-preview {
+		margin: auto;
+		img {
+			max-height: 180px;
+		}
+	}
+	.align-mid {
+		vertical-align: -webkit-baseline-middle;
+	}
+}
+

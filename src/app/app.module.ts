@@ -14,15 +14,21 @@ import { ItemService } from '../services/item.service';
 import { ImageService } from '../services/image.service';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { LocationService } from '../services/location.service';
+import { MessageService } from '../services/message.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { OfficeItemDetailPage } from '../pages/office-item-detail/office-item-detail';
 import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
 import { AlertItemDetailPage } from '../pages/alert-item-detail/alert-item-detail';
+import { LaunchAlertPage } from '../pages/launch-alert/launch-alert';
+import { PreLaunchAlertPage } from '../pages/pre-launch-alert/pre-launch-alert';
 import { ImageDetailPage } from '../pages/image-detail/image-detail';
 import { LeafletMapComponent } from '../pages/leaflet-map/leaflet-map';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/signup/signup';
+import { ImageSelectorComponent } from '../pages/image-selector/image-selector';
+import { ItemMessagesPage } from '../pages/item-messages/item-messages';
 
 export function translateLoaderFactory(http: Http) {
 	return new TranslateStaticLoader(http, 'assets/i18n', '.json');
@@ -33,12 +39,16 @@ export function translateLoaderFactory(http: Http) {
     MyApp,
     OfficeItemListPage,
     AlertItemListPage,
+		PreLaunchAlertPage,
+		LaunchAlertPage,
 		OfficeItemDetailPage,
 		AlertItemDetailPage,
 		ImageDetailPage,
 		LeafletMapComponent,
 		LoginPage,
-		SignUpPage
+		SignUpPage,
+		ImageSelectorComponent,
+		ItemMessagesPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -61,9 +71,12 @@ export function translateLoaderFactory(http: Http) {
     AlertItemListPage,
 		OfficeItemDetailPage,
 		AlertItemDetailPage,
+		PreLaunchAlertPage,
+		LaunchAlertPage,
 		ImageDetailPage,
 		LoginPage,
-		SignUpPage
+		SignUpPage,
+		ItemMessagesPage
 	],
   providers: [
 		Constants,
@@ -72,7 +85,9 @@ export function translateLoaderFactory(http: Http) {
 		CategoryService,
 		ItemService,
 		ImageService,
-		UserService
+		UserService,
+		LocationService,
+		MessageService
 	]
 })
 export class AppModule {}

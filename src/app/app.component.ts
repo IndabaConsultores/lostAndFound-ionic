@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
+import { PreLaunchAlertPage } from '../pages/pre-launch-alert/pre-launch-alert';
 import { LoginPage } from '../pages/login/login';
 
 import moment from 'moment';
@@ -24,6 +25,7 @@ export class MyApp implements OnInit {
 	@ViewChild(Nav) nav: Nav;
 
 	rootPage: any = OfficeItemListPage;
+	currentPage: any = OfficeItemListPage;
 	pages: Array<{icon: string, title: string, component: any}>;
 	office: FirebaseObjectObservable<Office>;
 
@@ -57,6 +59,11 @@ export class MyApp implements OnInit {
 				icon: 'alert',
 				title: 'item_list.alert.title',
 				component: AlertItemListPage
+			},
+			{
+				icon: 'megaphone',
+				title: 'launch_alert.title',
+				component: PreLaunchAlertPage
 			}
 		];
 		this.office = this.officeService.getObservableOffice();
@@ -66,7 +73,17 @@ export class MyApp implements OnInit {
 		// close the menu when clicking a link from the menu
 		this.menu.close();
 		// navigate to the new page if it is not the current page
-		this.nav.setRoot(page.component);
+		if (this.currentPage !== page.component) {
+			this.nav.setRoot(page.component)
+			.then(() => {
+				this.currentPage = page.component;
+			})
+			.catch((error) => {
+				this.nav.push(LoginPage, {
+					redirect: page.component
+				});
+			});
+		}
 	}
 
 	isAuthenticated(): boolean {

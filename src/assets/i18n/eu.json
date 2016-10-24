@@ -35,6 +35,24 @@
 	"item_detail": {
 		"num_comments": "{{num}} iruzkin",
 		"comment": "Iruzkinak"
+	},
+	"launch_alert": {
+		"title": "Alerta berria!",
+		"choose_text": "Aukeratu alerta mota",
+		"lost": "Galdutakoa",
+		"found": "Aurkitutakoa",
+		"name": "Izena",
+		"description": "Deskripzioa",
+		"image": "Argazkia",
+		"submit": "Bidali",
+		"login": "Sartu",
+		"login_text": "alerta berriak bidaltzeko."
+	},
+	"image_selector": {
+		"title": "Nondik aukeratu argazkia",
+		"camera": "Kamaratik",
+		"gallery": "Galeriatik",
+		"cancel": "Utzi"
 	}
 }
 

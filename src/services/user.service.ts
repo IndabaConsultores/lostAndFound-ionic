@@ -21,5 +21,20 @@ export class UserService {
 		return this._observableUsers[id];
 	}
 
+	getUser(id: string): Promise<User> {
+		if (!this._observableUsers[id]) {
+			this._observableUsers[id] = this.af.database.object('/users/'+id)
+		}
+		return new Promise((resolve, reject) => {
+			let subscription = this._observableUsers[id]
+			.subscribe((user) => {
+				resolve(user);
+				subscription.unsubscribe();
+			}, (error) => {
+				reject(error);
+			});
+		});
+	}
+
 }
 

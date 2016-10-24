@@ -1,0 +1,29 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<button ion-button start menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			{{ 'launch_alert.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div padding-top>
+			<h2 class="center-text">{{'launch_alert.choose_text' | translate}}</h2>
+	</div>
+	<div padding>
+		<button type="button" color="danger" full large ion-button (click)="launchAlert('lost')">
+			<ion-icon padding-right item-left name="help"></ion-icon>
+			<span>{{'launch_alert.lost' | translate}}</span>
+		</button>
+	</div>
+	<div padding>
+		<button type="button" color="secondary" full large ion-button (click)="launchAlert('found')">
+			<ion-icon padding-right item-left name="hand"></ion-icon>
+			<span>{{'launch_alert.found' | translate}}</span>
+		</button>
+	</div>
+</ion-content>
+

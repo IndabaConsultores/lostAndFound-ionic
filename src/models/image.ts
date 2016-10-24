@@ -1,7 +1,7 @@
 export class Image {
 	$key: string;
-	createDate: number;
-	modifiedDate: number;
+	createDate: Date;
+	modifiedDate: Date;
 	image: string;
 	item: string;
 }

@@ -13,6 +13,7 @@ import { Item } from '../../models/item';
 import { Image } from '../../models/image';
 
 import { ImageDetailPage } from '../image-detail/image-detail';
+import { ItemMessagesPage } from '../item-messages/item-messages';
 
 @Component({
 	selector: 'alert-item-detail',
@@ -61,7 +62,9 @@ export class AlertItemDetailPage {
 	}
 
 	goToComments(event: any, item: Item): void {
-		console.log('goToComments');
+		this.navCtrl.push(ItemMessagesPage, {
+			item: this.item
+		});
 	}
 
 }

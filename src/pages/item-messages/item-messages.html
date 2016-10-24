@@ -1,0 +1,52 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<ion-title>
+			{{ 'messages.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="no-comments" *ngIf="messages.length == 0">
+		<h2>{{'messages.no_comments' | translate}}</h2>
+	</div>
+	<div *ngFor="let message of messages" class="message-wrapper">
+		<img *ngIf="users[message.user]" [class]="profileClass(message)"
+			[src]="users[message.user].avatar" />
+
+		<div [class]="chatBubbleClass(message)">
+			<img class="fit-thumbnail" *ngIf="!!message.picture"
+				[src]="message.picture" (click)="showPicture(message)" />
+			<div class="message" [innerHTML]="message.body">
+			</div>
+
+			<div class="message-detail">
+				<span *ngIf="users[message.user]" class="bold">
+					{{users[message.user].username}}
+				</span>
+				<span>- {{ message.createDate | amTimeAgo }}</span>
+			</div>
+		</div>
+		<div class="cf"></div>
+	</div>
+</ion-content>
+<ion-footer>
+	<ion-toolbar class="bar-footer">
+		<form (ngSubmit)="sendMessage()" *ngIf="authService.getCurrentUser()">
+			<img class="fit-thumbnail" [src]="message.picture" *ngIf="message.picture">
+			<ion-input>
+				<ion-textarea name="body" [(ngModel)]="message.body"
+					[placeholder]="'messages.send_comment' | translate"></ion-textarea>
+				<button ion-button icon-only clear type="submit"
+					[disabled]="!message.body || message.body === ''">
+					<ion-icon name="send"></ion-icon>
+				</button>
+			</ion-input>
+		</form>
+		<div *ngIf="!authService.getCurrentUser()">
+			<a (click)="goToLogin()">{{'messages.login' | translate}}</a>
+			<span>&nbsp;{{'messages.to_post' | translate}}</span>
+		</div>
+	</ion-toolbar>
+</ion-footer>
+

@@ -1,0 +1,115 @@
+item-messages {
+	.message-wrapper {
+		position: relative;
+		&:last-child {
+			margin-bottom: 10px;
+		}
+	}
+
+	.chat-bubble {
+		border-radius: 5px;
+		display: inline-block;
+		padding: 10px 18px;
+		position: relative;
+		margin: 10px;
+		max-width: 80%;
+
+		&:before {
+			content: "\00a0";
+			display: block;
+			height: 16px;
+			width: 9px;
+			position: absolute;
+			bottom: -7.5px;
+		}
+
+		&.left {
+			background-color: #e6e5eb;
+			float: left;
+			margin-left: 55px;
+
+			&:before {
+				background-color: #e6e5eb;
+				left: 10px;
+				-webkit-transform: rotate(70deg) skew(5deg);
+			}
+		}
+
+		&.right {
+			background-color: #158ffe;
+			color: #fff;
+			float: right;
+			margin-right: 55px;
+
+			&:before {
+				background-color: #158ffe;
+				right: 10px;
+				-webkit-transform: rotate(118deg) skew(-5deg);
+			}
+		}
+	}
+
+	img.profile-pic {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		position: absolute;
+		bottom: 10px;
+
+		&.left {
+			left: 10px;
+		}
+
+		&.right {
+			right: 10px;
+		}
+	}
+
+	.message-detail {
+		white-space: nowrap;
+		font-size: 14px;
+	}
+
+	.bold {
+		font-weight: bold;
+	}
+
+	.fit-thumbnail {
+		object-fit: contain;
+	}
+
+	.no-comments {
+		text-align: center;
+		padding-top: 50px;
+		opacity: 0.5;
+	}
+
+	.cf {
+		clear: both;
+	}
+
+	.bar-footer {
+		overflow: visible;
+
+		ion-textarea {
+			height: 25px;
+		}
+
+		textarea {
+			resize: none;
+		}
+	}
+
+	.footer-btn {
+		position: absolute;
+		bottom: 0;
+	}
+
+	.footer-btn-wrap {
+		position: relative;
+		height: 100%;
+		width: 50px;
+		top: 7px;
+	}
+}
+
