@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<ion-title>{{ 'login.title' | translate }}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<form (ngSubmit)="doLogin()">
+		<ion-list inset no-lines>
+			<ion-item>
+				<ion-label floating>{{ 'login.email' | translate }}</ion-label>
+				<ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label floating>{{ 'login.password' | translate }}</ion-label>
+				<ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
+			</ion-item>
+			<ion-item *ngIf="error">
+				<p color="danger">{{ 'login.error' | translate }}</p>
+			</ion-item>
+		</ion-list>
+		<button ion-button type="submit" block>{{ 'login.submit' | translate }}</button>
+	</form>
+	<div>
+		<button ion-button color="secondary" block outline (click)="goToSignUp()">
+			{{ 'login.signup' | translate }}
+		</button>
+	</div>
+</ion-content>
+

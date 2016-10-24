@@ -1,0 +1,42 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<ion-title>
+			{{ 'signup.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<form (ngSubmit)="doSignUp()">
+		<ion-list inset no-lines>
+			<ion-item>
+				<ion-label floating>{{ 'signup.username' | translate }}</ion-label>
+				<ion-input type="text" [(ngModel)]="user.username" name="name" required></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label floating>{{ 'signup.email' | translate }}</ion-label>
+				<ion-input type="email" [(ngModel)]="user.email" name="email" required></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label floating>{{ 'signup.password' | translate }}</ion-label>
+				<ion-input type="password" [(ngModel)]="user.password" name="password" required></ion-input>
+			</ion-item>
+			<ion-item *ngIf="error" [ngSwitch]="error">
+				<p *ngSwitchCase="'auth/invalid-email'" color="danger">
+					{{ 'signup.error.invalid_email' | translate }}
+				</p>
+				<p *ngSwitchCase="'auth/weak-password'" color="danger">
+					{{ 'signup.error.weak_password' | translate }}
+				</p>
+				<p *ngSwitchCase="'auth/email-already-in-use'" color="danger">
+					{{ 'signup.error.email_in_use' | translate }}
+				</p>
+				<p *ngSwitchDefault color="danger">
+					{{ 'signup.error.default' | translate }}
+				</p>
+			</ion-item>
+		</ion-list>
+		<button ion-button type="submit" block>{{ 'signup.submit' | translate }}</button>
+	</form>
+</ion-content>
+

@@ -6,8 +6,10 @@ import { TranslateService } from 'ng2-translate';
 
 import { Office } from '../models/office';
 import { OfficeService } from '../services/office.service';
+import { AuthService } from '../services/auth.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
+import { LoginPage } from '../pages/login/login';
 
 import moment from 'moment';
 import 'moment/src/locale/eu';
@@ -31,6 +33,7 @@ export class MyApp implements OnInit {
 		public translate: TranslateService,
 		public menu: MenuController,
 		public officeService: OfficeService,
+		public authService: AuthService
 	) {
 		platform.ready().then(() => {
 			this.innerHeight = window.innerHeight;
@@ -58,6 +61,24 @@ export class MyApp implements OnInit {
 		this.menu.close();
 		// navigate to the new page if it is not the current page
 		this.nav.setRoot(page.component);
+	}
+
+	isAuthenticated(): boolean {
+		if (this.authService.getCurrentUser()) {
+			return true;
+		} else {
+			return false
+		}
+	}
+
+	login(): void {
+		this.menu.close();
+		this.nav.push(LoginPage, {redirect: this.rootPage});
+	}
+
+	logout(): void {
+		this.menu.close();
+		this.authService.logout();
 	}
 
 	@HostListener('window:resize', ['$event'])

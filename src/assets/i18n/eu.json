@@ -1,9 +1,33 @@
 {
+	"menu": {
+		"logout": "Irten"
+	},
+	"login": {
+		"title": "Sartu",
+		"email": "E-posta",
+		"password": "Pasahitza",
+		"submit": "Sartu",
+		"signup": "Eman izena",
+		"error": "E-posta edota pasahitza ez da zuzena"
+	},
+	"signup": {
+		"title": "Izena eman",
+		"username": "Erabiltzile-izena",
+		"email": "E-posta",
+		"password": "Pasahitza",
+		"submit": "Izena eman",
+		"error": {
+			"invalid_email": "E-posta gaizki formatuta dago",
+			"weak_password": "Pasahitza gutxienez 6 letrakoa izan behar du",
+			"email_in_use": "E-posta hau dagoeneko izen emanda dago"
+		}
+	},
 	"found_items": {
 		"title": "Aurkitutakoak",
 		"no_items": "Objeturik gabe",
 		"uncategorized": "Klasifikatu gabekoak"
-	}, "item_detail": {
+	}, 
+	"item_detail": {
 		"num_comments": "{{num}} iruzkin",
 		"comment": "Iruzkinak"
 	}

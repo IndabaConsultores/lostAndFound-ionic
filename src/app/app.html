@@ -12,6 +12,15 @@
 				<ion-icon item-left [name]="p.icon"></ion-icon>
 				<h2>{{p.title | translate}}</h2>
 			</button>
+			<button ion-item *ngIf="!!!isAuthenticated()" (click)="login()">
+				<ion-icon item-left name="person"></ion-icon>
+				<h2>{{'login.title' | translate}}</h2>
+			</button>
+			<button ion-item *ngIf="!!isAuthenticated()" (click)="logout()">
+				<ion-icon item-left name="exit"></ion-icon>
+				<h2>{{'menu.logout' | translate}}</h2>
+			</button>
+
 		</ion-list>
 	</ion-content>
 	<ion-footer>
