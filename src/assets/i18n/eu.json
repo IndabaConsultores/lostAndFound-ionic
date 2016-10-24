@@ -22,10 +22,15 @@
 			"email_in_use": "E-posta hau dagoeneko izen emanda dago"
 		}
 	},
-	"found_items": {
-		"title": "Aurkitutakoak",
-		"no_items": "Objeturik gabe",
-		"uncategorized": "Klasifikatu gabekoak"
+	"item_list": {
+		"office": {
+			"title": "Aurkitutakoak",
+			"uncategorized": "Klasifikatu gabekoak"
+		},
+		"alert": {
+			"title": "Alertak"
+		},
+		"no_items": "Objeturik gabe"
 	}, 
 	"item_detail": {
 		"num_comments": "{{num}} iruzkin",

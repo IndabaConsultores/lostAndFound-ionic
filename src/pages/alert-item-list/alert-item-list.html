@@ -1,0 +1,37 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<button ion-button start menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>
+			{{ 'item_list.alert.title' | translate }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingIcon="arrow-dropdown"
+			refreshingSpinner="circles">
+		</ion-refresher-content>
+	</ion-refresher>
+	<div>
+		<ion-item-divider color="dark" *ngIf="items.length < 1">
+			<h2>{{ 'item_list.no_items' | translate }}</h2>
+		</ion-item-divider>
+		<ion-list>
+			<button ion-item *ngFor="let item of items"
+				(click)="itemTapped($event, item)">
+				<ion-thumbnail item-left>
+					<div *ngIf="(covers[item.$key] | async)">
+						<img class="fit-thumbnail" [src]="(covers[item.$key] | async)?.image">
+					</div>
+				</ion-thumbnail>
+				<h2>{{ item.name }}</h2>
+				<p>{{ item.createDate | amTimeAgo }}</p>
+			</button>
+		</ion-list>
+	</div> <!-- list -->
+</ion-content>
+

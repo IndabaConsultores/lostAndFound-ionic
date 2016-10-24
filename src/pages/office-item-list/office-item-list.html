@@ -4,7 +4,7 @@
 			<ion-icon name="menu"></ion-icon>
 		</button>
 		<ion-title>
-			{{ 'found_items.title' | translate }}
+			{{ 'item_list.office.title' | translate }}
 		</ion-title>
 	</ion-navbar>
 </ion-header>
@@ -18,7 +18,7 @@
 	</ion-refresher>
 	<div *ngIf="categories">
 		<ion-item-divider color="dark" *ngIf="categories.length < 1">
-			<h2>{{ 'found_items.no_items' | translate }}</h2>
+			<h2>{{ 'item_list.no_items' | translate }}</h2>
 		</ion-item-divider>
 
 		<ion-item-group *ngFor="let category of categories">
@@ -26,7 +26,7 @@
 				<span class="category">{{ category.name }}</span>
 			</ion-item-divider>
 			<ion-item-divider color="dark" *ngIf="!category.name">
-				<span class="category">{{ 'found_items.uncategorized' | translate }}</span>
+				<span class="category">{{ 'item_list.office.uncategorized' | translate }}</span>
 			</ion-item-divider>
 			<ion-item *ngIf="items[category.$key].length < 1">
 				<ion-thumbnail item-left>

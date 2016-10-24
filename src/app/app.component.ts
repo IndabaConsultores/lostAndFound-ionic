@@ -9,6 +9,7 @@ import { OfficeService } from '../services/office.service';
 import { AuthService } from '../services/auth.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
+import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
 import { LoginPage } from '../pages/login/login';
 
 import moment from 'moment';
@@ -49,8 +50,13 @@ export class MyApp implements OnInit {
 		this.pages = [
 			{
 				icon: 'pricetags',
-				title: 'found_items.title',
+				title: 'item_list.office.title',
 				component: OfficeItemListPage
+			},
+			{
+				icon: 'alert',
+				title: 'item_list.alert.title',
+				component: AlertItemListPage
 			}
 		];
 		this.office = this.officeService.getObservableOffice();

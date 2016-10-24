@@ -36,14 +36,33 @@ export class ItemService {
 				reject(error);
 			}, () => {});
 		});
+
+		this._observableAlerts = af.database.list('/items/alert');
+		this._loadedAlerts = new Promise((resolve, reject) => {
+			this._observableAlerts.subscribe((items) => {
+				this._alertItems = items;
+				resolve(items);
+			}, (error) => {
+				console.log('error');
+				reject(error);
+			}, () => {});
+		});
 	}
 
 	hasLoadedOffice(): Promise<any> {
 		return this._loadedOffice;
 	}
 
+	hasLoadedAlert(): Promise<any> {
+		return this._loadedAlerts;
+	}
+
 	listOfficeItems(): Item[] {
 		return this._officeItems;
+	}
+
+	listAlertItems(): Item[] {
+		return this._alertItems;
 	}
 
 	listOfficeItemsByCat(catId: number): Item[] {

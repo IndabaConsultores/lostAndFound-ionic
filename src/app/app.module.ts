@@ -13,9 +13,12 @@ import { CategoryService } from '../services/category.service';
 import { ItemService } from '../services/item.service';
 import { ImageService } from '../services/image.service';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { OfficeItemDetailPage } from '../pages/office-item-detail/office-item-detail';
+import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
+import { AlertItemDetailPage } from '../pages/alert-item-detail/alert-item-detail';
 import { ImageDetailPage } from '../pages/image-detail/image-detail';
 import { LeafletMapComponent } from '../pages/leaflet-map/leaflet-map';
 import { LoginPage } from '../pages/login/login';
@@ -29,7 +32,9 @@ export function translateLoaderFactory(http: Http) {
   declarations: [
     MyApp,
     OfficeItemListPage,
+    AlertItemListPage,
 		OfficeItemDetailPage,
+		AlertItemDetailPage,
 		ImageDetailPage,
 		LeafletMapComponent,
 		LoginPage,
@@ -53,18 +58,21 @@ export function translateLoaderFactory(http: Http) {
   entryComponents: [
     MyApp,
     OfficeItemListPage,
+    AlertItemListPage,
 		OfficeItemDetailPage,
+		AlertItemDetailPage,
 		ImageDetailPage,
 		LoginPage,
 		SignUpPage
-  ],
+	],
   providers: [
 		Constants,
 		AuthService,
 		OfficeService,
 		CategoryService,
 		ItemService,
-		ImageService
+		ImageService,
+		UserService
 	]
 })
 export class AppModule {}
