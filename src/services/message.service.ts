@@ -20,5 +20,12 @@ export class MessageService {
 		return this.af.database.list('messages', query);
 	}
 
+	createMessage(message: Message): Promise<any> {
+		console.log('createMessage');
+		return new Promise((resolve, reject) => {
+			setTimeout(() => resolve(), 1000);
+		});
+	}
+
 }
 

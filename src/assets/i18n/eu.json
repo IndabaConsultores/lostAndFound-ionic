@@ -49,10 +49,17 @@
 		"login_text": "alerta berriak bidaltzeko."
 	},
 	"image_selector": {
-		"title": "Nondik aukeratu argazkia",
+		"title": "Argazki bat igo",
 		"camera": "Kamaratik",
 		"gallery": "Galeriatik",
 		"cancel": "Utzi"
+	},
+	"messages": {
+		"title": "Iruzkinak",
+		"no_comments": "Iruzkinik gabe",
+		"send_comment": "Iruzkin bat bidali...",
+		"login": "Saioa sartu",
+		"to_post": "Iruzkinak bidaltzeko"
 	}
 }
 

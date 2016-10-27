@@ -3,6 +3,9 @@
 		<ion-title>
 			{{ 'messages.title' | translate }}
 		</ion-title>
+		<ion-buttons right>
+			<image-selector [attributes]="['clear']" (onImageTaken)="addImage($event)"></image-selector>
+		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
@@ -16,7 +19,7 @@
 
 		<div [class]="chatBubbleClass(message)">
 			<img class="fit-thumbnail" *ngIf="!!message.picture"
-				[src]="message.picture" (click)="showPicture(message)" />
+				[src]="message.picture" (click)="showPicture($event, message.picture)" />
 			<div class="message" [innerHTML]="message.body">
 			</div>
 
@@ -31,18 +34,21 @@
 	</div>
 </ion-content>
 <ion-footer>
-	<ion-toolbar class="bar-footer">
-		<form (ngSubmit)="sendMessage()" *ngIf="authService.getCurrentUser()">
-			<img class="fit-thumbnail" [src]="message.picture" *ngIf="message.picture">
-			<ion-input>
-				<ion-textarea name="body" [(ngModel)]="message.body"
-					[placeholder]="'messages.send_comment' | translate"></ion-textarea>
-				<button ion-button icon-only clear type="submit"
-					[disabled]="!message.body || message.body === ''">
-					<ion-icon name="send"></ion-icon>
-				</button>
-			</ion-input>
-		</form>
+	<ion-toolbar class="bar-footer" *ngIf="authService.getCurrentUser()">
+		<ion-buttons left *ngIf="message.picture">
+			<img class="fit-thumbnail" [src]="message.picture">
+		</ion-buttons>
+		<ion-textarea name="body" [(ngModel)]="message.body" [disabled]="textAreaDisabled"
+			[placeholder]="'messages.send_comment' | translate"></ion-textarea>
+		<ion-buttons right>
+			<button ion-button clear type="button"
+				[disabled]="!message.body || message.body === ''"
+				(click)="sendMessage()">
+				<ion-icon name="send"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+	<ion-toolbar *ngIf="!authService.getCurrentUser()">
 		<div *ngIf="!authService.getCurrentUser()">
 			<a (click)="goToLogin()">{{'messages.login' | translate}}</a>
 			<span>&nbsp;{{'messages.to_post' | translate}}</span>

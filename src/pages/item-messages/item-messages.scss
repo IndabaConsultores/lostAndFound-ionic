@@ -13,7 +13,6 @@ item-messages {
 		position: relative;
 		margin: 10px;
 		max-width: 80%;
-
 		&:before {
 			content: "\00a0";
 			display: block;
@@ -22,25 +21,21 @@ item-messages {
 			position: absolute;
 			bottom: -7.5px;
 		}
-
 		&.left {
 			background-color: #e6e5eb;
 			float: left;
 			margin-left: 55px;
-
 			&:before {
 				background-color: #e6e5eb;
 				left: 10px;
 				-webkit-transform: rotate(70deg) skew(5deg);
 			}
 		}
-
 		&.right {
 			background-color: #158ffe;
 			color: #fff;
 			float: right;
 			margin-right: 55px;
-
 			&:before {
 				background-color: #158ffe;
 				right: 10px;
@@ -48,18 +43,15 @@ item-messages {
 			}
 		}
 	}
-
 	img.profile-pic {
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
 		position: absolute;
 		bottom: 10px;
-
 		&.left {
 			left: 10px;
 		}
-
 		&.right {
 			right: 10px;
 		}
@@ -76,6 +68,9 @@ item-messages {
 
 	.fit-thumbnail {
 		object-fit: contain;
+		max-height: 75px;
+		max-width: 75px;
+		margin: auto;
 	}
 
 	.no-comments {
@@ -92,17 +87,14 @@ item-messages {
 		overflow: visible;
 
 		ion-textarea {
-			height: 25px;
+			height: 100%;
+			display: inline;
 		}
 
 		textarea {
+			background-color: #f4f4f4;
 			resize: none;
 		}
-	}
-
-	.footer-btn {
-		position: absolute;
-		bottom: 0;
 	}
 
 	.footer-btn-wrap {
@@ -110,6 +102,16 @@ item-messages {
 		height: 100%;
 		width: 50px;
 		top: 7px;
+	}
+
+	image-selector {
+		button {
+			color: #fff !important;
+		}
+	}
+
+	ion-icon {
+		font-size: 2.4rem;
 	}
 }
 

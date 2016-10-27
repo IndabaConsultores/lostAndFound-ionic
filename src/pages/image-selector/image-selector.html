@@ -1,4 +1,7 @@
-<button type="button" ion-button outline (click)="showActionSheet()">
+<button type="button" ion-button
+	[outline]="attributes.indexOf('outline') > -1"
+	[clear]="attributes.indexOf('clear') > -1"
+	(click)="showActionSheet()">
 	<ion-icon name="camera"></ion-icon>
 </button>
 

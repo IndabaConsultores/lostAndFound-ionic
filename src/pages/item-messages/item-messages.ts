@@ -1,13 +1,18 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Content, NavController, NavParams } from 'ionic-angular';
 
 import { Item } from '../../models/item';
 import { Message } from '../../models/message';
+import { Image } from '../../models/image';
 
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
+
+import { LoginPage } from '../login/login';
+import { ImageDetailPage } from '../image-detail/image-detail';
 
 @Component({
 	selector: 'item-messages',
@@ -20,6 +25,7 @@ export class ItemMessagesPage implements AfterViewInit {
 	users: Object;
 
 	message: Message;
+	textAreaDisabled: boolean = false;
 
 	constructor(
 		public navCtrl: NavController,
@@ -31,7 +37,6 @@ export class ItemMessagesPage implements AfterViewInit {
 		this.messages = [];
 		this.users = {};
 		this.message = new Message();
-		console.log(this.message);
 	}
 
 	ngAfterViewInit(): void {
@@ -70,7 +75,32 @@ export class ItemMessagesPage implements AfterViewInit {
 	}
 
 	sendMessage(): void {
-		console.log('Send message: ', this.message);
+		this.message.user = this.authService.getCurrentUser().uid;
+		this.message.item = this.navParams.get('item').$key;
+		this.textAreaDisabled = true;
+		// Simula la insercion del mensaje
+		setTimeout(() => this.messages.push(this.message), 800);
+		this.msgService.createMessage(this.message).then(() => {
+			this.message = new Message();
+			this.textAreaDisabled = false;
+		});
+	}
+
+	goToLogin(): void {
+		this.navCtrl.push(LoginPage);
+	}
+
+	addImage(event: any): void {
+		this.message.picture = event.imageURI;
+	}
+
+	showPicture(event: any, imageURI: string): void {
+		let image = new Image();
+		image.image = imageURI;
+		let observable = Observable.of(image);
+		this.navCtrl.push(ImageDetailPage, {
+			image: observable
+		});
 	}
 
 }

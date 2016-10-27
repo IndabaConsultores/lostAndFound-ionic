@@ -32,7 +32,11 @@ export class LoginPage {
 		this.authService.login(this.user)
 		.then(() => {
 			delete this.error;
-			this.navCtrl.setRoot(this.rootPage);
+			if (this.navCtrl.canGoBack()) {
+				this.navCtrl.pop();
+			} else {
+				this.navCtrl.setRoot(this.rootPage);
+			}
 		}).catch((error) => {
 			this.error = true;
 			console.log(error);

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 
 import { ActionSheetController } from 'ionic-angular';
@@ -12,6 +12,9 @@ declare var document: any;
 	templateUrl: 'image-selector.html'
 })
 export class ImageSelectorComponent {
+
+	@Input()
+	attributes: string[] = ['outline'];
 
 	@Output()
 	onImageTaken: EventEmitter<any> = new EventEmitter<any>();
