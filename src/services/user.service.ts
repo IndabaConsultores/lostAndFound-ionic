@@ -36,5 +36,17 @@ export class UserService {
 		});
 	}
 
+	updateUser(user: User): Promise<any> {
+		let u: FirebaseObjectObservable<User> = this._observableUsers[user.$key];
+		if (!u) {
+			u  = this.af.database.object('/users/'+user.$key)
+		}
+		// return u.update(user);
+		// Mock update for now
+		return new Promise((resolve, reject) => {
+			setTimeout(() => resolve(), 1000);
+		});
+	}
+
 }
 

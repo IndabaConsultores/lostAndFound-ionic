@@ -6,5 +6,10 @@ export class User {
 	username: string;
 	email: string;
 	password: string;
+
+	constructor() {
+		this.alerts = true;
+		this.language = 'eu';
+	}
 }
 

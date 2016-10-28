@@ -5,6 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { SignUpPage } from '../signup/signup';
 
 import { AuthService } from '../../services/auth.service';
+import { SettingsService } from '../../services/settings.service';
 
 import { User } from '../../models/user';
 
@@ -22,7 +23,8 @@ export class LoginPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		public authService: AuthService
+		public authService: AuthService,
+		public settingsService: SettingsService
 	) {
 		this.rootPage = navParams.get('redirect');
 		this.user = new User();
@@ -31,6 +33,7 @@ export class LoginPage {
 	doLogin(): void {
 		this.authService.login(this.user)
 		.then(() => {
+			this.settingsService.applySettings();
 			delete this.error;
 			if (this.navCtrl.canGoBack()) {
 				this.navCtrl.pop();

@@ -1,0 +1,51 @@
+settings {
+
+	.avatar {
+		text-align: center;
+		width: 100%;
+		img {
+			padding: 0.5rem;
+			object-fit: cover;
+			width: 10rem;
+			height: 10rem;
+			border-radius: 5rem;
+		}
+	}
+
+	image-selector button{
+		padding: 0 0.8rem !important;
+		font-size: 2.5rem !important;
+	}
+
+	ion-select {
+		position: absolute;
+		right: 0;
+	}
+
+	.text-input {
+		text-align: end;
+	}
+
+	.submit button {
+		height: 5rem !important;
+		margin-top: 2rem !important;
+		font-size: 1.5rem !important;
+	}
+
+	// Override default input box style
+	.item-inner {
+		border-bottom-color: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.input {
+		&:nth-of-type(even) {
+			background-color: #f7f7f7;
+		}
+		ion-label {
+			flex: 0 0 125px !important;
+		}
+	}
+
+}
+

@@ -1,0 +1,46 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<button ion-button start menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>{{ 'settings.title' | translate }}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list padding no-lines>
+		<form (ngSubmit)="saveSettings()">
+			<ion-item *ngIf="authService.getCurrentUser()" class="input">
+				<ion-label fixed>{{ 'settings.avatar' | translate }}</ion-label>
+				<div item-content class="avatar">
+					<img [src]="user.avatar" *ngIf="user.avatar">
+					<img src="assets/img/default-user.png" *ngIf="!user.avatar">
+				</div>
+				<image-selector item-right [attributes]="['clear']"></image-selector>
+			</ion-item>
+			<ion-item *ngIf="authService.getCurrentUser()" class="input">
+				<ion-label fixed>{{ 'settings.username' | translate }}</ion-label>
+				<ion-input type="text" name="username" [(ngModel)]="user.username" required></ion-input>
+			</ion-item>
+			<ion-item class="input">
+				<ion-label fixed>{{ 'settings.alerts' | translate }}</ion-label>
+				<ion-toggle [(ngModel)]="user.alerts" name="alerts"></ion-toggle>
+			</ion-item>
+			<ion-item class="input">
+				<ion-label fixed>{{ 'settings.language' | translate }}</ion-label>
+				<ion-select [(ngModel)]="user.language" [okText]="'settings.ok' | translate"
+					[cancelText]="'settings.cancel' | translate" name="language">
+					<ion-option *ngFor="let language of languages" [value]="language">
+						{{'settings.languages.'+language | translate}}
+					</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item class="submit">
+				<button ion-button full>
+					{{ 'settings.save' | translate }}
+				</button>
+			</ion-item>
+		</form>
+	</ion-list>
+</ion-content>
+

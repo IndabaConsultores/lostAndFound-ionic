@@ -7,14 +7,13 @@ import { TranslateService } from 'ng2-translate';
 import { Office } from '../models/office';
 import { OfficeService } from '../services/office.service';
 import { AuthService } from '../services/auth.service';
+import { SettingsService } from '../services/settings.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
 import { PreLaunchAlertPage } from '../pages/pre-launch-alert/pre-launch-alert';
 import { LoginPage } from '../pages/login/login';
-
-import moment from 'moment';
-import 'moment/src/locale/eu';
+import { SettingsPage } from '../pages/settings/settings';
 
 declare var navigator: any;
 
@@ -36,14 +35,15 @@ export class MyApp implements OnInit {
 		public translate: TranslateService,
 		public menu: MenuController,
 		public officeService: OfficeService,
-		public authService: AuthService
+		public authService: AuthService,
+		public settingsService: SettingsService
 	) {
 		platform.ready().then(() => {
 			this.innerHeight = window.innerHeight;
 			StatusBar.styleDefault();
 			translate.setDefaultLang('eu');
-			translate.use('eu');
-			moment.locale('eu');
+			this.settingsService.applySettings();
+
 			if (navigator.splashscreen) navigator.splashscreen.hide();
 		});
 	}
@@ -64,6 +64,11 @@ export class MyApp implements OnInit {
 				icon: 'megaphone',
 				title: 'launch_alert.title',
 				component: PreLaunchAlertPage
+			},
+			{
+				icon: 'settings',
+				title: 'settings.title',
+				component: SettingsPage
 			}
 		];
 		this.office = this.officeService.getObservableOffice();

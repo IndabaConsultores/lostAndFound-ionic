@@ -31,7 +31,7 @@
 			"title": "Alertak"
 		},
 		"no_items": "Objeturik gabe"
-	}, 
+	},
 	"item_detail": {
 		"num_comments": "{{num}} iruzkin",
 		"comment": "Iruzkinak"
@@ -60,6 +60,21 @@
 		"send_comment": "Iruzkin bat bidali...",
 		"login": "Saioa sartu",
 		"to_post": "Iruzkinak bidaltzeko"
+	},
+	"settings":{
+		"title": "Ezarpenak",
+		"avatar": "Argazkia",
+		"username": "Erabiltzaile-izena",
+		"alerts": "Alertak",
+		"language": "Hizkuntza",
+		"ok": "Aukeratu",
+		"cancel": "Utzi",
+		"languages": {
+			"es": "Gaztelera",
+			"en": "Ingelera",
+			"eu": "Euskera"
+		},
+		"save": "Gorde"
 	}
 }
 

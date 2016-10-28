@@ -16,6 +16,7 @@ import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { LocationService } from '../services/location.service';
 import { MessageService } from '../services/message.service';
+import { SettingsService } from '../services/settings.service';
 
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { OfficeItemDetailPage } from '../pages/office-item-detail/office-item-detail';
@@ -29,6 +30,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/signup/signup';
 import { ImageSelectorComponent } from '../pages/image-selector/image-selector';
 import { ItemMessagesPage } from '../pages/item-messages/item-messages';
+import { SettingsPage } from '../pages/settings/settings';
 
 export function translateLoaderFactory(http: Http) {
 	return new TranslateStaticLoader(http, 'assets/i18n', '.json');
@@ -48,7 +50,8 @@ export function translateLoaderFactory(http: Http) {
 		LoginPage,
 		SignUpPage,
 		ImageSelectorComponent,
-		ItemMessagesPage
+		ItemMessagesPage,
+		SettingsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -76,7 +79,8 @@ export function translateLoaderFactory(http: Http) {
 		ImageDetailPage,
 		LoginPage,
 		SignUpPage,
-		ItemMessagesPage
+		ItemMessagesPage,
+		SettingsPage
 	],
   providers: [
 		Constants,
@@ -87,7 +91,8 @@ export function translateLoaderFactory(http: Http) {
 		ImageService,
 		UserService,
 		LocationService,
-		MessageService
+		MessageService,
+		SettingsService
 	]
 })
 export class AppModule {}
