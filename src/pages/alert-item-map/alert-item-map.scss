@@ -1,0 +1,13 @@
+alert-item-map {
+	leaflet-map {
+		.map-container {
+			border: none;
+			height: 100%;
+		}
+		.map {
+			height: 100% !important;
+			width: auto !important;
+		}
+	}
+}
+

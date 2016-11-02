@@ -4,7 +4,7 @@
 			{{ 'messages.title' | translate }}
 		</ion-title>
 		<ion-buttons right>
-			<image-selector [attributes]="['clear']" (onImageTaken)="addImage($event)"></image-selector>
+			<image-selector [attributes]="['clear']" (imageSelected)="addImage($event)"></image-selector>
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>

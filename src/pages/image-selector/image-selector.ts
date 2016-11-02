@@ -17,7 +17,7 @@ export class ImageSelectorComponent {
 	attributes: string[] = ['outline'];
 
 	@Output()
-	onImageTaken: EventEmitter<any> = new EventEmitter<any>();
+	imageSelected: EventEmitter<string> = new EventEmitter<string>();
 
 	private actionSheet: any;
 
@@ -33,19 +33,17 @@ export class ImageSelectorComponent {
 		});
 		this.translate.get('image_selector.camera').subscribe((text) => {
 			this.actionSheet.addButton({
-					text: text,
-					handler: () => {
-						Camera.getPicture({
-							destinationType: 0, //DATA_URL - base64-encoded string
-							sourceType: 1,      //CAMERA
-							targetWidth: 360,
-							targetHeight: 360
-						}).then((imageURI) => {
-							this.onImageTaken.emit({
-								imageURI: 'data:image/jpeg;base64,' + imageURI
-							});
-						}).catch((error) => console.log(error));
-					}
+				text: text,
+				handler: () => {
+					Camera.getPicture({
+						destinationType: 0, //DATA_URL - base64-encoded string
+						sourceType: 1,      //CAMERA
+						targetWidth: 360,
+						targetHeight: 360
+					}).then((imageURI) => {
+						this.imageSelected.emit('data:image/jpeg;base64,' + imageURI);
+					}).catch((error) => console.log(error));
+				}
 			});
 		});
 		this.translate.get('image_selector.gallery').subscribe((text) => {
@@ -58,9 +56,7 @@ export class ImageSelectorComponent {
 							targetWidth: 360,
 							targetHeight: 360
 						}).then((imageURI) => {
-							this.onImageTaken.emit({
-								imageURI: 'data:image/jpeg;base64,' + imageURI
-							});
+							this.imageSelected.emit('data:image/jpeg;base64,' + imageURI);
 						}).catch((error) => console.log(error));
 					}
 				}
@@ -75,23 +71,27 @@ export class ImageSelectorComponent {
 		this.actionSheet.present();
 	}
 
-	resizeImage(imageURI: string): string {
-		let img = new Image();
-		img.src = 'data:image/jpeg;base64,' + imageURI;
-		let canvas = document.createElement('canvas');
-		if (img.naturalWidth > img.naturalHeight) {
-			canvas.width = 320;
-			canvas.height = 320 * img.naturalHeight/img.naturalWidth;
-		} else {
-			canvas.width = 320 * img.naturalWidth/img.naturalHeight;
-			canvas.height = 320;
-		}
-		let ctx = canvas.getContext('2d');
-		let scaleFactor = canvas.width/img.naturalWidth;
-		ctx.scale(scaleFactor, scaleFactor);
-		ctx.drawImage(img, 0, 0);
-		return canvas.toDataURL('image/jpeg', 0.8);
-	}
+	/** Apparently unnecesary, since cordova-plugin already
+	 * implements it
+	 *
+	 *  resizeImage(imageURI: string): string {
+	 *  	let img = new Image();
+	 *  	img.src = 'data:image/jpeg;base64,' + imageURI;
+	 *  	let canvas = document.createElement('canvas');
+	 *  	if (img.naturalWidth > img.naturalHeight) {
+	 *  		canvas.width = 320;
+	 *  		canvas.height = 320 * img.naturalHeight/img.naturalWidth;
+	 *  	} else {
+	 *  		canvas.width = 320 * img.naturalWidth/img.naturalHeight;
+	 *  		canvas.height = 320;
+	 *  	}
+	 *  	let ctx = canvas.getContext('2d');
+	 *  	let scaleFactor = canvas.width/img.naturalWidth;
+	 *  	ctx.scale(scaleFactor, scaleFactor);
+	 *  	ctx.drawImage(img, 0, 0);
+	 *  	return canvas.toDataURL('image/jpeg', 0.8);
+	 *  }
+	 **/
 
 }
 

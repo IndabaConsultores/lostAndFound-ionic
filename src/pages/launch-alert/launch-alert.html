@@ -25,10 +25,12 @@
 				<div item-content class="image-preview" *ngIf="image">
 					<img [src]="image">
 				</div>
-				<image-selector item-right (onImageTaken)="setImage($event)"></image-selector>
+				<image-selector item-right (imageSelected)="setImage($event)"></image-selector>
 			</ion-item>
 			<ion-item *ngIf="currentLocation">
-				<leaflet-map [(location)]="currentLocation" enableTap="true"></leaflet-map>
+				<leaflet-map [center]="currentLocation" (mapTapped)="mapTapped($event)">
+					<leaflet-marker [location]="item.location"></leaflet-marker>
+				</leaflet-map>
 			</ion-item>
 		</ion-list>
 		<div padding *ngIf="!loggedIn()">

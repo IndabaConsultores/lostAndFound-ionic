@@ -1,0 +1,18 @@
+<ion-header>
+	<ion-navbar color="dark">
+		<ion-title>{{ 'alert_item_map.title' | translate }}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<leaflet-map
+		[center]="currentLocation"
+		[width]="viewport.width"
+		[height]="viewport.height">
+		<leaflet-marker *ngFor="let item of items"
+			[location]="item.location"
+			[color]="item.type==='lost'?'red':'green'">
+		</leaflet-marker>
+	</leaflet-map>
+</ion-content>
+

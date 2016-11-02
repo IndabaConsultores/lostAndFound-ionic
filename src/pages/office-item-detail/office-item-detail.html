@@ -26,7 +26,9 @@
 				</ion-slides>
 
 				<ion-item padding>
-					<leaflet-map [location]="(office | async)?.location"></leaflet-map>
+					<leaflet-map [center]="(office | async)?.location">
+						<leaflet-marker [location]="(office | async)?.location"></leaflet-marker>
+					</leaflet-map>
 				</ion-item>
 
 				<ion-item>

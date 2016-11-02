@@ -36,16 +36,21 @@ export class LaunchAlertPage {
 		let observable = locationService.getCurrentLocation();
 		let subscription = observable.subscribe((location) => {
 			this.currentLocation = location;
+			this.item.location = location;
 			subscription.unsubscribe();
 		});
 	}
 
 	ionViewCanEnter(): boolean {
-			return this.loggedIn();
+		return this.loggedIn();
 	}
 
-	setImage(event: any): void {
-		this.image = event.imageURI;
+	setImage(imageURI: any): void {
+		this.image = imageURI;
+	}
+
+	mapTapped(location: any): void {
+		this.item.location = location;
 	}
 
 	loggedIn(): boolean {

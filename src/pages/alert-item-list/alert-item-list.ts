@@ -11,6 +11,7 @@ import { Item } from '../../models/item';
 import { Image } from '../../models/image';
 
 import { AlertItemDetailPage } from '../alert-item-detail/alert-item-detail';
+import { AlertItemMapPage } from '../alert-item-map/alert-item-map';
 
 @Component({
 	selector: 'alert-item-list',
@@ -67,6 +68,10 @@ export class AlertItemListPage {
 		this.navCtrl.push(AlertItemDetailPage, {
 			item: item
 		});
+	}
+
+	openMap(): void {
+		this.navCtrl.push(AlertItemMapPage);
 	}
 
 }

@@ -90,8 +90,8 @@ export class ItemMessagesPage implements AfterViewInit {
 		this.navCtrl.push(LoginPage);
 	}
 
-	addImage(event: any): void {
-		this.message.picture = event.imageURI;
+	addImage(imageURI: any): void {
+		this.message.picture = imageURI;
 	}
 
 	showPicture(event: any, imageURI: string): void {

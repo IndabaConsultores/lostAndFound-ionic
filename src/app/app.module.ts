@@ -25,36 +25,39 @@ import { AlertItemDetailPage } from '../pages/alert-item-detail/alert-item-detai
 import { LaunchAlertPage } from '../pages/launch-alert/launch-alert';
 import { PreLaunchAlertPage } from '../pages/pre-launch-alert/pre-launch-alert';
 import { ImageDetailPage } from '../pages/image-detail/image-detail';
-import { LeafletMapComponent } from '../pages/leaflet-map/leaflet-map';
+import { LeafletMapComponent, LeafletMarker } from '../pages/leaflet-map/leaflet-map';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/signup/signup';
 import { ImageSelectorComponent } from '../pages/image-selector/image-selector';
 import { ItemMessagesPage } from '../pages/item-messages/item-messages';
 import { SettingsPage } from '../pages/settings/settings';
+import { AlertItemMapPage } from '../pages/alert-item-map/alert-item-map';
 
 export function translateLoaderFactory(http: Http) {
 	return new TranslateStaticLoader(http, 'assets/i18n', '.json');
 }
 
 @NgModule({
-  declarations: [
-    MyApp,
-    OfficeItemListPage,
-    AlertItemListPage,
+	declarations: [
+		MyApp,
+		OfficeItemListPage,
+		AlertItemListPage,
 		PreLaunchAlertPage,
 		LaunchAlertPage,
 		OfficeItemDetailPage,
 		AlertItemDetailPage,
 		ImageDetailPage,
 		LeafletMapComponent,
+		LeafletMarker,
 		LoginPage,
 		SignUpPage,
 		ImageSelectorComponent,
 		ItemMessagesPage,
-		SettingsPage
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp),
+		SettingsPage,
+		AlertItemMapPage
+	],
+	imports: [
+		IonicModule.forRoot(MyApp),
 		MomentModule,
 		HttpModule,
 		TranslateModule.forRoot({
@@ -66,12 +69,12 @@ export function translateLoaderFactory(http: Http) {
 			provider: AuthProviders.Password,
 			method: AuthMethods.Password
 		})
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    OfficeItemListPage,
-    AlertItemListPage,
+	],
+	bootstrap: [IonicApp],
+	entryComponents: [
+		MyApp,
+		OfficeItemListPage,
+		AlertItemListPage,
 		OfficeItemDetailPage,
 		AlertItemDetailPage,
 		PreLaunchAlertPage,
@@ -80,9 +83,10 @@ export function translateLoaderFactory(http: Http) {
 		LoginPage,
 		SignUpPage,
 		ItemMessagesPage,
-		SettingsPage
+		SettingsPage,
+		AlertItemMapPage
 	],
-  providers: [
+	providers: [
 		Constants,
 		AuthService,
 		OfficeService,

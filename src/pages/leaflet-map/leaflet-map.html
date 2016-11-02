@@ -1,5 +1,7 @@
 <div class="map-container">
-	<div id="leaflet-map" class="map">
+	<div id="leaflet-map" class="map"
+		[style.height]="height ? height + 'px' : 'auto'"
+		[style.width]="width ? width+'px' : 'auto'">
 	</div>
 </div>
 
