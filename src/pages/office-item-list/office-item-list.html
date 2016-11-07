@@ -6,7 +6,16 @@
 		<ion-title>
 			{{ 'item_list.office.title' | translate }}
 		</ion-title>
+		<ion-buttons right>
+			<button ion-button clear (click)="searchbar.show()">
+				<ion-icon name="search"></ion-icon>
+			</button>
+		</ion-buttons>
 	</ion-navbar>
+	<ion-searchbar-wrapper #searchbar
+		color="dark"
+		(ionInput)="filterItems($event)">
+	</ion-searchbar-wrapper>
 </ion-header>
 
 <ion-content>

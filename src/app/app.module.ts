@@ -18,6 +18,9 @@ import { LocationService } from '../services/location.service';
 import { MessageService } from '../services/message.service';
 import { SettingsService } from '../services/settings.service';
 
+import { LeafletMapComponent, LeafletMarker } from '../components/leaflet-map/leaflet-map';
+import { ImageSelectorComponent } from '../components/image-selector/image-selector';
+import { IonSearchbarWrapperComponent } from '../components/ion-searchbar-wrapper/ion-searchbar-wrapper';
 import { OfficeItemListPage } from '../pages/office-item-list/office-item-list';
 import { OfficeItemDetailPage } from '../pages/office-item-detail/office-item-detail';
 import { AlertItemListPage } from '../pages/alert-item-list/alert-item-list';
@@ -25,10 +28,8 @@ import { AlertItemDetailPage } from '../pages/alert-item-detail/alert-item-detai
 import { LaunchAlertPage } from '../pages/launch-alert/launch-alert';
 import { PreLaunchAlertPage } from '../pages/pre-launch-alert/pre-launch-alert';
 import { ImageDetailPage } from '../pages/image-detail/image-detail';
-import { LeafletMapComponent, LeafletMarker } from '../pages/leaflet-map/leaflet-map';
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/signup/signup';
-import { ImageSelectorComponent } from '../pages/image-selector/image-selector';
 import { ItemMessagesPage } from '../pages/item-messages/item-messages';
 import { SettingsPage } from '../pages/settings/settings';
 import { AlertItemMapPage } from '../pages/alert-item-map/alert-item-map';
@@ -47,14 +48,15 @@ export function translateLoaderFactory(http: Http) {
 		OfficeItemDetailPage,
 		AlertItemDetailPage,
 		ImageDetailPage,
-		LeafletMapComponent,
 		LeafletMarker,
 		LoginPage,
 		SignUpPage,
-		ImageSelectorComponent,
 		ItemMessagesPage,
 		SettingsPage,
-		AlertItemMapPage
+		AlertItemMapPage,
+		LeafletMapComponent,
+		ImageSelectorComponent,
+		IonSearchbarWrapperComponent
 	],
 	imports: [
 		IonicModule.forRoot(MyApp),

@@ -8,7 +8,7 @@ import { Image } from '../models/image';
 
 @Injectable()
 export class ItemService {
-	
+
 	private _officeId: number;
 
 	private _observableOffices: FirebaseListObservable<Item[]>;

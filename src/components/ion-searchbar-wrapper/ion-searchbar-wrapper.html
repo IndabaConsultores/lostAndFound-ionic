@@ -1,0 +1,20 @@
+<div *ngIf="!!isShowing" class="searchbar" [@flyInOut]="barState" (@flyInOut.done)="searchbar.setFocus()">
+	<ion-toolbar [color]="color">
+		<ion-title>
+			<ion-searchbar #searchbar
+				showCancelButton="true"
+				animated="true"
+				(ionCancel)="isShowing=false"
+				(ionInput)="redirecInput($event)"
+				[cancelButtonText]="'searchbar.cancel' | translate"
+				[placeholder]="'searchbar.search' | translate">
+			</ion-searchbar>
+		</ion-title>
+		<ion-buttons left *ngIf="!!!isIOS">
+			<button ion-button clear (click)="isShowing=false">
+				<ion-icon name="arrow-back"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+</div>
+

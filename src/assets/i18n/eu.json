@@ -61,7 +61,7 @@
 		"login": "Saioa sartu",
 		"to_post": "Iruzkinak bidaltzeko"
 	},
-	"settings":{
+	"settings": {
 		"title": "Ezarpenak",
 		"avatar": "Argazkia",
 		"username": "Erabiltzaile-izena",
@@ -75,6 +75,10 @@
 			"eu": "Euskera"
 		},
 		"save": "Gorde"
+	},
+	"searchbar": {
+		"search": "Bilatu",
+		"cancel": "Utzi"
 	}
 }
 

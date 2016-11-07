@@ -24,6 +24,9 @@ export class OfficeItemListPage {
 	items: Object;
 	covers: Object;
 
+	_categoriesBackup: Category[];
+	_itemsBackup: Object;
+
 	constructor(
 		public navCtrl: NavController,
 		public loadingCtrl: LoadingController,
@@ -50,11 +53,16 @@ export class OfficeItemListPage {
 				itemCount = 0,
 				itemsLength = 0;
 		this.categories = this.catService.listCategories();
+		this._categoriesBackup = [];
+		this._itemsBackup = {};
 		this.categories.forEach((category) => {
+			this._categoriesBackup.push(category);
 			let catId = category.$key;
 			this.items[catId] = this.itemService.listOfficeItemsByCat(catId);
 			itemsLength += this.items[catId].length;
+			this._itemsBackup[catId] = [];
 			this.items[catId].forEach((item) => {
+				this._itemsBackup[catId].push(item);
 				let image: Observable<Image>;
 				if (item.images) {
 					let imageId = Object.keys(item.images)[0];
@@ -83,6 +91,41 @@ export class OfficeItemListPage {
 		this.navCtrl.push(OfficeItemDetailPage, {
 			item: item
 		});
+	}
+
+	filterItems(event: any): void {
+		let query: string = event.target.value;
+		if (query && query !== '') {
+			query = query.toLowerCase();
+			this.categories = [];
+			this.items = {};
+			for (let i=0; i<this._categoriesBackup.length; i++) {
+				let category: Category = this._categoriesBackup[i];
+				if (category.name && category.name.toLowerCase().includes(query)) {
+					this.categories.push(category);
+					this.items[category.$key] = this._itemsBackup[category.$key];
+				} else {
+					let containsItems: boolean = false;
+					let itemArray: Item[] = this._itemsBackup[category.$key];
+					if (itemArray) {
+						for (let j=0; j<itemArray.length; j++) {
+							let item: Item = itemArray[j];
+							if (item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
+								this.items[category.$key] = [];
+								this.items[category.$key].push(item);
+								containsItems = true;
+							}
+						}
+						if (containsItems) {
+							this.categories.push(category);
+						}
+					}
+				}
+			}
+		} else {
+			this.categories = this._categoriesBackup;
+			this.items = this._itemsBackup;
+		}
 	}
 
 }

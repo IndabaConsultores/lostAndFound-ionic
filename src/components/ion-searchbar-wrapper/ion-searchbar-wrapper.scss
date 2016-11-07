@@ -1,0 +1,40 @@
+ion-searchbar-wrapper {
+	ion-icon {
+		font-size: 2.4rem;
+	}
+	ion-buttons {
+		min-width: 44px;
+		margin: 0px;
+
+		button {
+			width: 100%;
+		}
+
+		&[left] button {
+			margin: 0px 6px !important;
+		}
+	}
+
+	.searchbar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+
+	/** Fix ios appearance **/
+	.toolbar-ios ion-title {
+		position: relative;
+		padding: 0px 12px 1px;
+	}
+
+	.searchbar-ios {
+		min-height: 0;
+	}
+
+	.searchbar-ios-cancel {
+		margin: 0;
+	}
+
+}
+
