@@ -19,6 +19,7 @@ import { AlertItemMapPage } from '../alert-item-map/alert-item-map';
 })
 export class AlertItemListPage {
 
+	_itemsBackup: Item[];
 	items: Item[];
 	covers: Object;
 
@@ -45,6 +46,7 @@ export class AlertItemListPage {
 		let itemCount = 0,
 				itemsLength = 0;
 		this.items = this.itemService.listAlertItems();
+		this._itemsBackup = this.itemService.listAlertItems();
 		itemsLength = this.items.length;
 		this.items.forEach((item) => {
 			let image: Observable<Image>;
@@ -72,6 +74,24 @@ export class AlertItemListPage {
 
 	openMap(): void {
 		this.navCtrl.push(AlertItemMapPage);
+	}
+
+	filterItems(event: any): void {
+		let query: string = event.target.value;
+		if (query && query !== '') {
+			query = query.toLowerCase();
+			this.items = [];
+			for (let i=0; i<this._itemsBackup.length; i++) {
+				let item: Item = this._itemsBackup[i];
+				if ( (item.name && item.name.toLowerCase().includes(query))
+						|| (item.description && item.description.toLowerCase().includes(query))
+						|| (item.type && item.type.toLowerCase() == query)) {
+					this.items.push(item);
+				}
+			}
+		} else {
+			this.items = this._itemsBackup;
+		}
 	}
 
 }

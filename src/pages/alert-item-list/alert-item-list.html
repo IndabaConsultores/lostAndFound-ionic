@@ -7,11 +7,18 @@
 			{{ 'item_list.alert.title' | translate }}
 		</ion-title>
 		<ion-buttons right>
+			<button ion-button clear (click)="searchbar.show()">
+				<ion-icon name="search"></ion-icon>
+			</button>
 			<button ion-button clear (click)="openMap()">
 				<ion-icon name="map"></ion-icon>
 			</button>
 		</ion-buttons>
 	</ion-navbar>
+	<ion-searchbar-wrapper #searchbar
+		color="dark"
+		(ionInput)="filterItems($event)">
+	</ion-searchbar-wrapper>
 </ion-header>
 
 <ion-content>
