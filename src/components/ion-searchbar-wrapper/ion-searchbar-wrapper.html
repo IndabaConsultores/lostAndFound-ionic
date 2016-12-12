@@ -4,14 +4,14 @@
 			<ion-searchbar #searchbar
 				showCancelButton="true"
 				animated="true"
-				(ionCancel)="isShowing=false"
+				(ionCancel)="hide()"
 				(ionInput)="redirecInput($event)"
 				[cancelButtonText]="'searchbar.cancel' | translate"
 				[placeholder]="'searchbar.search' | translate">
 			</ion-searchbar>
 		</ion-title>
 		<ion-buttons left *ngIf="!!!isIOS">
-			<button ion-button clear (click)="isShowing=false">
+			<button ion-button clear (click)="hide()">
 				<ion-icon name="arrow-back"></ion-icon>
 			</button>
 		</ion-buttons>

@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, trigger, state, style, transition, animate } from '@angular/core';
 
-import { Platform } from 'ionic-angular';
+import { Platform, Searchbar } from 'ionic-angular';
 
 @Component({
 	selector: 'ion-searchbar-wrapper',
@@ -19,6 +19,10 @@ import { Platform } from 'ionic-angular';
 	]
 })
 export class IonSearchbarWrapperComponent {
+
+	@ViewChild(Searchbar)
+	searchbar: Searchbar;
+
 	@Input()
 	color: string;
 
@@ -35,6 +39,16 @@ export class IonSearchbarWrapperComponent {
 
 	show(): void {
 		this.isShowing = true;
+	}
+
+	hide(): void {
+		let fakeEvent: any = {
+			target: {
+				value: ''
+			}
+		};
+		this.ionInput.emit(fakeEvent);
+		this.isShowing = false;
 	}
 
 	redirecInput(event: any): void {
