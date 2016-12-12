@@ -108,10 +108,10 @@ export class OfficeItemListPage {
 					let containsItems: boolean = false;
 					let itemArray: Item[] = this._itemsBackup[category.$key];
 					if (itemArray) {
+						this.items[category.$key] = [];
 						for (let j=0; j<itemArray.length; j++) {
 							let item: Item = itemArray[j];
 							if (item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)) {
-								this.items[category.$key] = [];
 								this.items[category.$key].push(item);
 								containsItems = true;
 							}
