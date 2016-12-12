@@ -44,7 +44,7 @@
 					{{item.type === 'lost' ? 'L' : 'F'}}
 				</ion-badge>
 				<h2>{{ item.name }}</h2>
-				<p>{{ distances[item.$key] | normalizeDistance }}</p>
+				<p>{{ 'commons.distance_away' | translate:{distance: (distances[item.$key] | normalizeDistance)} }}</p>
 				<p>{{ item.createDate | amTimeAgo }}</p>
 			</button>
 		</ion-list>

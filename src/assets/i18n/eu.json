@@ -79,6 +79,9 @@
 	"searchbar": {
 		"search": "Bilatu",
 		"cancel": "Utzi"
+	},
+	"commons": {
+		"distance_away": "{{distance}}-ra"
 	}
 }
 
