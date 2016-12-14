@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 import { ImageService } from './image.service';
+import { MessageService } from './message.service';
 import { Constants } from '../app/app.constants';
+
 import { Item } from '../models/item';
 import { Image } from '../models/image';
+import { Message } from '../models/message';
 
 @Injectable()
 export class ItemService {
@@ -22,7 +25,8 @@ export class ItemService {
 	constructor(
 		private af: AngularFire,
 		private constants: Constants,
-		public imageService: ImageService
+		private imageService: ImageService,
+		private messageService: MessageService
 	) {
 		this._officeId = +constants.OFFICE_ID;
 		let query: { orderByChild: string, equalTo: any };
@@ -118,6 +122,32 @@ export class ItemService {
 				}
 				return this._observableAlerts.update(itemId, item);
 			});
+		});
+	}
+
+	getObservableMessageList(item: Item): FirebaseListObservable<Message[]> {
+		let itemType: string = (item.type === 'lost' || item.type === 'found')
+			? 'alert' : 'office';
+		let itemId: string = itemType + '/' + item.$key;
+		return this.messageService.getObservableMessageListByItemId(itemId);
+	}
+
+	addMessage(item: Item, message: Message): any {
+		let itemType: string = (item.type === 'lost' || item.type === 'found') ? 'alert' : 'office';
+		message.item = itemType + '/' + item.$key;
+		return this.messageService.createMessage(message).then(
+		messageRef => {
+			if (!item.messages) {
+				item.messages = {};
+			}
+			item.messages[messageRef.key] = true;
+			let jsonItem: Item = JSON.parse(JSON.stringify(item)); //remove function members
+			delete jsonItem.$key;
+			if (itemType == 'alert') {
+				return this._observableAlerts.update(item.$key, jsonItem);
+			} else {
+				return this._observableOffices.update(item.$key, jsonItem);
+			}
 		});
 	}
 

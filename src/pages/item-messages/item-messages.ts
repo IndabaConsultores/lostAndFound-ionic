@@ -2,13 +2,14 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Content, NavController, NavParams } from 'ionic-angular';
+import { FirebaseAuthState } from 'angularfire2';
 
 import { Item } from '../../models/item';
 import { Message } from '../../models/message';
 import { Image } from '../../models/image';
 
 import { AuthService } from '../../services/auth.service';
-import { MessageService } from '../../services/message.service';
+import { ItemService } from '../../services/item.service';
 import { UserService } from '../../services/user.service';
 
 import { LoginPage } from '../login/login';
@@ -28,11 +29,11 @@ export class ItemMessagesPage implements AfterViewInit {
 	textAreaDisabled: boolean = false;
 
 	constructor(
-		public navCtrl: NavController,
-		public navParams: NavParams,
-		public authService: AuthService,
-		public userService: UserService,
-		public msgService: MessageService
+		private navCtrl: NavController,
+		private navParams: NavParams,
+		private authService: AuthService,
+		private userService: UserService,
+		private itemService: ItemService
 	) {
 		this.messages = [];
 		this.users = {};
@@ -41,10 +42,7 @@ export class ItemMessagesPage implements AfterViewInit {
 
 	ngAfterViewInit(): void {
 		let item: Item = this.navParams.get('item');
-		let itemType: string = (item.type === 'lost' || item.type === 'found')
-			? 'alert' : 'office';
-		let itemId: string = itemType + '/' + item.$key;
-		let observable = this.msgService.getObservableMessageListByItemId(itemId);
+		let observable = this.itemService.getObservableMessageList(item);
 		observable.subscribe((messages) => {
 			this.messages = messages;
 			messages.forEach((message) => {
@@ -75,12 +73,9 @@ export class ItemMessagesPage implements AfterViewInit {
 	}
 
 	sendMessage(): void {
-		this.message.user = this.authService.getCurrentUser().uid;
-		this.message.item = this.navParams.get('item').$key;
+		let item: Item = this.navParams.get('item');
 		this.textAreaDisabled = true;
-		// Simula la insercion del mensaje
-		setTimeout(() => this.messages.push(this.message), 800);
-		this.msgService.createMessage(this.message).then(() => {
+		this.itemService.addMessage(item, this.message).then(() => {
 			this.message = new Message();
 			this.textAreaDisabled = false;
 		});
@@ -101,6 +96,10 @@ export class ItemMessagesPage implements AfterViewInit {
 		this.navCtrl.push(ImageDetailPage, {
 			image: observable
 		});
+	}
+
+	getCurrentUser(): FirebaseAuthState {
+		return this.authService.getCurrentUser();
 	}
 
 }

@@ -34,7 +34,7 @@
 	</div>
 </ion-content>
 <ion-footer>
-	<ion-toolbar class="bar-footer" *ngIf="authService.getCurrentUser()">
+	<ion-toolbar class="bar-footer" *ngIf="getCurrentUser()">
 		<ion-buttons left *ngIf="message.picture">
 			<img class="fit-thumbnail" [src]="message.picture">
 		</ion-buttons>
@@ -48,8 +48,8 @@
 			</button>
 		</ion-buttons>
 	</ion-toolbar>
-	<ion-toolbar *ngIf="!authService.getCurrentUser()">
-		<div *ngIf="!authService.getCurrentUser()">
+	<ion-toolbar *ngIf="!getCurrentUser()">
+		<div *ngIf="!getCurrentUser()">
 			<a (click)="goToLogin()">{{'messages.login' | translate}}</a>
 			<span>&nbsp;{{'messages.to_post' | translate}}</span>
 		</div>

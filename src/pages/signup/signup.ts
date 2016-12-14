@@ -31,7 +31,7 @@ export class SignUpPage {
 		.then(() => {
 			delete this.error;
 			this.navCtrl.setRoot(this.rootPage);
-		}).catch((error) => {
+		}).catch((error: firebase.FirebaseError) => {
 			console.log(error);
 			this.error = error.code;
 		});
