@@ -56,7 +56,7 @@ var rollupConfig = {
 				'node_modules/angularfire2/node_modules/firebase/firebase-browser.js': [
 					'initializeApp', 
 					'auth', 
-					'database'				
+					'database'
 				]
 			}
 		}),
