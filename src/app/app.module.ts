@@ -18,6 +18,7 @@ import { LocationService } from '../services/location.service';
 import { MessageService } from '../services/message.service';
 import { SettingsService } from '../services/settings.service';
 
+import { IonAutosizeDirective } from '../directives/ion-autosize.directive';
 import { NormalizeDistancePipe } from '../pipes/normalize-distance.pipe';
 import { LeafletMapComponent, LeafletMarker } from '../components/leaflet-map/leaflet-map';
 import { ImageSelectorComponent } from '../components/image-selector/image-selector';
@@ -58,7 +59,8 @@ export function translateLoaderFactory(http: Http) {
 		LeafletMapComponent,
 		ImageSelectorComponent,
 		IonSearchbarWrapperComponent,
-		NormalizeDistancePipe
+		NormalizeDistancePipe,
+		IonAutosizeDirective
 	],
 	imports: [
 		IonicModule.forRoot(MyApp),

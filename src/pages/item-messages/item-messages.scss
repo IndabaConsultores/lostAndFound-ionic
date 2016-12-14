@@ -1,4 +1,7 @@
 item-messages {
+	.message {
+		white-space: pre;
+	}
 	.message-wrapper {
 		position: relative;
 		&:last-child {
@@ -48,7 +51,7 @@ item-messages {
 		height: 40px;
 		border-radius: 50%;
 		position: absolute;
-		bottom: 10px;
+		bottom: -10px;
 		&.left {
 			left: 10px;
 		}
@@ -92,7 +95,11 @@ item-messages {
 		}
 
 		textarea {
-			background-color: #f4f4f4;
+			background-color: #fff;
+			border: solid #bfbfbf 1px;
+			border-radius: 5px;
+			margin: 0 10px;
+			padding: 5px 10px;
 			resize: none;
 		}
 	}

@@ -39,7 +39,7 @@
 			<img class="fit-thumbnail" [src]="message.picture">
 		</ion-buttons>
 		<ion-textarea name="body" [(ngModel)]="message.body" [disabled]="textAreaDisabled"
-			[placeholder]="'messages.send_comment' | translate"></ion-textarea>
+			[placeholder]="'messages.send_comment' | translate" ion-autosize></ion-textarea>
 		<ion-buttons right>
 			<button ion-button clear type="button"
 				[disabled]="!message.body || message.body === ''"
